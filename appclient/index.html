@@ -3,10 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/style.css" rel="stylesheet"
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+
     <title>Document</title>
 </head>
 <body>
-    
+
+    <main class="menu">
+        <h1>Listado Alumnos</h1>
+        <div class="buscador">
+            <p>Buscador</p>
+            <select id="selectorSexo">
+                <option value="t" selected>Todos</option>
+                <option value="h">Hombre</option>
+                <option value="m">Mujer</option>
+            </select>
+            <input type="search" id="nombre" placeholder="Introduzca nombre">
+        </div>
+        <ul id="alumnos">
+            <li><img src="img/avatar1.png" alt="avatar1"> Oconnor</li>
+            <li><img src="img/avatar2.png" alt="avatar2"> Pepa</li> 
+            <li><img src="img/avatar3.png" alt="avatar3"> JoseMari</li> 
+            <li><img src="img/avatar4.png" alt="avatar4"> JuanCar</li>
+        </ul>
+        
+    </main>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
