@@ -1,0 +1,27 @@
+h1{
+    color: white;
+    background-color: blue;
+    height: 40px;
+    font-size: 2em;
+    padding: 20px 10px;
+}
+
+main.container{
+    max-width: 1024px;
+    margin: auto;
+    background-color: green;
+
+}
+
+.container-filter{
+    background-color:gray;
+    padding: 1rem;
+    border: 1px solid black;
+}
+
+li{
+    border-bottom: 1px solid black;
+    margin-bottom: 1rem;
+    padding: 10px;
+
+}
