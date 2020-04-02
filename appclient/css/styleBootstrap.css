@@ -2,6 +2,12 @@ h1{
     background-color: cornflowerblue;
     color: white;
     text-align: center;
-    height: 1em;
-    font-size: 1.5rem;
+    height: 2em;
+    font-size: 2em;
+    padding: 20px 10px;
+}
+
+main{
+    max-width: 1024px;
+    margin: auto;
 }
