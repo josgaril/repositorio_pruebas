@@ -1,4 +1,10 @@
-h1{
+main{
+    max-width: 1024px;
+    margin: auto;
+}
+
+/* Titulo principal */
+.titulo{
     color: white;
     background-color: rgb(0, 81, 255);
     font-size: 2rem;
@@ -6,36 +12,37 @@ h1{
     text-align: center;
 }
 
-.menu{
-    max-width: 1024px;
-    margin: auto;
-    background-color: green;
-}
-
-.buscador{
-    background-color:gray;
+/* Zona buscador */
+.buscador {
+    background-color: gray;
     padding: 1rem;
     border: 1px solid black;
     margin-left: 1rem;
     margin-right: 1rem;
 }
 
-.buscador>p{
+.buscador>p {
     margin-bottom: 1rem;
 }
 
-li{
+/* Lista de alumnos */
+#alumnos>li {
     border: 1px solid black;
     padding: 0.5rem;
     margin-left: 1rem;
     margin-right: 1rem;
 }
 
-#alumnos>li>img{
+#alumnos>li>img {
     width: 5rem;
     border: 2px solid black;
 }
 
-footer{
-    margin: 2rem 0 1rem 1rem;
+/* Footer */
+footer {
+    max-width: 1024px;
+    margin: auto;
+    padding: 1rem 0 1rem 1rem;
+    color: white;
+    background-color: rgb(0, 81, 255);
 }

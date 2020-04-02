@@ -1,4 +1,11 @@
-h1{
+body{
+    max-width: 1024px;
+    margin: auto;
+    
+}
+
+/* Titulo principal */
+#titulo{
     background-color: cornflowerblue;
     color: white;
     text-align: center;
@@ -7,14 +14,22 @@ h1{
     padding: 20px 10px;
 }
 
-main{
-    max-width: 1024px;
-    margin: auto;
-    
-}
-
-
-li{
+/* Lista de alumnos */
+#alumnos>li{
     background-color: gray;
     text-align: left;
+}
+
+/* Footer*/
+.pie{
+    background-color: cornflowerblue;
+    padding: 0.5rem;
+}
+
+.copyright{
+    font-size: 1rem;
+}
+
+.redes-sociales{
+    font-size: 2rem;
 }
