@@ -15,21 +15,67 @@
         <div class="buscador">
             <p>Buscador</p>
             <select id="selectorSexo">
-                <option value="t" selected>Todos</option>
-                <option value="h">Hombre</option>
-                <option value="m">Mujer</option>
+                <option value="T" selected>Todos</option>
+                <option value="H">Hombre</option>
+                <option value="M">Mujer</option>
             </select>
             <input type="search" id="nombre" placeholder="Introduzca nombre">
         </div>
         <ul id="alumnos">
-            <li><img src="img/avatar1.png" alt="avatar1"> Oconnor</li>
-            <li><img src="img/avatar2.png" alt="avatar2"> Pepa</li> 
-            <li><img src="img/avatar3.png" alt="avatar3"> JoseMari</li> 
-            <li><img src="img/avatar4.png" alt="avatar4"> JuanCar</li>
+            <li> Cargando...</li>
         </ul>
         
     </main>
 
-    <script src="js/main.js"></script>
+    <script>
+
+        let alumnos = [
+                        {
+                            "nombre": "Occonnor",
+                            "genero": "F",
+                            "avatar": "img/avatar1.png" 
+                        },
+                        {
+                            "nombre": "Pepa",
+                            "genero": "F",
+                            "avatar": "img/avatar2.png" 
+                        },
+                        {
+                            "nombre": "JoseMari",
+                            "genero": "H",
+                            "avatar": "img/avatar3.png" 
+                        },
+                        {
+                            "nombre": "JuanCarlos",
+                            "genero": "H",
+                            "avatar": "img/avatar4.png" 
+                        },
+                        {
+                            "nombre": "Monica",
+                            "genero": "F",
+                            "avatar": "img/avatar5.png" 
+                        },
+                        {
+                            "nombre": "Alberto",
+                            "genero": "H",
+                            "avatar": "img/avatar6.png" 
+                        },
+                        {
+                            "nombre": "Rafael",
+                            "genero": "H",
+                            "avatar": "img/avatar7.png"
+                        }
+        ]
+        
+        let listado = document.getElementById('alumnos');
+        listado.innerHTML= '';
+
+        for(let i=0; i<alumnos.length; i++){
+            listado.innerHTML += `<li> <img src=${alumnos[i].avatar}> ${alumnos[i].nombre} </li> `
+        }
+
+    </script>
+
+    <!-- <script src="js/main.js"></script> -->
 </body>
 </html>

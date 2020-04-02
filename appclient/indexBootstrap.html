@@ -1,46 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-     <!-- Bootstrap 4 -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/styleBootstrap.css" />
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-    <title>Document</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styleBootstrap.css" />
+
+  <title>Document</title>
 </head>
-<body>
-      <main class="menu">
-        <h1>Listado Alumnos</h1>
-        <form class="Buscador m-2">
-            <legend class="p-1">Buscador</legend>
-            <div class="form-row">
-              <div class="col-2">
-                <select class="custom-select">
-                    <option value="t" selected>Todos</option>
-                    <option value="h">Hombre</option>
-                    <option value="m">Mujer</option>
-                  </select>              </div>
-              <div class="col-3">
-                <input type="text" class="form-control" placeholder="Introduzca un nombre...">
-              </div>
-            </div>
-          </form>
-        <ul class="list-group">
-            <li class="list-group-item"><img src="img/avatar1.png" alt="avatar1"/>Oconnor</li>
-            <li class="list-group-item"><img src="img/avatar2.png" alt="avatar2"/>Pepa</li>
-            <li class="list-group-item"><img src="img/avatar3.png" alt="avatar3"/>JoseMari</li>
-            <li class="list-group-item"><img src="img/avatar4.png" alt="avatar4"/>JuanCar</li>
-        </ul>
 
-    </main>
-    
-<!-- jQuery -->
-<script src="js/jquery-3.4.1.min.js"></script>
-<!-- Bootstrap -->
-<script src="js/bootstrap.bundle.min.js"></script>
+<body>
+  <main class="menu">
+    <h1>Listado Alumnos</h1>
+    <form class="Buscador m-2">
+      <legend class="p-1">Buscador</legend>
+      <div class="form-row">
+        <div class="col-2">
+          <select class="custom-select">
+            <option value="t" selected>Todos</option>
+            <option value="h">Hombre</option>
+            <option value="m">Mujer</option>
+          </select> </div>
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Introduzca un nombre...">
+        </div>
+      </div>
+    </form>
+    <ul id=alumnos class="list-group">
+      <li class="list-group-item">Cargando...</li>
+
+    </ul>
+
+  </main>
+
+  <script>
+    let alumnos = [
+                    {
+                      "nombre": "Occonnor",
+                      "genero": "F",
+                      "avatar": "img/avatar1.png"
+                    },
+                    {
+                      "nombre": "Pepa",
+                      "genero": "F",
+                      "avatar": "img/avatar2.png"
+                    },
+                    {
+                      "nombre": "JoseMari",
+                      "genero": "H",
+                      "avatar": "img/avatar3.png"
+                    },
+                    {
+                      "nombre": "JuanCarlos",
+                      "genero": "H",
+                      "avatar": "img/avatar4.png"
+                    },
+                    {
+                      "nombre": "Monica",
+                      "genero": "F",
+                      "avatar": "img/avatar5.png"
+                    },
+                    {
+                      "nombre": "Alberto",
+                      "genero": "H",
+                      "avatar": "img/avatar6.png"
+                    },
+                    {
+                      "nombre": "Rafael",
+                      "genero": "H",
+                      "avatar": "img/avatar7.png"
+                    }
+    ]
+
+    let listado = document.getElementById('alumnos');
+    listado.innerHTML = '';
+
+    for (let i = 0; i < alumnos.length; i++) {
+      listado.innerHTML += `<li> <img src=${alumnos[i].avatar}> ${alumnos[i].nombre} </li> `
+    }
+  </script>
+
+
+  <!-- jQuery -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
