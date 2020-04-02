@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Eventos</h1>
+    <input id="cuadroTexto" type="text" placeholder="Introduzca texto">
+
+    <button id="button">Mostrar</button>
+
+    <p id="texto"></p>
+
+    
+    <script>
+        let elCuadroTexto = document.getElementById('cuadroTexto');
+        let elTexto = document.getElementById('texto');
+         
+        let elBoton = document.getElementById('button');
+        elBoton.addEventListener('click', function(){
+            console.trace('Mostrando texto introducido');
+            if (!elCuadroTexto.value || elCuadroTexto.value.trim()==''){
+                console.debug('No se ha introducido ningún texto');
+                alert('No se ha introducido ningún texto en el cuadro');
+            }else{
+                elTexto.innerHTML = elCuadroTexto.value;
+            }
+        })
+
+    </script>
+    
+</body>
+</html>
