@@ -16,23 +16,23 @@
 
 <body>
   <main class="menu">
-    <h1>Listado Alumnos</h1>
-    <form class="Buscador m-2">
+    <h1 class="rounded">Listado Alumnos</h1>
+    <form class="Buscador mx-2 shadow mb-4 p-3 bg-white rounded">
       <legend class="p-1">Buscador</legend>
       <div class="form-row">
-        <div class="col-2">
+        <div class="col-12 col-sm-3">
           <select class="custom-select">
             <option value="t" selected>Todos</option>
             <option value="h">Hombre</option>
             <option value="m">Mujer</option>
           </select> </div>
-        <div class="col-3">
+        <div class="col-12 col-sm-5">
           <input type="text" class="form-control" placeholder="Introduzca un nombre...">
         </div>
       </div>
     </form>
-    <ul id=alumnos class="list-group">
-      <li class="list-group-item">Cargando...</li>
+    <ul id=alumnos class="list-group m-2">
+      <li class="list-group-item ">Cargando...</li>
 
     </ul>
 
@@ -81,7 +81,7 @@
     listado.innerHTML = '';
 
     for (let i = 0; i < alumnos.length; i++) {
-      listado.innerHTML += `<li> <img src=${alumnos[i].avatar}> ${alumnos[i].nombre} </li> `
+      listado.innerHTML += `<li class="border border-dark p-1"> <img src=${alumnos[i].avatar} class="border border-dark rounded-circle "> ${alumnos[i].nombre} </li> `
     }
   </script>
 
