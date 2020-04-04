@@ -11,8 +11,6 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="css/all.min.css" />
 
-  <link rel="stylesheet" href="css/fonts.css" />
-
   <!-- Styles css --> 
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/styleBootstrap.css" />
@@ -52,62 +50,14 @@
     </p>
   </footer>
 
-  <script>
-    let alumnos = [
-                    {
-                      "nombre": "Occonnor",
-                      "genero": "F",
-                      "avatar": "img/avatar1.png"
-                    },
-                    {
-                      "nombre": "Pepa",
-                      "genero": "F",
-                      "avatar": "img/avatar2.png"
-                    },
-                    {
-                      "nombre": "JoseMari",
-                      "genero": "H",
-                      "avatar": "img/avatar3.png"
-                    },
-                    {
-                      "nombre": "JuanCarlos",
-                      "genero": "H",
-                      "avatar": "img/avatar4.png"
-                    },
-                    {
-                      "nombre": "Monica",
-                      "genero": "F",
-                      "avatar": "img/avatar5.png"
-                    },
-                    {
-                      "nombre": "Alberto",
-                      "genero": "H",
-                      "avatar": "img/avatar6.png"
-                    },
-                    {
-                      "nombre": "Rafael",
-                      "genero": "H",
-                      "avatar": "img/avatar7.png"
-                    }
-    ]
+<script src="js/mainBootstrap.js"></script>
 
-    let listado = document.getElementById('alumnos');
-    listado.innerHTML = '';
-
-    for (let i = 0; i < alumnos.length; i++) {
-      listado.innerHTML += `<li class="border border-dark p-1"> <img src=${alumnos[i].avatar} class="border border-dark rounded-circle "> ${alumnos[i].nombre} </li> `
-    }
-  </script>
-
-
-  <!-- jQuery -->
+<!-- jQuery  -->
   <script src="js/jquery-3.4.1.min.js"></script>
-    <!-- Popper.js -->
+<!-- Popper.js -->
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <!-- Bootstrap -->
+<!-- Bootstrap -->
   <script src="js/bootstrap.bundle.min.js"></script>
-
-
 </body>
 
 </html>

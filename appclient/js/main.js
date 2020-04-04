@@ -56,7 +56,7 @@ function init() {
 
     for (let i = 0; i < alumnos.length; i++) {
         const alumno = alumnos[i];
-        listado.innerHTML += `<li> <img src=${alumno.avatar}> ${alumnos.nombre} </li> `
+        listado.innerHTML += `<li> <img src=${alumno.avatar}> ${alumno.nombre} </li> `
     }
 
 }
