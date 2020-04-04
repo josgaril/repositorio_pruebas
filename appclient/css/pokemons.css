@@ -1,0 +1,46 @@
+body{
+    max-width: 1024px;
+    margin: auto;    
+}
+
+/* Titulo principal */
+#titulo{
+    background-color: rgb(160, 23, 23);
+    color: white;
+    text-align: center;
+    height: 2em;
+    font-size: 2em;
+    padding: 20px 10px;
+}
+
+
+/* Nombre del pokemon */
+.nombrePokemon{
+    color: blue;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 0.5rem;
+    text-decoration: underline;
+}
+
+
+.tarjeta{
+	border-width: 2px;
+	border-color: black;
+}
+
+/* Footer*/
+.pie{
+    background-color: black;
+    padding: 0.5rem;
+}
+
+.copyright{
+    font-size: 1rem;
+}
+
+.redes-sociales{
+    font-size: 2rem;
+}
+
