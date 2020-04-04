@@ -1,0 +1,42 @@
+body{
+    max-width: 1024px;
+    margin: auto;
+    
+}
+
+/* Titulo principal */
+#titulo{
+    background-color: cornflowerblue;
+    color: white;
+    text-align: center;
+    height: 2em;
+    font-size: 2em;
+    padding: 20px 10px;
+}
+
+/* Lista de alumnos */
+#listado>li{
+    background-color: gray;
+    text-align: left;
+}
+
+/* Footer*/
+.pie{
+    background-color: cornflowerblue;
+    padding: 0.5rem;
+}
+
+.copyright{
+    font-size: 1rem;
+}
+
+.redes-sociales{
+    font-size: 2rem;
+}
+
+.tarjetas{
+	background-color: #c0c0c0;
+	width: 18rem;
+	border-width: 2px;
+	border-color: black;
+}
