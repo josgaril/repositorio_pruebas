@@ -18,12 +18,64 @@
 
     <main class="menu">
         <h1 id="titulo" class="rounded">PokéApi</h1>
-        <div id="listado">
-            <ul class="list-group">
-                <li class="list-group-item">Cargando...</li>
-            </ul>
-        </div>
+        <div class="row">
+            <div class="col-4">
+                <ul id="lista" class="list-group">
+                    <li class="list-group-item">loading pokemons...</li>
+                </ul>
+            </div>
 
+            <di class="col-1"></di>
+            <div class="card text-center tarjeta col-6">
+                <div class="card-header">
+                    <h3 id="nombrePokemon" class="card-title nombrePokemon text-capitalize">Nombre del pokemon</h3>
+                </div>
+                <div class="card-body">
+                    <img id="imagenPokemon" src="${pokemonDetalles.sprites.front_default}"
+                        class="card-img-top border border-dark rounded-circle mb-2" style="height:200px; width:200px"
+                        alt="Imagen del pokemon">
+                    <br>
+                    <p class="card-text datosPokemon font-weight-bold">Details:</p>
+                    <p id="idPokemon" class="card-text">ID: </p>
+                    <p id="heightPokemon" class="card-text">Height: </p>
+                    <p id="weightPokemon" class="card-text">Weight: </p>
+                    <p id="orderPokemon" class="card-text">Order:</p>
+                    <br>
+                    <div class="row">
+                        <div class="dropdown col-4">
+                            <button class=" card-text btn btn-secondary dropdown-toggle font-weight-bold" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Abilities
+                            </button>
+                            <div class="dropdown-menu" id="abilitiesPokemon" aria-labelledby="dropdownMenuButton">
+                                <p class="dropdown-item">Click on one pokemon to show their abilities </p>
+                            </div>
+                        </div>
+                        <div class="dropdown col-4">
+                            <button class=" card-text btn btn-secondary dropdown-toggle font-weight-bold" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Stats
+                            </button>
+                            <div class="dropdown-menu" id="statsPokemon" aria-labelledby="dropdownMenuButton">
+                                <p class="dropdown-item">Click on one pokemon to show their stats </p>
+                            </div>
+                        </div>
+                        <div class="dropdown col-4">
+                            <button class=" card-text btn btn-secondary dropdown-toggle font-weight-bold" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Moves
+                            </button>
+                            <div class="dropdown-menu" id="movesPokemon" aria-labelledby="dropdownMenuButton">
+                                <p class="dropdown-item">Click on one pokemon to show their moves </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
     </main>
     <footer class="pie text-white">
         <p class="copyright col">&copy;2020 Jose Angel Garcia Illera</p>
@@ -34,139 +86,7 @@
         </p>
     </footer>
 
-    <script>
-        window.addEventListener('load', init());
-
-        function init() {
-
-            const url = 'https://pokeapi.co/api/v2/pokemon/';
-
-            var xhttp = new XMLHttpRequest();
-
-            xhttp.onreadystatechange = function () {
-
-                if (this.readyState == 4 && this.status == 200) {
-                    console.info('peticion GET ' + url);
-                    const jsonData = JSON.parse(this.responseText);
-                    console.debug(jsonData);
-                    const pokemons = jsonData.results;
-
-                    let listado = document.getElementById('listado');
-                    listado.innerHTML = '';
-
-                    pokemons.forEach(pokemon => {
-                        listado.innerHTML += 
-                        `
-                            <ul class="list-group">
-                                <button onclick="cargarDetalles('${pokemon.url}')">
-                                    <li class="list-group-item" >${pokemon.name} - ${pokemon.url}</li>
-                                </button>
-                            </ul>
-                        `
-                    }); //forEach                  
-                } //this.readyState == 4 && this.status == 200
-
-            }; //xhttp.onreadystatechange = function () 
-            xhttp.open("GET", url, true);
-            xhttp.send();
-        }
-
-        function cargarDetalles(pokemonURL) {
-            const url2 = `${pokemonURL}`;
-            //const url2 = 'https://pokeapi.co/api/v2/pokemon/pikachu';
-            var xhttp2 = new XMLHttpRequest();
-            xhttp2.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.info('Obtenemos los detalles del pokemon seleccionado');
-
-
-                    const pokemonDetalles = JSON.parse(this.responseText);
-                    console.debug(pokemonDetalles);
-                    console.debug(pokemonDetalles.id);
-                    const detallesPokemon = pokemonDetalles.forms;
-                    console.debug(detallesPokemon);
-
-                    let lista = document.getElementById('listado');
-                    lista.innerHTML = '';
-
-                    lista.innerHTML +=
-                        `
-                            <div class="card text-center tarjeta">
-                                <div class="card-header"> 
-                                    <h3 class="card-title nombrePokemon text-capitalize">${pokemonDetalles.name}</h3>
-                                </div>
-                                <div class="card-body">
-                                <img src="${pokemonDetalles.sprites.front_default}" class="card-img-top border border-dark rounded-circle mb-2" style="height:200px; width:200px" alt="Imagen del pokemon">
-                                    <p class="card-text datosPokemon font-weight-bold"> Details:</p>
-                                    <p class="card-text">ID: ${pokemonDetalles.id}</p>
-                                    <p class="card-text">Height: ${pokemonDetalles.height}</p>
-                                    <p class="card-text">Weight: ${pokemonDetalles.weight}</p>
-                                    <p class="card-text">Order: ${pokemonDetalles.order}</p>
-                                    <button class="btn btn-primary m-1 float-right" id="volver">Volver</button>
-                        `;
-
-                    lista.innerHTML += `<p class="card-text font-weight-bold"><br>Abilities :</p>`
-
-                    const elAbilities = pokemonDetalles.abilities;
-                    console.debug('habilidades' + elAbilities.length);
-                    elAbilities.forEach(pokemonAbilities => {
-                        listado.innerHTML +=
-                            ` 
-                                    <p class="lcard-text"> - ${pokemonAbilities.ability.name}</p>
-                            `
-                    });//fin elAbilities.forEach(pokemonAbilities => {
-
- 
-
-                    listado.innerHTML += `<p class="card-text font-weight-bold"><br>Stats:</p>`;
-                    const elStats = pokemonDetalles.stats;
-                    elStats.forEach( pokemonStats => {
-                        listado.innerHTML += 
-                            `
-                               <p class="card-text"> - ${pokemonStats.stat.name} (${pokemonStats.base_stat})</p>
-                            `
-                    });//fin elStats.forEach( pokemonStats => {
-
-                    const elMoves = pokemonDetalles.moves;
-                    listado.innerHTML += 
-                        `
-                            <div class="dropdown card-text">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <br>Moves <span class="badge badge-light">${elMoves.length}</span>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        `                
-
-                    elMoves.forEach(pokemonMoves => {
-                        listado.innerHTML +=
-                        `
-                                    <p class="dropdown-item"> - ${pokemonMoves.move.name}</p>
-
-                                </div>
-                            </div>
-                        `
-                    });//fin elMoves.forEach(pokemonMoves => {
-
-                    lista.innerHTML +=
-                        `
-                                </div> <!-- Fin body-->
-                            </div> <!-- Fin tarjeta-->
-                            
-                        `;
-                    console.debug(lista.innerHTML);
-                    let elVolver = document.getElementById('volver');
-                    elVolver.addEventListener('click', init);
-
-                } // his.readyState == 4 && this.status == 200
-
-            }; // onreadystatechange
-
-            xhttp2.open("GET", url2, true);
-            xhttp2.send();
-
-        } // function cargarDEtalles
-
-    </script>
+    <script src="../js/pokemons.js"></script>
 
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
