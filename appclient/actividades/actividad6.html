@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>Actividad 6</h1>
+
+    <script>
+        const coches = [{
+                "modelo": "Seat Leon FR",
+                "motor": ["Gasolina"],
+                "cabmodeloallos": 150,
+                "color": ["blanco", "negro", "azul", "rojo", "gris"],
+                "techo_panoramico": true,
+                "precio": 24000
+            },
+            {
+                "modelo": "Seat Ibiza Cupra",
+                "motor": ["Gasolina", "Diesel"],
+                "caballos": 300,
+                "color": ["blanco", "negro", "azul"],
+                "techo_panoramico": true,
+                "precio": 30000
+            },
+            {
+                "modelo": "Renault Megane",
+                "motor": ["Gasolina", "Diesel"],
+                "caballos": 115,
+                "color": ["azul", "rojo"],
+                "techo_panoramico": false,
+                "precio": 18000
+            },
+            {
+                "modelo": "Renault 21",
+                "motor": ["Gasolina"],
+                "caballos": 90,
+                "color": ["gris"],
+                "techo_panoramico": false,
+                "precio": 10000
+            },
+            {
+                "modelo": "Kia Sephia",
+                "motor": ["Diesel"],
+                "caballos": 100,
+                "color": ["blanco", "negro"],
+                "techo_panoramico": false,
+                "precio": 14000
+            }
+        ]
+
+
+        console.info("Obtener un array con el modelo de todos los coches");
+        var cochesModelo = coches.map(el=>el.modelo);
+        console.debug(cochesModelo);
+
+        console.info("Obtener un array los precios de todos los coches");
+        var cochesPrecios = coches.map(el=> el.precio);
+        console.debug(cochesPrecios);
+
+        console.info("Obtener un array con los coches que tengan mas de 110 caballos");
+        var cochesMin110CV= coches.filter(el=> el.caballos>=110)
+        console.debug(cochesMin110CV);
+
+        console.info("Obtener el motor de los coches con motor'Gasolina'");
+        var cochesGasolina = coches.filter(el => el.motor == "Gasolina").map(el => el.modelo);
+        console.debug(cochesGasolina);
+
+        console.info("Obtener el precio total de los coches con techo panorámico");
+        var cochesTotalConTecho = coches.filter(el=> (el.techo_panoramico)).map(el => el.precio).reduce(function(previous, current){
+            return previous + current;
+        },0);
+        console.debug(cochesTotalConTecho);
+    </script>
+
+</body>
+
+</html>
