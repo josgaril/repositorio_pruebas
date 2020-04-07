@@ -41,16 +41,17 @@ function init() {
 
   console.debug('Document Load and Ready');
 
-  var idSelect = document.getElementById('idSelect');
+  let idSelect = document.getElementById('idSelect');
 
   idSelect.addEventListener('change', seleccionarPersonas);
   pintarListado(personas);
 
-  
+  let inputNombre = document.getElementById('nombreInput');
+  inputNombre.addEventListener('keyup', nombrePersonas);  
 }
 
 function seleccionarPersonas() {
-  var valor = this.value;
+  const valor = this.value;
   console.debug('Seleccionamos las personas con sexo: ' + valor)
   if (valor != 'T'){
     const peronasFiltradas = personas.filter(el => el.sexo == valor);
@@ -60,6 +61,17 @@ function seleccionarPersonas() {
   }
 
 
+}
+
+function nombrePersonas(){
+  const busqueda = this.value.toLowerCase();
+  console.debug('tecla pulsada, valor input ' +  busqueda );
+  if ( busqueda ){
+      const personasFiltradas = personas.filter( el => el.nombre.toLowerCase().includes(busqueda));
+      pintarListado(personasFiltradas);
+  }else{
+      pintarListado(personas);
+  } 
 }
 
 function pintarListado(arrayPersonas) {
