@@ -41,37 +41,59 @@ function init() {
 
   console.debug('Document Load and Ready');
 
-  let idSelect = document.getElementById('idSelect');
+  const url = "http://localhost:8080/apprest/api/personas/";
+  var xhttp = new XMLHttpRequest();
 
-  idSelect.addEventListener('change', seleccionarPersonas);
-  pintarListado(personas);
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
 
-  let inputNombre = document.getElementById('nombreInput');
-  inputNombre.addEventListener('keyup', nombrePersonas);  
+      console.info('peticion GET ' + url);
+      console.debug(this.responseText);
+
+      // parsear texto a Json
+      const jsonData = JSON.parse(this.responseText);
+      console.debug(jsonData);
+
+      let idSelect = document.getElementById('idSelect');
+      idSelect.addEventListener('change', function(){
+        const valor = this.value;
+        console.debug('Seleccionamos las personas con sexo: ' + valor)
+        if (valor != 'T') {
+          const peronasFiltradas = jsonData.filter(el => el.sexo == valor);
+          pintarListado(peronasFiltradas);
+        } else {
+          pintarListado(jsonData);
+        }
+      });
+      
+      
+      let inputNombre = document.getElementById('nombreInput');
+      inputNombre.addEventListener('keyup', function(){
+        const busqueda = this.value.toLowerCase();
+        console.debug('tecla pulsada, valor input ' + busqueda);
+        if (busqueda) {
+          const personasFiltradas = jsonData.filter(el => el.nombre.toLowerCase().includes(busqueda));
+          pintarListado(personasFiltradas);
+        } else {
+          pintarListado(jsonData);
+        }
+      });
+      pintarListado(jsonData);
+      
+    } // his.readyState == 4 && this.status == 200
+  }; // onreadystatechange
+  xhttp.open("GET", url, true);
+  xhttp.send();
+
 }
 
 function seleccionarPersonas() {
-  const valor = this.value;
-  console.debug('Seleccionamos las personas con sexo: ' + valor)
-  if (valor != 'T'){
-    const peronasFiltradas = personas.filter(el => el.sexo == valor);
-    pintarListado(peronasFiltradas);
-  }else{
-    pintarListado(personas);
-  }
 
 
 }
 
-function nombrePersonas(){
-  const busqueda = this.value.toLowerCase();
-  console.debug('tecla pulsada, valor input ' +  busqueda );
-  if ( busqueda ){
-      const personasFiltradas = personas.filter( el => el.nombre.toLowerCase().includes(busqueda));
-      pintarListado(personasFiltradas);
-  }else{
-      pintarListado(personas);
-  } 
+function nombrePersonas() {
+
 }
 
 function pintarListado(arrayPersonas) {
