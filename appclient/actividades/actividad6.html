@@ -54,17 +54,34 @@
             }
         ]
 
+        //consol if filter contiene el color devuelve tru y decurlve
+        console.info("Obtener un array con el modelo de los coches con color blanco");
+        const cochesBlancos = coches.filter(el => {
+                                                    let colorDeseado = false;
+                                                    el.color.forEach(function (color){
+                                                                                        if (color == "blanco"){
+                                                                                            colorDeseado=true;
+                                                                                        }
+                                                                                    }
+                                                                    );
+                                                    if (colorDeseado){
+                                                        return el;
+                                                    }
+                                                }
+                                            )
+                                    .map(el => el.modelo);
+        console.debug(cochesBlancos);
 
         console.info("Obtener un array con el modelo de todos los coches");
-        var cochesModelo = coches.map(el=>el.modelo);
+        var cochesModelo = coches.map(el => el.modelo);
         console.debug(cochesModelo);
 
         console.info("Obtener un array los precios de todos los coches");
-        var cochesPrecios = coches.map(el=> el.precio);
+        var cochesPrecios = coches.map(el => el.precio);
         console.debug(cochesPrecios);
 
         console.info("Obtener un array con los coches que tengan mas de 110 caballos");
-        var cochesMin110CV= coches.filter(el=> el.caballos>=110)
+        var cochesMin110CV = coches.filter(el => el.caballos >= 110)
         console.debug(cochesMin110CV);
 
         console.info("Obtener el motor de los coches con motor'Gasolina'");
@@ -72,9 +89,10 @@
         console.debug(cochesGasolina);
 
         console.info("Obtener el precio total de los coches con techo panorámico");
-        var cochesTotalConTecho = coches.filter(el=> (el.techo_panoramico)).map(el => el.precio).reduce(function(previous, current){
+        var cochesTotalConTecho = coches.filter(el => (el.techo_panoramico)).map(el => el.precio).reduce(function (
+            previous, current) {
             return previous + current;
-        },0);
+        }, 0);
         console.debug(cochesTotalConTecho);
     </script>
 
