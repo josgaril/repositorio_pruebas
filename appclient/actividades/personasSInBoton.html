@@ -16,17 +16,17 @@
 
     <main class="menu">
         <h1 id="titulo" class=" rounded">Listado Alumnos</h1>
-        <div class="Buscador mx-2 shadow mb-4 p-3 bg-white rounded">
+        <form class="Buscador mx-2 shadow mb-4 p-3 bg-white rounded">
             <legend class="p-1">¿Cuantas personas desea ver?</legend>
             <div class="form-row">
                 <div class="col-12 col-sm-5">
                     <input id="numPersonas" type="text" class="form-control" placeholder="Introduzca un numero...">
                 </div>
-                <div id="botonMostrar" class="col-12 col-sm-5">
+                <div class="col-12 col-sm-5">
                     <button id="boton" class="btn btn-secondary btn-sm m-1"> Mostrar</button>
                 </div>
             </div>
-        </div>
+        </form>
         <div id='listado' class="row">
             <p>Cargando...</p>
         </div>
@@ -44,24 +44,18 @@
 
     <script>
         window.addEventListener('load', init());
-        let personasAMostrar = document.getElementById('numPersonas');
-        let elBotonMostrar = document.getElementById('boton');
-        //let elBotonMostrar = document.querySelector('div#botonMostrar button');
-        elBotonMostrar.addEventListener('click', mostrar);
 
         function init() {
             console.debug('Documento cargado y listo');
-            mostrar();
-        }
 
+            /*      let elBotonMostrar = document.getElementById('boton');
+                 elBotonMostrar.addEventListener('click', numPersonas);
 
-        function mostrar() {
-            let numero = document.getElementById('numPersonas').value;
-            if (numero == '') {
-                numero = 8; //Mostramos 8 personas por defecto si no se introduce un número de personas
-            }
-            console.debug('numero de personas a mostrar: %o' , numero);
-            const url = `https://randomuser.me/api/?results=${numero}`;
+                 numPersonas(numero); */
+
+            let elPersonasAMostrar = document.getElementById('')
+
+            const url = 'https://randomuser.me/api/?results=5';
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = function () {
@@ -69,18 +63,23 @@
                 if (this.readyState == 4 && this.status == 200) {
 
                     console.info('peticion GET ' + url);
+                    console.debug(this.responseText);
 
                     // parsear texto a Json
                     const jsonData = JSON.parse(this.responseText);
+                    console.debug(jsonData);
 
                     // array con personas
                     const personas = jsonData.results;
-                    console.debug(personas);
+
                     let elListado = document.getElementById('listado');
                     elListado.innerHTML = '';
 
-                    personas.forEach(persona => {
-                        elListado.innerHTML +=
+                    for (let i = 0; i < personas.length; i++) {
+                        const persona = personas[i];
+                        console.debug(persona.name.first);
+
+                        elListado.innerHTML += 
                             `
                                 <div class="card col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3"> 
                                     <img src="${persona.picture.large}" class="card-img-top" alt="avatar"/>
@@ -97,8 +96,7 @@
                                     </div>
                                 </div>
                             `;
-                    });
-
+                    } // for
                 } //if (this.readyState == 4 && this.status == 200)
 
             } //onreadystatechange
