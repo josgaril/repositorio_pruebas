@@ -41,7 +41,7 @@
         </p>
     </footer>
 
-
+    <script src="../js/ajax.js"></script>
     <script>
         window.addEventListener('load', init());
         let personasAMostrar = document.getElementById('numPersonas');
@@ -51,6 +51,7 @@
 
         function init() {
             console.debug('Documento cargado y listo');
+            
             mostrar();
         }
 
@@ -60,27 +61,19 @@
             if (numero == '') {
                 numero = 8; //Mostramos 8 personas por defecto si no se introduce un número de personas
             }
-            console.debug('numero de personas a mostrar: %o' , numero);
-            const url = `https://randomuser.me/api/?results=${numero}`;
-            var xhttp = new XMLHttpRequest();
+            console.debug('numero de personas a mostrar: %o', numero);
+            
+            let elListado = document.getElementById('listado');
+            elListado.innerHTML = '';
 
-            xhttp.onreadystatechange = function () {
-
-                if (this.readyState == 4 && this.status == 200) {
-
-                    console.info('peticion GET ' + url);
-
-                    // parsear texto a Json
-                    const jsonData = JSON.parse(this.responseText);
-
-                    // array con personas
-                    const personas = jsonData.results;
-                    console.debug(personas);
-                    let elListado = document.getElementById('listado');
-                    elListado.innerHTML = '';
-
-                    personas.forEach(persona => {
-                        elListado.innerHTML +=
+            const url = `https://randomuser.me/api/?results=${numero}`;     
+            
+            const promesa = ajax("GET", url, undefined);
+            promesa.then(data => {
+                console.trace('promesa resolve');
+                personas = data.results;
+                personas.forEach(persona => {
+                            elListado.innerHTML +=
                             `
                                 <div class="card col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3"> 
                                     <img src="${persona.picture.large}" class="card-img-top" alt="avatar"/>
@@ -96,18 +89,19 @@
                                         </div>
                                     </div>
                                 </div>
-                            `;
-                    });
+                             `;
+                });// FIn forEach
+            }).catch(error => {
+                console.warn('promesa rejectada');
+                alert(error);
+            }); // FIn promesa.then.catch
 
-                } //if (this.readyState == 4 && this.status == 200)
+            console.debug('continua la ejecuion del script de forma sincrona');
 
-            } //onreadystatechange
-
-            xhttp.open("GET", url, true);
-            xhttp.send();
-
-        } // function init()
+        } // function mostrar()
     </script>
+
+
 
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
