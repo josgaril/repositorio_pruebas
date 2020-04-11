@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>Actividad map_filter_reduce</h1>
+
+</body>
+
+<script>
+    console.log('Ejercicio1 - Obtenemos todos los nombres en un array');
+    var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"],
+        counter;
+
+    for (counter = 0; counter < names.length; counter++) {
+        console.debug(names[counter]);
+    }
+
+    console.log('Ejercicio2 - Obtenemos todos los nombres en un array con forEach');
+    var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"];
+
+    names.forEach(function (name) {
+        console.debug(name);
+    });
+
+    console.log('Ejercicio3 - Obtenemos el id y titulo de los videos en un array utilizando forEach');
+    var newReleases = [{
+                "id": 70111470,
+                "title": "Die Hard",
+                "boxart": "http://cdn-0.nflximg.com/images/2891/DieHard.jpg",
+                "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+                "rating": [4.0],
+                "bookmark": []
+            },
+            {
+                "id": 654356453,
+                "title": "Bad Boys",
+                "boxart": "http://cdn-0.nflximg.com/images/2891/BadBoys.jpg",
+                "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+                "rating": [5.0],
+                "bookmark": [{
+                    id: 432534,
+                    time: 65876586
+                }]
+            },
+            {
+                "id": 65432445,
+                "title": "The Chamber",
+                "boxart": "http://cdn-0.nflximg.com/images/2891/TheChamber.jpg",
+                "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+                "rating": [4.0],
+                "bookmark": []
+            },
+            {
+                "id": 675465,
+                "title": "Fracture",
+                "boxart": "http://cdn-0.nflximg.com/images/2891/Fracture.jpg",
+                "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+                "rating": [5.0],
+                "bookmark": [{
+                    id: 432534,
+                    time: 65876586
+                }]
+            }
+        ],
+
+        videoAndTitlePairs = [];
+    newReleases.forEach(function (newReleases) {
+        videoAndTitlePairs.push(newReleases.id, newReleases.title);
+    });
+    console.debug(videoAndTitlePairs);
+
+    console.info('Ejercicio4 - Utilizamos map');
+    var results = [1, 2, 3, 4];
+    results.map(function (itemInArray) {
+        results.push(itemInArray + 1);
+
+    });
+    console.debug(results);
+
+
+    console.info('Ejercicio5 - Utilizamos map para indicar el id y titulo del video');
+
+    var videos = newReleases.map(function (video) {
+        return {
+            "id": video.id,
+            "titulo": video.title
+        };
+    });
+    console.debug(videos);
+
+    console.info('Ejercicio6 - Filtar videos con rating = 5.0');
+
+    var videos = newReleases.filter(el => el.rating == 5.0);
+    console.debug(videos);
+
+    console.info('Ejercicio7 - USamos filter para sacar los numeros mayores de 3');
+    var results = [1, 2, 3, 4, 5];
+    var numeroMayor2 = results.filter(el => el > 2);
+    console.debug(numeroMayor2);
+
+    console.info('Ejercicio8 - Utilizar map y filter para ver los ids de los videos con ratio 5.0');
+    var idRatio5 = newReleases.filter(el => el.rating == 5.0).map(el => el.id);
+    console.debug(idRatio5);
+
+
+    console.info('Ejercicio9 - Obtener los ids de todas las peliculas que hay de todos los arrays');
+    var movieLists = [
+		{
+			name: "New Releases",
+			videos: [
+				{
+					"id": 70111470,
+					"title": "Die Hard",
+					"boxart": "http://cdn-0.nflximg.com/images/2891/DieHard.jpg",
+					"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+					"rating": 4.0,
+					"bookmark": []
+				},
+				{
+					"id": 654356453,
+					"title": "Bad Boys",
+					"boxart": "http://cdn-0.nflximg.com/images/2891/BadBoys.jpg",
+					"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+					"rating": 5.0,
+					"bookmark": [{ id: 432534, time: 65876586 }]
+				}
+			]
+		},
+		{
+			name: "Dramas",
+			videos: [
+				{
+					"id": 65432445,
+					"title": "The Chamber",
+					"boxart": "http://cdn-0.nflximg.com/images/2891/TheChamber.jpg",
+					"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+					"rating": 4.0,
+					"bookmark": []
+				},
+				{
+					"id": 675465,
+					"title": "Fracture",
+					"boxart": "http://cdn-0.nflximg.com/images/2891/Fracture.jpg",
+					"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+					"rating": 5.0,
+					"bookmark": [{ id: 432534, time: 65876586 }]
+				}
+			]
+		}
+	];
+  
+    var idTodos = movieLists.map(el=>el.videos).reduce(function (previous, current){
+        return previous.concat(current).map(el=>el.id);
+    },);
+    console.debug(idTodos);
+
+    console.info('Ejercicio10 - Añadir todos los elementos de la matriz a un array');
+    var matrizEntera = movieLists.map(el => el.videos).concatAll().map(el => el.id);
+    /* var matrizEntera = movieLists.reduce(function (previous, current){
+        return previous.concatAll(current);
+    }); */
+    console.debug(matrizEntera);
+
+</script>
+
+</html>
