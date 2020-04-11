@@ -15,15 +15,37 @@ body{
 }
 
 /* Lista de alumnos */
-#alumnos>li{
+#personas>li{
     background-color: gray;
     text-align: left;
+}
+
+.iconos-personas i{
+    font-size: 30px;
+    padding: 0.2em 0;
+}
+
+.iconos-formularios i{
+    font-size: 40px;
+}
+
+.nombre-personas{
+    font-size: 25px;
+    text-align: center;
+    justify-items: right;
+    padding: 0.5em 0;
+}
+
+#inputNombre, #inputId{
+    width: 100%;
 }
 
 /* Footer*/
 .pie{
     background-color: cornflowerblue;
     padding: 0.5rem;
+    margin-top: 1rem;
+    border-top: 10rem;
 }
 
 .copyright{
