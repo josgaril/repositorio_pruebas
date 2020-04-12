@@ -1,101 +1,91 @@
 window.addEventListener('load', init());
 
-        function init() {
+function init() {
 
-            const url = 'https://pokeapi.co/api/v2/pokemon/';
-
-            var xhttp = new XMLHttpRequest();
-
-            xhttp.onreadystatechange = function () {
-
-                if (this.readyState == 4 && this.status == 200) {
-                    console.info('peticion GET ' + url);
-                    const jsonData = JSON.parse(this.responseText);
-                    console.debug(jsonData);
-                    const pokemons = jsonData.results;
-
-                    let listado = document.getElementById('lista');
-                    listado.innerHTML = '';
-
-                    pokemons.forEach(pokemon => {
-                        listado.innerHTML += 
-                        `
+    const url = 'https://pokeapi.co/api/v2/pokemon/';
+    let listado = document.getElementById('lista');
+    listado.innerHTML = '';
+    const promesa = ajax("GET", url, undefined);
+    console.trace('promesa resolve');
+    promesa.then(data => {
+        let pokemons = data.results;
+        pokemons.forEach(pokemon => {
+            listado.innerHTML +=
+                `
                                 <button onclick="cargarDetalles('${pokemon.url}')">
                                     <li class="list-group-item" >${pokemon.name}</li>
                                 </button>
                         `
-                    }); //forEach                  
-                } //this.readyState == 4 && this.status == 200
+        }); // FIn forEach
 
-            }; //xhttp.onreadystatechange = function () 
-            xhttp.open("GET", url, true);
-            xhttp.send();
-        }
+    }).catch(error => {
+        console.warn('promesa reject');
+        alert(error);
+    }); // FIn promesa.then.catch
 
-        function cargarDetalles(pokemonURL) {
-            const url2 = `${pokemonURL}`;
-            //const url2 = 'https://pokeapi.co/api/v2/pokemon/pikachu';
-            var xhttp2 = new XMLHttpRequest();
-            xhttp2.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.info('Obtenemos los detalles del pokemon seleccionado');
+}
+
+function cargarDetalles(pokemonURL) {
+    const urlDetalles = `${pokemonURL}`;
+    
+    let promesa = ajax("GET", urlDetalles, undefined);
+    promesa.then(data => {
+        console.trace('promesa resolve');
+
+        const pokemonDetalles = data;
+
+        console.debug('Obtenemos los detalles del pokemon: %o', pokemonDetalles.name);
+
+        let elNombre = document.getElementById('nombrePokemon');
+        elNombre.textContent = pokemonDetalles.name;
+
+        let elImagen = document.getElementById('imagenPokemon')
+        elImagen.src = pokemonDetalles.sprites.front_default;
+
+        let elId = document.getElementById('idPokemon');
+        elId.textContent = 'ID: ' + pokemonDetalles.id;
+
+        let elHeight = document.getElementById('heightPokemon');
+        elHeight.textContent = 'Height: ' + pokemonDetalles.height;
+
+        let elWeight = document.getElementById('weightPokemon');
+        elWeight.textContent = 'Weight: ' + pokemonDetalles.weight;
+
+        let elOrder = document.getElementById('orderPokemon');
+        elOrder.textContent = 'Order: ' + pokemonDetalles.order;
 
 
-                    const pokemonDetalles = JSON.parse(this.responseText);
-                    
-                    let elNombre = document.getElementById('nombrePokemon');
-                    elNombre.textContent = pokemonDetalles.name; 
-                    
-                    let elImagen = document.getElementById('imagenPokemon')
-                    elImagen.src = pokemonDetalles.sprites.front_default;
-                    
-                    let elId = document.getElementById('idPokemon');
-                    elId.textContent = 'ID: ' + pokemonDetalles.id; 
-                    
-                    let elHeight = document.getElementById('heightPokemon');
-                    elHeight.textContent = 'Height: ' + pokemonDetalles.height; 
+        const pokemonAbilities = pokemonDetalles.abilities;
+        abilitiesPokemon.innerHTML = '';
+        pokemonAbilities.forEach(pabilities => {
 
-                    let elWeight = document.getElementById('weightPokemon');
-                    elWeight.textContent = 'Weight: ' + pokemonDetalles.weight; 
-                   
-                    let elOrder = document.getElementById('orderPokemon');
-                    elOrder.textContent = 'Order: ' + pokemonDetalles.order; 
+            abilitiesPokemon.innerHTML +=
+                ` 
+                        <p class="dropdown-item"> ${pabilities.ability.name}</p>
+                        `
+        }); //fin pokemonAbilities.forEach
 
+        const pokemonStats = pokemonDetalles.stats;
+        statsPokemon.innerHTML = '';
+        pokemonStats.forEach(pstats => {
+            statsPokemon.innerHTML +=
+                `
+                        <p class="dropdown-item">${pstats.stat.name} (${pstats.base_stat})</p>
+                        `
+                    }); //fin pokemonStats.forEach
 
-                    const pokemonAbilities= pokemonDetalles.abilities;
-                    abilitiesPokemon.innerHTML='';
-                    pokemonAbilities.forEach( pforms => {
-                        
-                        abilitiesPokemon.innerHTML +=
-                            ` 
-                            <p class="dropdown-item"> ${pforms.ability.name}</p>
-                            `
-                    });//fin pokemonAbilities.forEach(pokemonAbilities => {
+        const pokemonMoves = pokemonDetalles.moves;
+        movesPokemon.innerHTML = '';
+        pokemonMoves.forEach(pmove => {
+            movesPokemon.innerHTML +=
+                `
+                             <p class="dropdown-item">${pmove.move.name}</p>
 
-                    const pokemonStats = pokemonDetalles.stats;
-                    statsPokemon.innerHTML = '';
-                    pokemonStats.forEach( pstats => {
-                        statsPokemon.innerHTML +=
-                            `
-                            <p class="dropdown-item">${pstats.stat.name} (${pstats.base_stat})</p>
-                            `
-                    });
-                    
-                    const pokemonMoves = pokemonDetalles.moves;
-                    movesPokemon.innerHTML = '';
-                    pokemonMoves.forEach( pmove => {
-                        movesPokemon.innerHTML +=
-                            `
-                                 <p class="dropdown-item">${pmove.move.name}</p>
+                        `
+        }); //fin pokemonMoves.forEach
+    }).catch(error=> {
+        console.warn('promesa reject');
+        alert(error);
+    }); // FIn promesa.then.catch
 
-                            `
-                    });
-
-                } // his.readyState == 4 && this.status == 200
-
-            }; // onreadystatechange
-
-            xhttp2.open("GET", url2, true);
-            xhttp2.send();
-
-        } // function cargarDEtalles
+} // function cargarDEtalles
