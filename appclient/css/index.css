@@ -40,6 +40,16 @@ body{
     width: 100%;
 }
 
+
+#gallery img{
+    filter: grayscale(100%);
+}
+
+#gallery img.selected {
+    border:3px solid rgb(22, 151, 236);
+    filter: grayscale(0);
+}
+
 /* Footer*/
 .pie{
     background-color: cornflowerblue;
