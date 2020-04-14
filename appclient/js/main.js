@@ -2,7 +2,7 @@
 
 
 $(function () {
-$('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip()
 })
 
 
@@ -54,6 +54,8 @@ function init() {
   console.debug('Document Load and Ready');
   listener();
 
+  galeriaImagenes();
+
   const promesa = ajax("GET", url, undefined);
   promesa.then(data => {
       console.trace('promesa resolve');
@@ -66,8 +68,6 @@ function init() {
     });
 
   console.debug('continua la ejecuion del script de forma sincrona');
-  // CUIDADO!!!, es asincrono aqui personas estaria sin datos
-  // pintarLista( personas );
 
 } //init
 
@@ -141,8 +141,8 @@ function verDetalles(indice) {
   let personaSeleccionada = {
     "id": ultimoId,
     "nombre": "Sin-nombre",
-    "avatar": "avatarPorDefecto.png",
-    "sexo": "m"
+    "avatar": "avatar7.png",
+    "sexo": "h"
   };
 
   if (indice >= 0 && indice < personas.length) {
@@ -152,8 +152,28 @@ function verDetalles(indice) {
 
   document.getElementById('inputId').value = personaSeleccionada.id;
   document.getElementById('inputNombre').value = personaSeleccionada.nombre;
-  document.getElementById('selectSexo').value = personaSeleccionada.sexo;
-  document.getElementById('imagenAvatar').src = `img/${personaSeleccionada.avatar}`;
+  document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
+
+
+  const avatares = document.querySelectorAll('#gallery img');
+  avatares.forEach(el => {
+    el.classList.remove('selected');
+    if ("img/" + personaSeleccionada.avatar == el.dataset.path) {
+      el.classList.add('selected');
+    }
+  });
+
+  const sexo = personaSeleccionada.sexo;
+  let checkHombre = document.getElementById('sexoH');
+  let checkMujer = document.getElementById('sexoM');
+
+  if (sexo == "h") {
+    checkHombre.checked = 'checked';
+    checkMujer.checked = '';
+  } else {
+    checkHombre.checked = '';
+    checkMujer.checked = 'checked';
+  }
 }
 
 function guardar() {
@@ -161,12 +181,21 @@ function guardar() {
   console.trace('Click en guardar');
   let id = document.getElementById('inputId').value;
   let nombre = document.getElementById('inputNombre').value;
-  let sexo = document.getElementById('selectSexo').value;
-  let avatar = document.getElementById('imagenAvatar').src;
-  let textoReemplazado = avatar.replace("http://127.0.0.1:5500/appclient/img/","");
-  avatar = textoReemplazado;
-  /*   let imagen = document.getElementById('selectAvatar').value;
-  console.debug(imagen);*/
+
+
+  let avatar = document.getElementById('inputAvatar').value;
+  let avatarImagen = avatar.replace("img/", "");
+  avatar = avatarImagen;
+  
+  let checkHombre = document.getElementById('sexoH');
+  let checkMujer = document.getElementById('sexoM');
+  let sexo;
+  if (checkHombre.checked = 'checked') {
+    sexo = "h";
+  } else {
+    sexo = "m";
+  }
+
   if (id <= personas.length) {
 
     personas[id - 1] = {
@@ -180,11 +209,32 @@ function guardar() {
     let persona = {
       "id": id,
       "nombre": nombre,
-      "avatar": "avatarPorDefecto.png",
+      "avatar": avatar,
       "sexo": sexo
     }
     console.debug('Guardamos la nueva persona %o', persona);
     personas.push(persona);
   }
   pintarListado(personas);
+}
+
+function galeriaImagenes() {
+  let imagenes = document.getElementById('gallery');
+  for (let i = 1; i <= 7; i++) {
+    imagenes.innerHTML += `<img onclick="selectAvatar(event)" 
+                        class="avatar" 
+                        data-path="img/avatar${i}.png"
+                        src="img/avatar${i}.png">`;
+  }
+}
+
+function selectAvatar(evento) {
+  console.trace('click en avatar');
+  const avatares = document.querySelectorAll("#gallery img");
+  avatares.forEach(el => el.classList.remove('selected'));
+  evento.target.classList.add('selected');
+
+  let inputAvatar = document.getElementById('inputAvatar');
+  inputAvatar.value = evento.target.dataset.path;
+
 }
