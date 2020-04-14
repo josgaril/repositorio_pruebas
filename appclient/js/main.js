@@ -4,7 +4,6 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 
-
 // este array se carga de forma asincrona mediante Ajax
 //const url = "http://127.0.0.1:5500/appclient/js/data/personas.json";
 
@@ -85,7 +84,6 @@ function listener() {
     }
   };
 
-
   let inputNombre = document.getElementById('nombreInput');
   inputNombre.addEventListener('keyup', nombrePersona);
 
@@ -123,39 +121,6 @@ function pintarListado(arrayPersonas) {
   console.debug(arrayPersonas);
 }
 
-function eliminar(indice) {
-  console.debug(`Indice recibido para eliminar: %o`, indice);
-
-  let personaSeleccionada = personas[indice];
-  console.debug('Se elimina la persona %o ', personaSeleccionada);
-  const mensaje = `¿Desea eliminar a ${personaSeleccionada.nombre}?`;
-  if (confirm(mensaje)) {
-
-    const urlELiminar = url + personaSeleccionada.id;
-    ajax("DELETE", urlELiminar, undefined)
-      .then(data => {
-
-        // conseguir de nuevo todos los alumnos
-        ajax("GET", url, undefined)
-          .then(data => {
-            console.trace('promesa resolve');
-            personas = data;
-            pintarListado(personas);
-
-          }).catch(error => {
-            console.warn('promesa rejectada');
-            alert(error);
-          });
-
-      })
-      .catch(error => {
-        console.warn(' No se ha podido eliminar');
-        alert(error);
-      });
-
-  }
-}
-
 function verDetalles(indice) {
   let personaSeleccionada = {
     "id": 0,
@@ -164,10 +129,11 @@ function verDetalles(indice) {
     "sexo": "h"
   };
 
-  if (indice > -1 && indice < personas.length) {
+  if (indice >= 0 && indice < personas.length) {
     personaSeleccionada = personas[indice];
+    console.trace('Click Ver detalles de %o: %o', personaSeleccionada.nombre, personaSeleccionada);
   }
-  console.debug('click ver detalles de: %o', personaSeleccionada);
+  console.trace('Click Agregar nueva persona');
 
   document.getElementById('inputId').value = personaSeleccionada.id;
   document.getElementById('inputNombre').value = personaSeleccionada.nombre;
@@ -196,20 +162,19 @@ function verDetalles(indice) {
 }
 
 function guardar() {
-
   console.trace('Click en guardar');
+
   let id = document.getElementById('inputId').value;
   let nombre = document.getElementById('inputNombre').value;
   let avatar = document.getElementById('inputAvatar').value;
   let avatarImagen = avatar.replace("img/", "");
   avatar = avatarImagen;
-
-  let checkHombre = document.getElementById('sexoH');
-  let checkMujer = document.getElementById('sexoM');
-  let sexo = document.getElementById('sexoH');
-  if (checkMujer.checked = 'checked') {
-    sexo = "m";
-  } 
+  let sexo = "h";
+  let checkHombre = document.getElementById('sexoH').checked;
+  
+  if (!checkHombre){
+   sexo = "m";
+  }
 
   let persona = {
     "id": id,
@@ -217,10 +182,12 @@ function guardar() {
     "avatar": avatar,
     "sexo": sexo
   }
-  if (id != 0 ) {
+
+  if (id != 0) {
     console.trace('Modificar persona');
 
     const urlID = url + persona.id;
+    
     ajax('PUT', urlID, persona)
       .then(data => {
 
@@ -230,18 +197,15 @@ function guardar() {
             console.trace('promesa resolve');
             personas = data;
             pintarListado(personas);
-
           }).catch(error => {
             console.warn('promesa rejectada');
             alert(error);
           });
-
       })
       .catch(error => {
         console.warn(' No se ha podido modificar');
         alert(error);
       });
-
   } else {
     console.trace('Crear nueva persona');
 
@@ -268,6 +232,40 @@ function guardar() {
   }
 }
 
+function eliminar(indice) {
+  console.debug(`Indice recibido para eliminar: %o`, indice);
+
+  let personaSeleccionada = personas[indice];
+  console.debug('Se elimina la persona %o ', personaSeleccionada);
+
+  const mensaje = `¿Desea eliminar a ${personaSeleccionada.nombre}?`;
+
+  if (confirm(mensaje)) {
+
+    const urlELiminar = url + personaSeleccionada.id;
+
+    ajax("DELETE", urlELiminar, undefined)
+      .then(data => {
+
+        // conseguir de nuevo todos los alumnos
+        ajax("GET", url, undefined)
+          .then(data => {
+            console.trace('promesa resolve');
+            personas = data;
+            pintarListado(personas);
+          }).catch(error => {
+            console.warn('promesa rejectada');
+            alert(error);
+          });
+      })
+      .catch(error => {
+        console.warn(' No se ha podido eliminar');
+        alert(error);
+      });
+
+  }
+}
+
 function galeriaImagenes() {
   let imagenes = document.getElementById('gallery');
   for (let i = 1; i <= 7; i++) {
@@ -286,5 +284,4 @@ function selectAvatar(evento) {
 
   let inputAvatar = document.getElementById('inputAvatar');
   inputAvatar.value = evento.target.dataset.path;
-
 }

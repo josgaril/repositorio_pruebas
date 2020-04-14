@@ -14,19 +14,9 @@ body{
     padding: 20px 10px;
 }
 
-/* Lista de alumnos */
+/* Listado de alumnos */
 #personas>li{
     background-color: gray;
-    text-align: left;
-}
-
-.iconos-personas i{
-    font-size: 30px;
-    padding: 0.2em 0;
-}
-
-.iconos-formularios i{
-    font-size: 40px;
 }
 
 .nombre-personas{
@@ -36,10 +26,21 @@ body{
     padding: 0.5em 0;
 }
 
+.iconos-personas i{
+    font-size: 30px;
+    padding: 0.2em 0;
+}
+
+/* Formulario */
+.formulario{
+    padding: 10px;
+    border:1px solid black;
+    height: 350px;
+}
+
 #inputNombre, #inputId{
     width: 100%;
 }
-
 
 #gallery img{
     filter: grayscale(100%);
@@ -48,6 +49,10 @@ body{
 #gallery img.selected {
     border:3px solid rgb(22, 151, 236);
     filter: grayscale(0);
+}
+
+.iconos-formularios i{
+    font-size: 40px;
 }
 
 /* Footer*/

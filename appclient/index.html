@@ -31,77 +31,57 @@
             <option value="t" selected>Todos</option>
             <option value="h">Hombre</option>
             <option value="m">Mujer</option>
-          </select> </div>
+          </select> 
+        </div>
         <div class="col-12 col-sm-5">
           <input id="nombreInput" type="text" class="form-control" placeholder="Introduzca un nombre...">
         </div>
       </div>
     </div>
     <div class="row mx-2">
+
       <div class="col-7">
         <ul id=personas class="list-group m-2">
           <li class="list-group-item ">Cargando...</li>
         </ul>
       </div>
-      <div class="col-5 formulario">
-        <div class="form-group row">
+
+      <div class="col-5 formulario ">
+        <div class="form-group row d-flex align-items-center"">
           <label for="inputId" class="col-3 col-form-label">ID: </label>
           <div class="col-9">
             <input type="text" id="inputId" placeholder="id" readonly>
           </div>
         </div>
-        <div class="form-group row">
+
+        <div class="form-group row d-flex align-items-center"">
           <label for="inputNombre" class="col-3 col-form-label">Nombre: </label>
           <div class="col-9">
             <input type="text" id="inputNombre" placeholder="Introduzca el nombre">
           </div>
         </div>
-        <div class="form-group row">
 
+        <div class="form-group row ">
           <label for="inputAvatar" class="col-3 col-form-label" hidden>Avatar: </label>
           <div class="col-9">
             <input type="text" id="inputAvatar" readonly="readonly" placeholder="url imagen" hidden>
           </div>
         </div>
+
         <div class="form-group row">
 
           <label class="col-3 col-form-label">Sexo: </label>
-          <div class="col-9">
+          <div class="col-9 d-flex align-items-center">
             <input checked="checked" type="radio" name="sexo" id="sexoH" value="h">
             <label for="sexoH">Hombre</label>
-
-            <input type="radio" name="sexo" id="sexoM" value="m">
+            <input class="ml-4" type="radio" name="sexo" id="sexoM" value="m">
             <label for="sexoM">Mujer</label>
           </div>
         </div>
 
-        <div class="form-group row" id="gallery">
-
-         <!--  <div id="gallery">                    
-          </div> -->
+        <div class="form-group row m-2 d-flex justify-content-center" id="gallery">
         </div>
 
-        <!--   <div class="form-group row">
-          <label for="selectSexo" class="col-3 col-form-label">Sexo: </label>
-          <div class="col-9">
-            <select id="selectSexo" class="custom-select" name="idSelect">
-              <option value="t" selected disabled>Seleccione sexo</option>
-              <option value="h">Hombre</option>
-              <option value="m">Mujer</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputAvatar" class="col-sm-3 col-form-label">Avatar: </label>
-          <div class="col-9">
-            <img id="imagenAvatar" src="img/avatarPorDefecto.png" alt="Avatar" class="border border-dark"
-              style="width: 150px">
-          </div>
-        </div> -->
-        <!--         <div class="custom-file">
-          <input type="file" class="selectAvatar-input" id="selectAvatar">
-          <label class="selectAvatar-label" for="selectAvatar">Choose file</label>
-        </div> -->
         <div class="form-group row iconos-formularios">
           <div class="col-6 ">
             <i onclick="guardar()" class="far fa-save m-1 float-right" data-toggle="tooltip" data-placement="left"
@@ -111,10 +91,8 @@
             <i onclick="verDetalles(`${personas.length}`)" class="fas fa-user-plus m-1" data-toggle="tooltip"
               data-placement="right" title="Nueva persona"></i>
           </div>
-          <!--<input type="button" value="Guardar" onclick="guardar()">
-        <input type="button" value="Nueva Persona" onclick="verDetalles(`${personas.length}`)">
-        -->
         </div>
+
       </div>
     </div>
 
@@ -127,8 +105,6 @@
       <i class="fab fa-twitter-square"></i>
     </p>
   </footer>
-
-
 
 
   <!-- jQuery  -->
