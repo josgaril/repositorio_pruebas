@@ -166,7 +166,7 @@ function guardar() {
   let textoReemplazado = avatar.replace("http://127.0.0.1:5500/appclient/img/","");
   avatar = textoReemplazado;
   /*   let imagen = document.getElementById('selectAvatar').value;
-  console.debug(imagen); */
+  console.debug(imagen);*/
   if (id <= personas.length) {
 
     personas[id - 1] = {
