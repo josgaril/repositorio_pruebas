@@ -26,8 +26,8 @@
       <legend class="p-1">Buscador</legend>
       <div class="form-row">
         <div class="col-12 col-sm-3">
-          <select id="idSelect" class="custom-select" name="idSelect" data-toggle="tooltip"
-          data-placement="bottom" title="Seleccionar sexo"> 
+          <select id="idSelect" class="custom-select" name="idSelect" data-toggle="tooltip" data-placement="bottom"
+            title="Seleccionar sexo">
             <option value="t" selected>Todos</option>
             <option value="h">Hombre</option>
             <option value="m">Mujer</option>
@@ -57,6 +57,31 @@
           </div>
         </div>
         <div class="form-group row">
+
+          <label for="inputAvatar" class="col-3 col-form-label" hidden>Avatar: </label>
+          <div class="col-9">
+            <input type="text" id="inputAvatar" readonly="readonly" placeholder="url imagen" hidden>
+          </div>
+        </div>
+        <div class="form-group row">
+
+          <label class="col-3 col-form-label">Sexo: </label>
+          <div class="col-9">
+            <input checked="checked" type="radio" name="sexo" id="sexoH" value="h">
+            <label for="sexoH">Hombre</label>
+
+            <input type="radio" name="sexo" id="sexoM" value="m">
+            <label for="sexoM">Mujer</label>
+          </div>
+        </div>
+
+        <div class="form-group row" id="gallery">
+
+         <!--  <div id="gallery">                    
+          </div> -->
+        </div>
+
+        <!--   <div class="form-group row">
           <label for="selectSexo" class="col-3 col-form-label">Sexo: </label>
           <div class="col-9">
             <select id="selectSexo" class="custom-select" name="idSelect">
@@ -72,7 +97,7 @@
             <img id="imagenAvatar" src="img/avatarPorDefecto.png" alt="Avatar" class="border border-dark"
               style="width: 150px">
           </div>
-        </div>
+        </div> -->
         <!--         <div class="custom-file">
           <input type="file" class="selectAvatar-input" id="selectAvatar">
           <label class="selectAvatar-label" for="selectAvatar">Choose file</label>
@@ -104,7 +129,7 @@
   </footer>
 
 
-  
+
 
   <!-- jQuery  -->
   <script src="js/jquery-3.4.1.min.js"></script>

@@ -1,15 +1,14 @@
 "use strict";
 
-
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 
 
 // este array se carga de forma asincrona mediante Ajax
-const url = "http://127.0.0.1:5500/appclient/js/data/personas.json";
+//const url = "http://127.0.0.1:5500/appclient/js/data/personas.json";
 
-//const url = "http://localhost:8080/apprest/api/personas/";
+const url = "http://localhost:8080/apprest/api/personas/";
 let personas = [
   /* {
     "nombre": "Occonnor",
@@ -131,21 +130,41 @@ function eliminar(indice) {
   console.debug('Se elimina la persona %o ', personaSeleccionada);
   const mensaje = `¿Desea eliminar a ${personaSeleccionada.nombre}?`;
   if (confirm(mensaje)) {
-    personas = personas.filter(el => el.id != personaSeleccionada.id);
-    pintarListado(personas);
+
+    const urlELiminar = url + personaSeleccionada.id;
+    ajax("DELETE", urlELiminar, undefined)
+      .then(data => {
+
+        // conseguir de nuevo todos los alumnos
+        ajax("GET", url, undefined)
+          .then(data => {
+            console.trace('promesa resolve');
+            personas = data;
+            pintarListado(personas);
+
+          }).catch(error => {
+            console.warn('promesa rejectada');
+            alert(error);
+          });
+
+      })
+      .catch(error => {
+        console.warn(' No se ha podido eliminar');
+        alert(error);
+      });
+
   }
 }
 
 function verDetalles(indice) {
-  let ultimoId = parseFloat(indice) + 1;
   let personaSeleccionada = {
-    "id": ultimoId,
+    "id": 0,
     "nombre": "Sin-nombre",
     "avatar": "avatar7.png",
     "sexo": "h"
   };
 
-  if (indice >= 0 && indice < personas.length) {
+  if (indice > -1 && indice < personas.length) {
     personaSeleccionada = personas[indice];
   }
   console.debug('click ver detalles de: %o', personaSeleccionada);
@@ -181,41 +200,72 @@ function guardar() {
   console.trace('Click en guardar');
   let id = document.getElementById('inputId').value;
   let nombre = document.getElementById('inputNombre').value;
-
-
   let avatar = document.getElementById('inputAvatar').value;
   let avatarImagen = avatar.replace("img/", "");
   avatar = avatarImagen;
-  
+
   let checkHombre = document.getElementById('sexoH');
   let checkMujer = document.getElementById('sexoM');
-  let sexo;
-  if (checkHombre.checked = 'checked') {
-    sexo = "h";
-  } else {
+  let sexo = document.getElementById('sexoH');
+  if (checkMujer.checked = 'checked') {
     sexo = "m";
+  } 
+
+  let persona = {
+    "id": id,
+    "nombre": nombre,
+    "avatar": avatar,
+    "sexo": sexo
   }
+  if (id != 0 ) {
+    console.trace('Modificar persona');
 
-  if (id <= personas.length) {
+    const urlID = url + persona.id;
+    ajax('PUT', urlID, persona)
+      .then(data => {
 
-    personas[id - 1] = {
-      "id": id,
-      "nombre": nombre,
-      "avatar": avatar,
-      "sexo": sexo
-    }
-    console.debug('Guardamos la persona seleccionada: %o', personas[id - 1]);
+        // conseguir de nuevo todos los alumnos
+        ajax("GET", url, undefined)
+          .then(data => {
+            console.trace('promesa resolve');
+            personas = data;
+            pintarListado(personas);
+
+          }).catch(error => {
+            console.warn('promesa rejectada');
+            alert(error);
+          });
+
+      })
+      .catch(error => {
+        console.warn(' No se ha podido modificar');
+        alert(error);
+      });
+
   } else {
-    let persona = {
-      "id": id,
-      "nombre": nombre,
-      "avatar": avatar,
-      "sexo": sexo
-    }
-    console.debug('Guardamos la nueva persona %o', persona);
-    personas.push(persona);
+    console.trace('Crear nueva persona');
+
+    ajax('POST', url, persona)
+      .then(data => {
+
+        // conseguir de nuevo todos los alumnos
+        ajax("GET", url, undefined)
+          .then(data => {
+            console.trace('promesa resolve');
+            personas = data;
+            pintarListado(personas);
+
+          }).catch(error => {
+            console.warn('promesa rejectada');
+            alert(error);
+          });
+
+      })
+      .catch(error => {
+        console.warn('No se ha podido crear la persona');
+        alert(error);
+      });
   }
-  pintarListado(personas);
 }
 
 function galeriaImagenes() {
