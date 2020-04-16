@@ -4,6 +4,10 @@ body{
     
 }
 
+main{
+    min-height: 88.8vh;
+}
+
 /* Titulo principal */
 #titulo{
     background-color: cornflowerblue;

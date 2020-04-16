@@ -262,7 +262,7 @@ function eliminar(indice) {
         console.warn(' No se ha podido eliminar');
         alert(error);
       });
-
+      pintarListado(personas);
   }
 }
 
