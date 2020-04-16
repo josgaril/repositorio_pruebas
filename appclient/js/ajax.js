@@ -1,4 +1,3 @@
-
 /**
  * llamada ajax en vanilla javascript
  * @param {*} metodo 
@@ -6,33 +5,35 @@
  * @param {*} datos 
  * @return Promise
  */
-function ajax( metodo, url, datos ){
+function ajax(metodo, url, datos) {
 
-    return new Promise( (resolve, reject ) => {
+    return new Promise((resolve, reject) => {
 
-        console.debug(`promesa ajax metodo ${metodo} - ${url}` );
+        console.debug(`promesa ajax metodo ${metodo} - ${url}`);
         var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            
-            if (this.readyState == 4 ) {
+        xhttp.onreadystatechange = function () {
 
-                if ( this.status == 200 || this.status == 201 ){
-                    
-                    const jsonData = JSON.parse(this.responseText);    
-                    console.debug( jsonData );
+            if (this.readyState == 4) {
+
+                if (this.status == 200 || this.status == 201) {
+
+                    const jsonData = JSON.parse(this.responseText);
+                    console.debug(jsonData);
 
                     // funciona promesa, then
                     resolve(jsonData);
-                }else{
+                } else {
                     // falla promesa, catch
-                    reject( Error( this.status ));
-                }               
-            }// readyState == 4
+                    reject(Error( JSON.parse(this.responseText)));
 
-        };// onreadystatechange
+                    //reject(Error( JSON.parse(this.responseText) ));
+                }
+            } // readyState == 4
 
-        xhttp.open( metodo , url , true);
+        }; // onreadystatechange
+
+        xhttp.open(metodo, url, true);
         xhttp.setRequestHeader('Content-Type', 'application/json');
-        xhttp.send( JSON.stringify(datos) );
+        xhttp.send(JSON.stringify(datos));
     });
 }

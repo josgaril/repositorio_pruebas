@@ -1,10 +1,20 @@
 package com.ipartek.formacion.model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class Persona {
 
 	private int id;
+	
+	@Size (min=2, max=50, message= "El nombre tiene que tener entre 2 y 50 caracteres")
 	private String nombre;
+	
+	@NotEmpty
 	private String avatar;
+	
+	//TODO regexp para "h" o "m"
+	//@Pattern(regexp = "")
 	private String sexo;
 	
 	public Persona() {
