@@ -78,32 +78,33 @@ public class PersonaController {
 	@POST
 	public Response insert(Persona persona) {
 		LOGGER.info("insert(" + persona + ")");
-
+		ArrayList<String> errores = new ArrayList<String>();
+		
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 
 		Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
 
 		if (violations.isEmpty()) {
 			try {
-				
+
 				personaDAO.insert(persona);
 				response = Response.status(Status.CREATED).entity(persona).build();
-			
-			}catch (Exception e) {
-				response = Response.status(Status.CONFLICT).entity(persona).build();
+
+			} catch (Exception e) {
+				errores.add("Valores de la persona repetidos");
+				response = Response.status(Status.CONFLICT).entity(errores).build();
 			}
 
 		} else {
-			
-			ArrayList<String> errores = new ArrayList<String>();
+
 			for (ConstraintViolation<Persona> violation : violations) {
 				errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
 			}
-			
+
 			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
 		}
 		return response;
-		
+
 	}
 
 	@PUT
@@ -115,11 +116,11 @@ public class PersonaController {
 		Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
 
 		if (violations.isEmpty()) {
-			
+
 			try {
 				personaDAO.update(persona);
 				response = Response.status(Status.OK).entity(persona).build();
-			}catch (Exception e) {
+			} catch (Exception e) {
 				response = Response.status(Status.CONFLICT).entity(persona).build();
 			}
 		} else {
@@ -138,19 +139,19 @@ public class PersonaController {
 	public Response delete(@PathParam("id") int id) {
 		LOGGER.info("delete(" + id + ")");
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
-		
+
 		Persona persona = null;
-		
+
 		try {
-				personaDAO.delete(id);
-				response = Response.status(Status.OK).entity(persona).build();
-				LOGGER.info("Persona borrada: " + id);
 			
-		}catch (SQLException e){
+			persona = personaDAO.delete(id);
+			response = Response.status(Status.OK).entity(persona).build();
+			LOGGER.info("Persona borrada: " + id);
+
+		} catch (SQLException e) {
 			response = Response.status(Status.CONFLICT).entity(persona).build();
-		}
-		catch (Exception e) {
-			response = Response.status(Status.NOT_FOUND).entity(persona).build();
+		} catch (Exception e) {
+			response = Response.status(Status.NOT_FOUND).build();
 		}
 		return response;
 	}

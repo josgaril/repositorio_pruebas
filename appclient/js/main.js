@@ -54,7 +54,8 @@ function init() {
 
   galeriaImagenes();
 
-  const promesa = ajax("GET", url, undefined);
+  const promesa = obtenerTodos();
+  /* const promesa = ajax("GET", url, undefined);
   promesa.then(data => {
       console.trace('promesa resolve');
       personas = data;
@@ -63,7 +64,7 @@ function init() {
     .catch(error => {
       console.warn('promesa rejectada');
       alert(error);
-    });
+    }); */
 
   console.debug('continua la ejecuion del script de forma sincrona');
 
@@ -171,9 +172,9 @@ function guardar() {
   avatar = avatarImagen;
   let sexo = "h";
   let checkHombre = document.getElementById('sexoH').checked;
-  
-  if (!checkHombre){
-   sexo = "m";
+
+  if (!checkHombre) {
+    sexo = "m";
   }
 
   let persona = {
@@ -187,12 +188,14 @@ function guardar() {
     console.trace('Modificar persona');
 
     const urlID = url + persona.id;
-    
+
     ajax('PUT', urlID, persona)
       .then(data => {
 
         // conseguir de nuevo todos los alumnos
-        ajax("GET", url, undefined)
+        obtenerTodos();
+
+        /* ajax("GET", url, undefined)
           .then(data => {
             console.trace('promesa resolve');
             personas = data;
@@ -200,7 +203,7 @@ function guardar() {
           }).catch(error => {
             console.warn('promesa rejectada');
             alert(error);
-          });
+          }); */
       })
       .catch(error => {
         console.warn(' No se ha podido modificar');
@@ -213,7 +216,8 @@ function guardar() {
       .then(data => {
 
         // conseguir de nuevo todos los alumnos
-        ajax("GET", url, undefined)
+        obtenerTodos();
+        /* ajax("GET", url, undefined)
           .then(data => {
             console.trace('promesa resolve');
             personas = data;
@@ -222,7 +226,7 @@ function guardar() {
           }).catch(error => {
             console.warn('promesa rejectada');
             alert(error);
-          });
+          }); */
 
       })
       .catch(error => {
@@ -248,7 +252,8 @@ function eliminar(indice) {
       .then(data => {
 
         // conseguir de nuevo todos los alumnos
-        ajax("GET", url, undefined)
+        obtenerTodos();
+        /* ajax("GET", url, undefined)
           .then(data => {
             console.trace('promesa resolve');
             personas = data;
@@ -256,13 +261,12 @@ function eliminar(indice) {
           }).catch(error => {
             console.warn('promesa rejectada');
             alert(error);
-          });
+          }); */
       })
       .catch(error => {
         console.warn(' No se ha podido eliminar');
         alert(error);
       });
-      pintarListado(personas);
   }
 }
 
@@ -284,4 +288,16 @@ function selectAvatar(evento) {
 
   let inputAvatar = document.getElementById('inputAvatar');
   inputAvatar.value = evento.target.dataset.path;
+}
+
+function obtenerTodos() {
+  ajax("GET", url, undefined)
+    .then(data => {
+      console.trace('promesa resolve');
+      personas = data;
+      pintarListado(personas);
+    }).catch(error => {
+      console.warn('promesa rejectada');
+      alert(error);
+    });
 }
