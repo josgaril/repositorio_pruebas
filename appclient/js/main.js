@@ -55,16 +55,6 @@ function init() {
   galeriaImagenes();
 
   const promesa = obtenerTodos();
-  /* const promesa = ajax("GET", url, undefined);
-  promesa.then(data => {
-      console.trace('promesa resolve');
-      personas = data;
-      pintarListado(personas);
-    })
-    .catch(error => {
-      console.warn('promesa rejectada');
-      alert(error);
-    }); */
 
   console.debug('continua la ejecuion del script de forma sincrona');
 
@@ -195,15 +185,6 @@ function guardar() {
         // conseguir de nuevo todos los alumnos
         obtenerTodos();
 
-        /* ajax("GET", url, undefined)
-          .then(data => {
-            console.trace('promesa resolve');
-            personas = data;
-            pintarListado(personas);
-          }).catch(error => {
-            console.warn('promesa rejectada');
-            alert(error);
-          }); */
       })
       .catch(error => {
         console.warn(' No se ha podido modificar');
@@ -217,17 +198,7 @@ function guardar() {
 
         // conseguir de nuevo todos los alumnos
         obtenerTodos();
-        /* ajax("GET", url, undefined)
-          .then(data => {
-            console.trace('promesa resolve');
-            personas = data;
-            pintarListado(personas);
-
-          }).catch(error => {
-            console.warn('promesa rejectada');
-            alert(error);
-          }); */
-
+        
       })
       .catch(error => {
         console.warn('No se ha podido crear la persona');
@@ -253,15 +224,7 @@ function eliminar(indice) {
 
         // conseguir de nuevo todos los alumnos
         obtenerTodos();
-        /* ajax("GET", url, undefined)
-          .then(data => {
-            console.trace('promesa resolve');
-            personas = data;
-            pintarListado(personas);
-          }).catch(error => {
-            console.warn('promesa rejectada');
-            alert(error);
-          }); */
+
       })
       .catch(error => {
         console.warn(' No se ha podido eliminar');
