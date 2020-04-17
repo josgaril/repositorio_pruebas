@@ -91,6 +91,7 @@ function listener() {
 }
 
 function pintarListado(arrayPersonas) {
+  console.info('Se pinta el listado de personas');
   let listado = document.getElementById('personas');
   listado.innerHTML = '';
 
@@ -113,6 +114,7 @@ function pintarListado(arrayPersonas) {
 }
 
 function verDetalles(indice) {
+  console.info('Se muestran los detalles de la persona');
   let personaSeleccionada = {
     "id": 0,
     "nombre": "Sin-nombre",
@@ -254,13 +256,14 @@ function selectAvatar(evento) {
 }
 
 function obtenerTodos() {
+  console.info('Obtenemos todas las personas');
   ajax("GET", url, undefined)
     .then(data => {
-      console.trace('promesa resolve');
+      console.trace('Promesa resuelta');
       personas = data;
       pintarListado(personas);
     }).catch(error => {
-      console.warn('promesa rejectada');
+      console.warn('Promesa cancelada');
       alert(error);
     });
 }

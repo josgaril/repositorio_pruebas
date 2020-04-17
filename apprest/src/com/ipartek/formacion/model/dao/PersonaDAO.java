@@ -23,7 +23,7 @@ public class PersonaDAO implements IDAO<Persona> {
 	private static final String SQL_UPDATE = "UPDATE persona SET nombre=?, avatar=?, sexo=? WHERE id=?";
 	private static final String SQL_GET_ALL = "SELECT id, nombre, avatar, sexo FROM persona ORDER BY id LIMIT 500";
 
-	public PersonaDAO() {
+	private PersonaDAO() {
 		super();
 	}
 

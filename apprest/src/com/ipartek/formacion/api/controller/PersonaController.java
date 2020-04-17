@@ -63,7 +63,8 @@ public class PersonaController {
 
 			if (persona == null) {
 				response = Response.status(Status.NOT_FOUND).build();
-				throw new Exception("No se ha encontrado la persona");
+				LOGGER.warning("No se ha encontrado la persona con id " + id);
+				throw new Exception("No se ha encontrado la persona con id " + id);
 
 			} else {
 				response = Response.status(Status.OK).entity(persona).build();
@@ -89,9 +90,11 @@ public class PersonaController {
 
 				personaDAO.insert(persona);
 				response = Response.status(Status.CREATED).entity(persona).build();
+				LOGGER.info("Se ha creado la persona: " + persona);
 
 			} catch (Exception e) {
-				errores.add("Valores de la persona repetidos");
+				errores.add("Ha introducido el nombre de una persona existente");				
+				LOGGER.warning("Ha introducido el nombre de una persona existente");
 				response = Response.status(Status.CONFLICT).entity(errores).build();
 			}
 
@@ -100,7 +103,7 @@ public class PersonaController {
 			for (ConstraintViolation<Persona> violation : violations) {
 				errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
 			}
-
+			LOGGER.warning("Se han producido los siguientes errores: " + errores);
 			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
 		}
 		return response;
@@ -113,6 +116,9 @@ public class PersonaController {
 		LOGGER.info("update(" + id + ", " + persona + ")");
 
 		Response response = Response.status(Status.NOT_FOUND).entity(persona).build();
+		
+		ArrayList<String> errores = new ArrayList<String>();
+
 		Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
 
 		if (violations.isEmpty()) {
@@ -120,14 +126,18 @@ public class PersonaController {
 			try {
 				personaDAO.update(persona);
 				response = Response.status(Status.OK).entity(persona).build();
+				LOGGER.info("Se ha modificado la persona:" + persona);
+
 			} catch (Exception e) {
-				response = Response.status(Status.CONFLICT).entity(persona).build();
+				errores.add("Ha introducido el nombre de una persona existente");
+				LOGGER.warning("Ha introducido el nombre de una persona existente");
+				response = Response.status(Status.CONFLICT).entity(errores).build();
 			}
 		} else {
-			ArrayList<String> errores = new ArrayList<String>();
 			for (ConstraintViolation<Persona> violation : violations) {
 				errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
 			}
+			LOGGER.warning("Se han producido los siguientes errores: " + errores);
 			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
 		}
 		return response;

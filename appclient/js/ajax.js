@@ -16,12 +16,15 @@ function ajax(metodo, url, datos) {
             if (this.readyState == 4) {
 
                 if (this.status == 200 || this.status == 201) {
-
-                    const jsonData = JSON.parse(this.responseText);
-                    console.debug(jsonData);
-
+                    if ( this.responseText){
+                        const jsonData = JSON.parse(this.responseText);
+                        console.debug(jsonData);
+                    
                     // funciona promesa, then
                     resolve(jsonData);
+                }else{
+                    resolve();
+                }
                 } else {
                     // falla promesa, catch
                     reject(Error( JSON.parse(this.responseText)));
