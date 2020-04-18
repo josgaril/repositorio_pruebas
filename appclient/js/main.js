@@ -61,10 +61,13 @@ function init() {
 } //init
 
 function listener() {
-  let idSelect = document.getElementById('idSelect');
-  idSelect.addEventListener('change', seleccionarSexo);
+  let selectorSexo = document.getElementById('sexoSelect');
+  selectorSexo.addEventListener('change', filtro);
+  let inputNombre = document.getElementById('nombreInput');
+  inputNombre.addEventListener('keyup', filtro);
 
-  function seleccionarSexo() {
+
+  /* function seleccionarSexo() {
     const valor = this.value;
     console.debug('Seleccionamos las personas con sexo: ' + valor)
     if (valor != 't') {
@@ -87,7 +90,32 @@ function listener() {
     } else {
       pintarListado(personas);
     }
-  };
+  }; */
+}
+
+function filtro(){
+  let selectorSexo = document.getElementById('sexoSelect');
+  let inputNombre = document.getElementById('nombreInput');
+
+  const sexo = selectorSexo.value;
+  const nombre = inputNombre.value.trim().toLowerCase();
+
+  console.trace(`filtro sexo=${sexo} nombre=${nombre}`);
+  console.debug('personas %o',personas);
+
+  let personasFiltradas = personas.map( el => el);
+
+  if (sexo == 'h' || sexo == 'm'){
+    personasFiltradas = personasFiltradas.filter(el=> el.sexo == sexo);
+    console.debug('Filtrado por sexo %o ', personasFiltradas);
+  }
+
+  if (nombre!= " "){
+    personasFiltradas= personasFiltradas.filter(el => el.nombre.toLowerCase().includes(nombre));
+    console.debug('Filtrado por nombre %o ', personasFiltradas);   
+  }
+
+  pintarListado(personasFiltradas);
 }
 
 function pintarListado(arrayPersonas) {
@@ -95,7 +123,9 @@ function pintarListado(arrayPersonas) {
   let listado = document.getElementById('personas');
   listado.innerHTML = '';
 
-  arrayPersonas.forEach((el, i) => listado.innerHTML += `
+  arrayPersonas.forEach((el, i) => 
+    listado.innerHTML += 
+      `
       <li class="border border-dark p-1 row"> 
         <div class="col-2 imagen-personas">
           <img src="img/${el.avatar}" class="border border-danger rounded-circle">
@@ -109,12 +139,13 @@ function pintarListado(arrayPersonas) {
         <div class="col-1 iconos-personas">
           <i onclick="eliminar(${i})" class="far fa-trash-alt float-right data-toggle="tooltip" data-placement="top" title="Eliminar""></i>
         </div>
-      </li> `);
+      </li> 
+      `);
   console.debug(arrayPersonas);
 }
 
 function verDetalles(indice) {
-  console.info('Se muestran los detalles de la persona');
+  
   let personaSeleccionada = {
     "id": 0,
     "nombre": "Sin-nombre",
@@ -124,10 +155,10 @@ function verDetalles(indice) {
 
   if (indice >= 0 && indice < personas.length) {
     personaSeleccionada = personas[indice];
-    console.trace('Click Ver detalles de %o: %o', personaSeleccionada.nombre, personaSeleccionada);
-  }
+    console.trace('Click Ver detalles de ' +  personaSeleccionada.nombre , personaSeleccionada);
+  }else{
   console.trace('Click Agregar nueva persona');
-
+  }
   document.getElementById('inputId').value = personaSeleccionada.id;
   document.getElementById('inputNombre').value = personaSeleccionada.nombre;
   document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
@@ -177,8 +208,7 @@ function guardar() {
   }
 
   if (id != 0) {
-    console.trace('Modificar persona');
-
+    console.trace('Persona modificada');
     const urlID = url + persona.id;
 
     ajax('PUT', urlID, persona)
@@ -189,11 +219,11 @@ function guardar() {
 
       })
       .catch(error => {
-        console.warn(' No se ha podido modificar');
+        console.warn(' No se ha podido modificar:', error);
         alert(error);
       });
   } else {
-    console.trace('Crear nueva persona');
+    console.trace('Creada nueva persona');
 
     ajax('POST', url, persona)
       .then(data => {
@@ -203,7 +233,7 @@ function guardar() {
         
       })
       .catch(error => {
-        console.warn('No se ha podido crear la persona');
+        console.warn('No se ha podido crear la persona:', error);
         alert(error);
       });
   }
@@ -213,7 +243,7 @@ function eliminar(indice) {
   console.debug(`Indice recibido para eliminar: %o`, indice);
 
   let personaSeleccionada = personas[indice];
-  console.debug('Se elimina la persona %o ', personaSeleccionada);
+  console.debug('Se eliminará la persona %o ', personaSeleccionada);
 
   const mensaje = `¿Desea eliminar a ${personaSeleccionada.nombre}?`;
 
@@ -223,7 +253,7 @@ function eliminar(indice) {
 
     ajax("DELETE", urlELiminar, undefined)
       .then(data => {
-
+        console.log('Persona eliminada');
         // conseguir de nuevo todos los alumnos
         obtenerTodos();
 
@@ -232,6 +262,8 @@ function eliminar(indice) {
         console.warn(' No se ha podido eliminar');
         alert(error);
       });
+  }else{
+    console.info('Se ha cancelado Eliminar a la persona');
   }
 }
 

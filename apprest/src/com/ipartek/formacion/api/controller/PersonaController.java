@@ -64,7 +64,7 @@ public class PersonaController {
 			if (persona == null) {
 				response = Response.status(Status.NOT_FOUND).build();
 				LOGGER.warning("No se ha encontrado la persona con id " + id);
-				throw new Exception("No se ha encontrado la persona con id " + id);
+				throw new Exception("No se ha encontrado la persona buscada");
 
 			} else {
 				response = Response.status(Status.OK).entity(persona).build();
@@ -103,7 +103,7 @@ public class PersonaController {
 			for (ConstraintViolation<Persona> violation : violations) {
 				errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
 			}
-			LOGGER.warning("Se han producido los siguientes errores: " + errores);
+			LOGGER.warning("No se cumplen las validaciones para crear la persona: " + errores);
 			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
 		}
 		return response;
@@ -137,7 +137,7 @@ public class PersonaController {
 			for (ConstraintViolation<Persona> violation : violations) {
 				errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
 			}
-			LOGGER.warning("Se han producido los siguientes errores: " + errores);
+			LOGGER.warning("No se cumplen las validaciones para modificar la persona: " + errores);
 			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
 		}
 		return response;
@@ -150,6 +150,8 @@ public class PersonaController {
 		LOGGER.info("delete(" + id + ")");
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 
+		ArrayList<String> errores = new ArrayList<String>();
+
 		Persona persona = null;
 
 		try {
@@ -159,9 +161,13 @@ public class PersonaController {
 			LOGGER.info("Persona borrada: " + id);
 
 		} catch (SQLException e) {
-			response = Response.status(Status.CONFLICT).entity(persona).build();
+			errores.add("La persona seleccionada tenia registros relacionados con otras tablas. No se puede eliminar");				
+			LOGGER.warning("La persona seleccionada tenia registros relacionados con otras tablas. No se puede eliminar");
+			response = Response.status(Status.CONFLICT).entity(errores).build();
 		} catch (Exception e) {
-			response = Response.status(Status.NOT_FOUND).build();
+			errores.add("No se ha encontrado el id de la persona a eliminar");				
+			LOGGER.warning("No se ha encontrado el id de la persona a eliminar");
+			response = Response.status(Status.NOT_FOUND).entity(errores).build();
 		}
 		return response;
 	}
