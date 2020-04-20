@@ -8,44 +8,8 @@ $(function () {
 //const url = "http://127.0.0.1:5500/appclient/js/data/personas.json";
 
 const url = "http://localhost:8080/apprest/api/personas/";
-let personas = [
-  /* {
-    "nombre": "Occonnor",
-    "sexo": "M",
-    "avatar": "img/avatar1.png"
-  },
-  {
-    "nombre": "Pepa",
-    "sexo": "M",
-    "avatar": "img/avatar2.png"
-  },
-  {
-    "nombre": "JoseMari",
-    "sexo": "H",
-    "avatar": "img/avatar3.png"
-  },
-  {
-    "nombre": "JuanCarlos",
-    "sexo": "H",
-    "avatar": "img/avatar4.png"
-  },
-  {
-    "nombre": "Monica",
-    "sexo": "M",
-    "avatar": "img/avatar5.png"
-  },
-  {
-    "nombre": "Alberto",
-    "sexo": "H",
-    "avatar": "img/avatar6.png"
-  },
-  {
-    "nombre": "Rafael",
-    "sexo": "H",
-    "avatar": "img/avatar7.png"
-  } */
-]
-
+let personas = [];
+let cursos = [];
 window.addEventListener('load', init());
 
 function init() {
@@ -55,43 +19,17 @@ function init() {
   galeriaImagenes();
 
   const promesa = obtenerTodos();
-
+  obtenerCursosDisponibles();
   console.debug('continua la ejecuion del script de forma sincrona');
 
-} //init
+} //Fin function init
 
 function listener() {
   let selectorSexo = document.getElementById('sexoSelect');
   selectorSexo.addEventListener('change', filtro);
   let inputNombre = document.getElementById('nombreInput');
   inputNombre.addEventListener('keyup', filtro);
-
-
-  /* function seleccionarSexo() {
-    const valor = this.value;
-    console.debug('Seleccionamos las personas con sexo: ' + valor)
-    if (valor != 't') {
-      const peronasFiltradas = personas.filter(el => el.sexo == valor);
-      pintarListado(peronasFiltradas);
-    } else {
-      pintarListado(personas);
-    }
-  };
-
-  let inputNombre = document.getElementById('nombreInput');
-  inputNombre.addEventListener('keyup', nombrePersona);
-
-  function nombrePersona() {
-    const busqueda = this.value.toLowerCase();
-    console.debug('tecla pulsada, valor input ' + busqueda);
-    if (busqueda) {
-      const personasFiltradas = personas.filter(el => el.nombre.toLowerCase().includes(busqueda));
-      pintarListado(personasFiltradas);
-    } else {
-      pintarListado(personas);
-    }
-  }; */
-}
+}//Fin function listener
 
 function filtro(){
   let selectorSexo = document.getElementById('sexoSelect');
@@ -116,7 +54,7 @@ function filtro(){
   }
 
   pintarListado(personasFiltradas);
-}
+}//Fin function filtro
 
 function pintarListado(arrayPersonas) {
   console.info('Se pinta el listado de personas');
@@ -127,22 +65,21 @@ function pintarListado(arrayPersonas) {
     listado.innerHTML += 
       `
       <li class="border border-dark p-1 row"> 
-        <div class="col-2 imagen-personas">
-          <img src="img/${el.avatar}" class="border border-danger rounded-circle">
-          </div>
-        <div class="col-8 nombre-personas" >
+        <div class="col-3 imagen-personas ">
+          <img src="img/${el.avatar}" class="border border-danger rounded-circle float-left"">
+        </div>
+        <div class="col-6 nombre-personas" >
           <p>${el.nombre}</p>
         </div>
-        <div class="col-1 iconos-personas">
-          <i onclick="verDetalles(${i})" class="fas fa-pencil-alt float-right" data-toggle="tooltip" data-placement="top" title="Editar"></i>
-        </div>       
-        <div class="col-1 iconos-personas">
-          <i onclick="eliminar(${i})" class="far fa-trash-alt float-right data-toggle="tooltip" data-placement="top" title="Eliminar""></i>
+        <div class="col-3 iconos-personas d-flex justify-content-end">
+          <i onclick="verDetalles(${i})" class="fas fa-pencil-alt mr-1" data-toggle="tooltip" data-placement="top" title="Editar"></i>
+
+          <i onclick="eliminar(${i})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar""></i>
         </div>
       </li> 
       `);
   console.debug(arrayPersonas);
-}
+}//Fin function pintarListado
 
 function verDetalles(indice) {
   
@@ -183,7 +120,8 @@ function verDetalles(indice) {
     checkHombre.checked = '';
     checkMujer.checked = 'checked';
   }
-}
+  
+}//Fin function verDetalles
 
 function guardar() {
   console.trace('Click en guardar');
@@ -237,7 +175,7 @@ function guardar() {
         alert(error);
       });
   }
-}
+}//Fin function guardar
 
 function eliminar(indice) {
   console.debug(`Indice recibido para eliminar: %o`, indice);
@@ -265,7 +203,7 @@ function eliminar(indice) {
   }else{
     console.info('Se ha cancelado Eliminar a la persona');
   }
-}
+}//Fin function eliminar
 
 function galeriaImagenes() {
   let imagenes = document.getElementById('gallery');
@@ -275,7 +213,7 @@ function galeriaImagenes() {
                         data-path="img/avatar${i}.png"
                         src="img/avatar${i}.png">`;
   }
-}
+}//Fin function galeriaImagenes
 
 function selectAvatar(evento) {
   console.trace('click en avatar');
@@ -285,7 +223,7 @@ function selectAvatar(evento) {
 
   let inputAvatar = document.getElementById('inputAvatar');
   inputAvatar.value = evento.target.dataset.path;
-}
+}//Fin function selectAvatar
 
 function obtenerTodos() {
   console.info('Obtenemos todas las personas');
@@ -298,4 +236,57 @@ function obtenerTodos() {
       console.warn('Promesa cancelada');
       alert(error);
     });
-}
+    
+}//Fin function obtenerTodos
+
+
+function obtenerCursosDisponibles() {
+  console.info('Obtenemos todos los cursos disponibles');
+  const urlCursosDisponibles= 'http://localhost:8080/apprest/api/cursos'
+
+  ajax("GET", urlCursosDisponibles, undefined)
+    .then(data => {
+      console.trace('Promesa resuelta');
+      cursos = data;
+      pintarListadoCursosDisponibles(cursos);
+    }).catch(error => {
+      console.warn('Promesa cancelada');
+      alert(error);
+    });
+}//Fin function obtenerCursosDisponibles 
+
+function pintarListadoCursosDisponibles(cursosDisponibles){
+  //array para ver los cursos disponibles que tiene y en cada uno boton de añadir
+  
+  console.info('Se pinta el listado de cursos disponibles');
+  
+
+  let ListadoCursosDisponibles = document.getElementById('cursosDisponibles');
+  
+  ListadoCursosDisponibles.innerHTML = '';
+
+  cursosDisponibles.forEach( (el,i) => {
+
+    ListadoCursosDisponibles.innerHTML += 
+        `
+          <li class="border border-dark p-1 row"> 
+            <div class="col-2">
+              <img src="${el.imagen}" alt="imagen">
+            </div>  
+            <div class="col-6">
+              <p>${el.nombre}</p>
+            </div>
+            <div class="col-3">
+              <p>${el.precio} €</p>
+            </div>
+            <div class="col-1">
+              <i onclick="añadirCurso(${i})" class="far fa-plus-square float-right" data-toggle="tooltip" data-placement="top" title="Añadir curso"></i>
+            </div>
+          </li>
+        `;
+  });
+    console.debug(cursosDisponibles);
+}//Fin function pintarListadoCursosDisponibles
+
+
+

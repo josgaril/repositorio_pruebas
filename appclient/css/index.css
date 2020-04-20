@@ -26,20 +26,22 @@ main{
 .nombre-personas{
     font-size: 25px;
     text-align: center;
-    justify-items: right;
     padding: 0.5em 0;
 }
 
-.iconos-personas i{
-    font-size: 30px;
-    padding: 0.2em 0;
+.imagen-personas{
+    padding-left: 0; 
+}
+.iconos-personas{
+    font-size: 25px;
+    padding: 0.4em 0;
 }
 
 /* Formulario */
 .formulario{
     padding: 10px;
     border:1px solid black;
-    height: 350px;
+    height: 400px;
 }
 
 #inputNombre, #inputId{
@@ -57,6 +59,13 @@ main{
 
 .iconos-formularios i{
     font-size: 40px;
+}
+
+/* Formulario cursos de la persona */
+.formulario-cursos{
+    padding: 10px;
+    border:1px solid black;
+    min-height: 250px;
 }
 
 /* Footer*/
