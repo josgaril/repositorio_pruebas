@@ -15,7 +15,9 @@ public class CursoDAO implements IDAO<Curso>{
 		
 	private static CursoDAO INSTANCE = null;
 	
-	private static final String SQL_GET_ALL = "SELECT id, nombre, imagen, precio FROM curso ORDER BY nombre LIMIT 500";
+	private static final String SQL_GET_ALL = "SELECT id, nombre, imagen, precio FROM curso ORDER BY id DESC LIMIT 100";
+	private static final String SQL_GET_ALL_FILTER = "SELECT id, nombre, imagen, precio FROM curso WHERE nombre LIKE ? LIMIT 100";
+
 	private static final String SQL_GET_BY_ID = "SELECT id, nombre, imagen, precio FROM curso WHERE id=?";
 
 	private CursoDAO() {
@@ -43,6 +45,32 @@ public class CursoDAO implements IDAO<Curso>{
 					
 				while (rs.next()) {
 					cursos.add(mapper(rs)); 
+				}
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+		
+		return cursos;
+	}
+	
+	
+		public List<Curso> getAllFilter(String filtro) throws Exception{
+		LOGGER.info("Obtener todos los cursos disponibles con filtro: " + filtro);
+		
+		ArrayList<Curso> cursos = new ArrayList<Curso>();
+		
+		try(Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_ALL_FILTER);)
+		
+		{
+			pst.setString(1, '%' + filtro + '%');
+			LOGGER.info(pst.toString());
+				
+			try (ResultSet rs = pst.executeQuery()){
+
+					while (rs.next()) {
+						cursos.add(mapper(rs)); 
+					}
 				}
 			}catch (SQLException e) {
 				e.printStackTrace();
@@ -100,7 +128,7 @@ public class CursoDAO implements IDAO<Curso>{
 		c.setId(rs.getInt("id"));
 		c.setNombre(rs.getString("nombre"));
 		c.setImagen(rs.getString("imagen"));
-		c.setPrecio(rs.getBigDecimal("precio"));
+		c.setPrecio(rs.getFloat("precio"));
 		return c;
 	}
 }

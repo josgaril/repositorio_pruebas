@@ -114,23 +114,39 @@
           </div>
           <div  class="col-4" >
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
+            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#modal">
               Añadir curso
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
               aria-hidden="true">
-              <div class="modal-dialog" role="document">
+              <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Seleccione el curso para añadir</h5>
+                    <h5 class="modal-title" id="modalLabel">Seleccione el curso para añadir</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="modal-body" id="cursosDisponibles">
-                    <ul>
+                  <div class="modal-body" id="">
+                    <input id="inputCurso" type="text" placeholder="Busqueda por nombre">                    
+                  </div>
+                  <div class="modal-body" >
+                    <div class=" p-1 mb-1 row"> 
+                      <div class="col-2">
+                        <p>Imagen</p>
+                      </div>  
+                      <div class="col-6">
+                        <p>Nombre</p>
+                      </div>
+                      <div class="col-3">
+                        <p>Precio</p>
+                      </div>
+                      <div class="col-1">
+                      </div>
+                    </div>
+                    <ul id="cursosDisponibles">
                       <li>Listado con todos los cursos disponibles</li>
                     </ul> 
                   </div>

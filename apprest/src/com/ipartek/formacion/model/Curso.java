@@ -18,7 +18,7 @@ public class Curso {
 	private String imagen;
 	
 	@Positive (message="El precio del curso debe ser positivo")
-	private BigDecimal precio;
+	private float precio;
 	
 	//Constructores
 	public Curso() {
@@ -26,10 +26,10 @@ public class Curso {
 		this.id = 0;
 		this.nombre = "";
 		this.imagen = "";
-		//this.precio = 100 ;
+		this.precio = 0;
 	}
 	
-	public Curso(int id, String nombre, String imagen, BigDecimal precio) {
+	public Curso(int id, String nombre, String imagen, float precio) {
 		this();
 		this.id = id;
 		this.nombre = nombre;
@@ -62,11 +62,11 @@ public class Curso {
 		this.imagen = imagen;
 	}
 
-	public BigDecimal getPrecio() {
+	public float getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(BigDecimal precio) {
+	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
 

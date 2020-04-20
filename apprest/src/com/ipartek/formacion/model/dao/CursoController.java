@@ -38,35 +38,52 @@ public class CursoController {
 	public CursoController() {
 		super();
 	}
-	
-	 @GET
-	 public ArrayList<Curso> getAll() {
+
+//	 @GET
+//	 public ArrayList<Curso> getAll() {
+//		LOGGER.info("Obtener todos los cursos disponibles");
+//		 
+//		ArrayList<Curso> cursos = (ArrayList<Curso>) cursoDAO.getAll();
+//		 return cursos;
+//	 }
+
+	@GET
+	public Response getAll(@QueryParam("filtro") String filtro) throws Exception {
 		LOGGER.info("Obtener todos los cursos disponibles");
-		 
-		ArrayList<Curso> cursos = (ArrayList<Curso>) cursoDAO.getAll();
-		 return cursos;
-	 }
-	
-	/*
-	 * @GET public ArrayList<Curso> getAllFiltro(@QueryParam ("filtro") String
-	 * filtro) { LOGGER.info("Obtener todos los cursos disponibles" + filtro);
-	 * 
-	 * //if filtro == null o esta vacio //mostrar ultimos 100 cursos --> SELECT *
-	 * FROM curso ORDER BY id DESC LIMIT 100; //else //filtrar por nombre SELECT *
-	 * FROM curso WHERE nombre LIKE '%filtro% LIMIT 100; eso dentro del dao
-	 * ArrayList<Curso> cursos = (ArrayList<Curso>) cursoDAO.getAll(); return
-	 * cursos; }
-	 */
-	 
-	 @GET
+		
+		ArrayList<Curso> cursos = new ArrayList<Curso>();
+		
+		if (filtro == null || "".equals(filtro.trim())) {
+			cursos = (ArrayList<Curso>) cursoDAO.getAll();
+		} else {
+			cursos = (ArrayList<Curso>) cursoDAO.getAllFilter(filtro);
+		}
+		Response response = Response.status(Status.OK).entity(cursos).build();
+
+		return response;
+	}
+
+	@GET
 	 @Path("/{id: \\d+}")
-	 public Response getById(@PathParam("id") int id) {
+	 public Response getById(@PathParam("id") int id) throws Exception {
 		LOGGER.info("Obtener el curso por id");
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 
-		Curso curso = null;
+		try {
+			Curso curso= cursoDAO.getById(id);
 
-		
+			if (curso== null) {
+				response = Response.status(Status.NOT_FOUND).build();
+				LOGGER.warning("No se ha encontrado el curso con id " + id);
+				throw new Exception("No se ha encontrado el curso buscado");
+
+			} else {
+				response = Response.status(Status.OK).entity(curso).build();
+				LOGGER.info("Encontrado curso: " + curso);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.warning("No se ha podido obtener el curso con id " + id);
+		}
 		return response;
-	 }
-}
+}}
