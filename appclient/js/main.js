@@ -10,17 +10,20 @@ $(function () {
 const url = "http://localhost:8080/apprest/api/personas/";
 let personas = [];
 let cursos = [];
+let personaSeleccionada = {};
+
 window.addEventListener('load', init());
 
 function init() {
   console.debug('Document Load and Ready');
-  obtenerCursosDisponibles();
+  
 
   listener();
 
   galeriaImagenes();
 
   const promesa = obtenerTodos();
+  obtenerCursosDisponibles();
   console.debug('continua la ejecuion del script de forma sincrona');
 
 } //Fin function init
@@ -78,7 +81,7 @@ function pintarListado(arrayPersonas) {
   let listado = document.getElementById('personas');
   listado.innerHTML = '';
 
-  arrayPersonas.forEach((el, i) =>
+  arrayPersonas.forEach(el =>
     listado.innerHTML +=
     `
       <li class="border border-dark p-1 row"> 
@@ -91,7 +94,7 @@ function pintarListado(arrayPersonas) {
         <div class="col-3 iconos-personas d-flex justify-content-end">
           <i onclick="verDetalles(${el.id})" class="fas fa-pencil-alt mr-1" data-toggle="tooltip" data-placement="top" title="Editar"></i>
 
-          <i onclick="eliminar(${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar""></i>
+          <i onclick="eliminar(${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar curso contratado"></i>
         </div>
       </li> 
       `);
@@ -100,19 +103,20 @@ function pintarListado(arrayPersonas) {
 
 function verDetalles(idPersona) {
 
- 
-  let personaSeleccionada = personas.find(el => el.id == idPersona);
-    if (!personaSeleccionada){
-       personaSeleccionada = {
-        "id": 0,
-        "nombre": "Sin-nombre",
-        "avatar": "avatar7.png",
-        "sexo": "h"
-      };
-      console.trace('Click Agregar nueva persona');
 
-    } else {
-      console.trace('Click Ver detalles de ' + personaSeleccionada.nombre, personaSeleccionada);
+   personaSeleccionada = personas.find(el => el.id == idPersona);
+  if (!personaSeleccionada) {
+    personaSeleccionada = {
+      "id": 0,
+      "nombre": "Sin-nombre",
+      "avatar": "avatar7.png",
+      "sexo": "h",
+      "cursos": []
+    };
+    console.trace('Click Agregar nueva persona');
+
+  } else {
+    console.trace('Click Ver detalles de ' + personaSeleccionada.nombre, personaSeleccionada);
   }
 
   document.getElementById('inputId').value = personaSeleccionada.id;
@@ -139,6 +143,9 @@ function verDetalles(idPersona) {
     checkHombre.checked = '';
     checkMujer.checked = 'checked';
   }
+
+  //TODO llamada ajax para ver todos los cursos contratados. en la llamada se llama a la 
+  pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
 
 
 } //Fin function verDetalles
@@ -277,12 +284,11 @@ function obtenerCursosDisponibles(filtro = '') {
 
 function pintarListadoCursosDisponibles(cursosDisponibles) {
   console.info('Se pinta el listado de cursos disponibles');
-
   let ListadoCursosDisponibles = document.getElementById('cursosDisponibles');
 
   ListadoCursosDisponibles.innerHTML = '';
 
-  cursosDisponibles.forEach((el, i) => {
+  cursosDisponibles.forEach(el => {
 
     ListadoCursosDisponibles.innerHTML +=
       `
@@ -297,7 +303,7 @@ function pintarListadoCursosDisponibles(cursosDisponibles) {
               <p>${el.precio} €</p>
             </div>
             <div class="col-1">
-              <i onclick="añadirCurso(${i})" class="far fa-plus-square float-right" data-toggle="tooltip" data-placement="top" title="Añadir curso"></i>
+              <i onclick="contratarCurso(0, ${el.id})" class="far fa-plus-square float-right" data-toggle="tooltip" data-placement="top" title="Contratar curso"></i>
             </div>
           </li>
         `;
@@ -305,8 +311,98 @@ function pintarListadoCursosDisponibles(cursosDisponibles) {
   console.debug(cursosDisponibles);
 } //Fin function pintarListadoCursosDisponibles
 
-function vaciarNombreCurso(){
+function vaciarNombreCurso() {
   let inputCurso = document.getElementById('inputCurso');
   inputCurso.innerHTML = '';
 }
 
+
+
+/* function obtenerCursosContratados(idPersona) {
+  console.debug(`Obtenemos todos los cursos contratados de ${idPersona}`);
+  const urlCursosContratados= `http://localhost:8080/apprest/personas/${idPersona}/cursos`
+
+  ajax("GET", urlCursoscontratados, undefined)
+    .then(data => {
+      console.trace('Promesa resuelta');
+      cursosContratados = data;
+      pintarListadoCursos(cursosContratados,idPersona);
+    }).catch(error => {
+      console.warn('Promesa cancelada');
+      alert(error);
+    });
+}//Fin function obtenerCursosContratados  */
+
+
+
+
+
+function pintarCursosContratados(cursosContratados, idPersona) {
+  //array para ver los cursos contratados que tiene y en cada uno boton de eliminiar
+  //si damos a boton de añadir curso el modal llama a la funcion cursosDisponibles(pasamos el id de la persona)
+  console.debug('recibidos cursos contratados %o', cursosContratados);
+  console.debug("Recibido id de persona: %o", idPersona);
+  console.info('Se pinta el listado de cursos contratados por la persona');
+
+  /*    //array cursos contratados
+     let arrayCursosContratados=[]; */
+
+  let ListadoCursosContratados = document.getElementById('cursosContratados');
+
+  ListadoCursosContratados.innerHTML = '';
+
+  cursosContratados.forEach((el, i) => {
+
+    ListadoCursosContratados.innerHTML +=
+      `
+            <li class="p-1 row"> 
+              
+              <div class="col-10">
+                <p>${el.nombre}</p>
+              </div>
+              
+              <div class="col-2">
+                <i onclick="eliminarCursoContratado(${idPersona},${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Borrar curso contratado"></i>
+              </div>
+            </li>
+          `;
+  });
+  console.debug(cursosContratados);
+}
+
+
+function eliminarCursoContratado(idPersona, idCurso) {
+  console.debug(`Click eliminar el curso ${idCurso} de la persona ${idPersona}`);
+  console.debug('Cursos contratados antes de eliminar %o', cursosContratados);
+  const URLeliminarCursoContratado = `http://localhost:8080/apprest/api/personas/${idPersona}/curso/${idCurso}`;
+  ajax('DELETE', URLeliminarCursoContratado, undefined)
+    .then(data => {
+      alert("Curso eliminado");
+      //actualizar cursos contratados del alumno
+      obtenerTodos();
+      verDetalles(idPersona);
+    })
+    .catch( error => {
+      alert("No se ha podido eliminar el curso contratado: " + error);
+      console.warn("No se ha podido eliminar el curso contratado:" + error);
+    });
+
+}
+
+function contratarCurso(idPersona = 0, idCurso) {
+  idPersona = (idPersona!=0)?idPersona: personaSeleccionada.id;
+  console.debug(`Click Contratar curso ${idCurso} para la persona ${idPersona} `);
+  const URLcontratarCurso = `http://localhost:8080/apprest/api/personas/${idPersona}/curso/${idCurso}`;
+
+  ajax('POST', URLcontratarCurso, undefined)
+    .then(data => {
+      alert("Curso contratado")
+      console.info("Se ha contratado correctamente el curso.",);
+      obtenerTodos();
+    })
+    .catch(error => {
+      alert("No se ha podido contratar el curso: " + error);
+      console.warn("No se ha podido contratar el curso:" + error);
+    });
+
+}

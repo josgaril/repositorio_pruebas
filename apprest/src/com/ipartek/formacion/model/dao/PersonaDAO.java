@@ -32,7 +32,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			"	FROM (persona p \n" + 
 			"	LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona)\n" + 
 			"	LEFT JOIN curso c ON cc.id_curso = c.id\n" + 
-			"	LIMIT 500";
+			"	LIMIT 500";	
 	
 	private static final String SQL_GET_BY_ID = 
 			"	SELECT \n" + 
@@ -49,11 +49,14 @@ public class PersonaDAO implements IDAO<Persona> {
 			"	LEFT JOIN curso c ON cc.id_curso = c.id\n" + 
 			"	WHERE p.id = ? LIMIT 500";
 	
-	private static final String SQL_GET_ALL1 = "SELECT id, nombre, avatar, sexo FROM persona ORDER BY id LIMIT 500";
-	private static final String SQL_GET_BY_ID1 = "SELECT id, nombre, avatar, sexo FROM persona WHERE id=?";
+	//private static final String SQL_GET_ALL1 = "SELECT id, nombre, avatar, sexo FROM persona ORDER BY id LIMIT 500";
+	//private static final String SQL_GET_BY_ID1 = "SELECT id, nombre, avatar, sexo FROM persona WHERE id=?";
 	private static final String SQL_INSERT = "INSERT INTO persona (nombre, avatar, sexo) VALUES(?,?,?)";
 	private static final String SQL_UPDATE = "UPDATE persona SET nombre=?, avatar=?, sexo=? WHERE id=?";
 	private static final String SQL_DELETE = "DELETE FROM persona WHERE id=?";
+
+	private static final String SQL_CONTRATAR_CURSO = "INSERT INTO cursos_contratados (id_persona, id_curso) VALUES (?,?)";
+	private static final String SQL_ELIMINAR_CURSO_CONTRATADO = "DELETE FROM cursos_contratados WHERE id_persona = ? AND id_curso= ?";
 
 	private PersonaDAO() {
 		super();
@@ -177,7 +180,6 @@ public class PersonaDAO implements IDAO<Persona> {
 	public Persona delete(int id) throws Exception, SQLException {
 
 		Persona persona = null;
-
 		persona = getById(id);
 
 		try (Connection con = ConnectionManager.getConnection();
@@ -201,11 +203,9 @@ public class PersonaDAO implements IDAO<Persona> {
 	private void mapper(ResultSet rs, HashMap<Integer, Persona> hm) throws SQLException {
 		
 		int key = rs.getInt("persona_id");
-	
 		Persona p = hm.get(key);
 		
 		//Comprobamos si existe el id en el HashMap, si no existe se crea
-		
 		if (p==null) {
 			p = new Persona();
 			p.setId(key);
@@ -215,9 +215,8 @@ public class PersonaDAO implements IDAO<Persona> {
 		}
 		
 		//Añadimos los cursos
-
 		int idCurso = rs.getInt("curso_id");
-		//COmprobamos si existe el curso, si no lo crea
+		//Comprobamos si existe el curso, en caso contrario se crea
 		if(idCurso != 0) {
 			Curso c = new Curso();
 			c.setId(idCurso);
@@ -227,9 +226,51 @@ public class PersonaDAO implements IDAO<Persona> {
 			p.getCursos().add(c);
 		}
 		
-		//actualizamos HashMap
+		//Actualizamos HashMap
 		hm.put(key, p);
-
 	}
 
+	  public boolean contratarCurso(int idPersona, int idCurso) throws Exception,SQLException {
+		  boolean correcto = false;
+		  
+		  try (Connection con = ConnectionManager.getConnection(); 
+				  PreparedStatement pst = con.prepareStatement(SQL_CONTRATAR_CURSO)) {
+			  
+			  pst.setInt(1, idPersona); 
+			  pst.setInt(2, idCurso); 
+			  LOGGER.info(pst.toString());
+			  
+			  
+			  int numeroRegistrosModificados = pst.executeUpdate(); 
+			  if(numeroRegistrosModificados == 1) { 
+				  correcto = true;
+			  }else {
+					throw new Exception("La persona " + idPersona + " no tiene contratado el curso " + idCurso );
+			  }
+		 }
+		  
+		return correcto;
+	  }
+	  
+	  public boolean eliminarCursoContratado(int idPersona, int idCurso) throws Exception, SQLException {
+		  boolean correcto = false;
+		  
+		  try( Connection con = ConnectionManager.getConnection();
+				  PreparedStatement pst = con.prepareStatement(SQL_ELIMINAR_CURSO_CONTRATADO);){
+			  
+			  pst.setInt(1, idPersona);
+			  pst.setInt(2, idCurso);
+			  LOGGER.info(pst.toString());
+			  
+			  int numeroRegistrosModificados = pst.executeUpdate();
+			  if (numeroRegistrosModificados == 1) {
+				  correcto = true;
+			  }else {
+				  correcto = false;
+			  }
+		  }
+		  
+		  return correcto;
+	  }
+	 
 }

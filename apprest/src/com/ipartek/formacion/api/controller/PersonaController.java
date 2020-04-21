@@ -171,4 +171,57 @@ public class PersonaController {
 		}
 		return response;
 	}
+	
+	
+	  @POST
+	  @Path("/{idPersona}/curso/{idCurso}")
+	  public Response contratarCurso(@PathParam("idPersona") int idPersona,@PathParam("idCurso") int idCurso) {
+		  LOGGER.info("Contratar curso " + idCurso + " para la persona " + idPersona);
+			Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+			ArrayList<String> mensaje = new ArrayList<String>();
+			ArrayList<String> errores = new ArrayList<String>();
+
+		 try {
+			 personaDAO.contratarCurso(idPersona, idCurso);
+			 Persona persona = personaDAO.getById(idPersona);
+			  
+			 mensaje.add("Curso contratado correctamente");
+			 response = Response.status(Status.CREATED).entity(mensaje).build();
+			 LOGGER.info("Curso contratado correctamente");
+			 
+		} catch (Exception e) {
+			errores.add(e.getMessage());
+			LOGGER.warning("Se han producido los siguiente errores: " + errores);
+			response = Response.status(Status.NOT_FOUND).entity(errores).build();
+		}
+		return response;
+		  
+	  }
+	  
+	  @DELETE
+	  @Path("/{idPersona}/curso/{idCurso}")
+	  public Response eliminarCursoContratado(@PathParam("idPersona") int idPersona,@PathParam("idCurso") int idCurso) {
+		  LOGGER.info("Eliminar curso contratado " + idCurso + " de la persona " + idPersona);
+			Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+			ArrayList<String> mensaje = new ArrayList<String>();
+
+
+		 try {
+			 personaDAO.eliminarCursoContratado(idPersona, idCurso);
+			 Persona persona = personaDAO.getById(idPersona);
+			  
+			  mensaje.add("Curso eliminado con éxito");
+			 LOGGER.info("Curso eliminado con éxito");
+			 response = Response.status(Status.OK).entity(mensaje).build();
+			 
+		} catch (Exception e) {
+			String error = e.getMessage();
+			LOGGER.warning("Se ha producido el siguiente error: " + error);
+			response = Response.status(Status.NOT_FOUND).entity(error).build();
+		}
+		return response;
+		  
+	  }
+
+	
 }
