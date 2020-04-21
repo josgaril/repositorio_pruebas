@@ -86,7 +86,7 @@ function pintarListado(arrayPersonas) {
           <img src="img/${el.avatar}" class="border border-danger rounded-circle float-left"">
         </div>
         <div class="col-6 nombre-personas" >
-          <p>${el.nombre}</p>
+          <p>${el.nombre} (${el.cursos.length} cursos)</p>
         </div>
         <div class="col-3 iconos-personas d-flex justify-content-end">
           <i onclick="verDetalles(${el.id})" class="fas fa-pencil-alt mr-1" data-toggle="tooltip" data-placement="top" title="Editar"></i>
@@ -115,21 +115,6 @@ function verDetalles(idPersona) {
       console.trace('Click Ver detalles de ' + personaSeleccionada.nombre, personaSeleccionada);
   }
 
- /*  let personaSeleccionada = {
-    "id": 0,
-    "nombre": "Sin-nombre",
-    "avatar": "avatar7.png",
-    "sexo": "h"
-  };
-
-  //find
-  if (idPersona > 0) {
-    personaSeleccionada = personas.find(el => el.id == idPersona);
-    //find
-    console.trace('Click Ver detalles de ' + personaSeleccionada.nombre, personaSeleccionada);
-  } else {
-    console.trace('Click Agregar nueva persona');
-  } */
   document.getElementById('inputId').value = personaSeleccionada.id;
   document.getElementById('inputNombre').value = personaSeleccionada.nombre;
   document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
@@ -324,3 +309,4 @@ function vaciarNombreCurso(){
   let inputCurso = document.getElementById('inputCurso');
   inputCurso.innerHTML = '';
 }
+

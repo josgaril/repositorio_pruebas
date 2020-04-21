@@ -161,8 +161,8 @@ public class PersonaController {
 			LOGGER.info("Persona borrada: " + id);
 
 		} catch (SQLException e) {
-			errores.add("La persona seleccionada tenia registros relacionados con otras tablas. No se puede eliminar");				
-			LOGGER.warning("La persona seleccionada tenia registros relacionados con otras tablas. No se puede eliminar");
+			errores.add("La persona seleccionada tiene cursos activos. No se puede eliminar");				
+			LOGGER.warning("La persona seleccionada tiene cursos activos. No se puede eliminar");
 			response = Response.status(Status.CONFLICT).entity(errores).build();
 		} catch (Exception e) {
 			errores.add("No se ha encontrado el id de la persona a eliminar");				
