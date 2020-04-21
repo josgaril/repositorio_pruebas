@@ -89,9 +89,9 @@ function pintarListado(arrayPersonas) {
           <p>${el.nombre}</p>
         </div>
         <div class="col-3 iconos-personas d-flex justify-content-end">
-          <i onclick="verDetalles(${el.id})" class="fas fa-pencil-alt mr-1" data-toggle="tooltip" data-placement="top" title="Editar"></i>
+          <i onclick="verDetalles(${i})" class="fas fa-pencil-alt mr-1" data-toggle="tooltip" data-placement="top" title="Editar"></i>
 
-          <i onclick="eliminar(${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar""></i>
+          <i onclick="eliminar(${i})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar""></i>
         </div>
       </li> 
       `);
@@ -297,3 +297,4 @@ function pintarListadoCursosDisponibles(cursosDisponibles) {
   });
   console.debug(cursosDisponibles);
 } //Fin function pintarListadoCursosDisponibles
+
