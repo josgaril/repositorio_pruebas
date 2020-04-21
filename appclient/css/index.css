@@ -68,6 +68,12 @@ main{
     min-height: 250px;
 }
 
+/* Modal */
+.cabeceraCursos{
+    background-color: black;
+    text-decoration-color: white;
+}
+
 /* Footer*/
 .pie{
     background-color: cornflowerblue;

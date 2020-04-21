@@ -14,9 +14,9 @@ window.addEventListener('load', init());
 
 function init() {
   console.debug('Document Load and Ready');
-    obtenerCursosDisponibles();
+  obtenerCursosDisponibles();
 
-    listener();
+  listener();
 
   galeriaImagenes();
 
@@ -39,10 +39,10 @@ function filtroCurso() {
   let inputCurso = document.getElementById('inputCurso');
   const nombreCurso = inputCurso.value.trim().toLowerCase();
 
-  if (nombreCurso.length>=3) {
+  if (nombreCurso.length >= 3) {
     console.debug('Nombre filtrado: %o ', nombreCurso);
     obtenerCursosDisponibles(nombreCurso);
-  }else{
+  } else {
     obtenerCursosDisponibles();
   }
 }
@@ -89,30 +89,47 @@ function pintarListado(arrayPersonas) {
           <p>${el.nombre}</p>
         </div>
         <div class="col-3 iconos-personas d-flex justify-content-end">
-          <i onclick="verDetalles(${i})" class="fas fa-pencil-alt mr-1" data-toggle="tooltip" data-placement="top" title="Editar"></i>
+          <i onclick="verDetalles(${el.id})" class="fas fa-pencil-alt mr-1" data-toggle="tooltip" data-placement="top" title="Editar"></i>
 
-          <i onclick="eliminar(${i})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar""></i>
+          <i onclick="eliminar(${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar""></i>
         </div>
       </li> 
       `);
   console.debug(arrayPersonas);
 } //Fin function pintarListado
 
-function verDetalles(indice) {
+function verDetalles(idPersona) {
 
-  let personaSeleccionada = {
+ 
+  let personaSeleccionada = personas.find(el => el.id == idPersona);
+    if (!personaSeleccionada){
+       personaSeleccionada = {
+        "id": 0,
+        "nombre": "Sin-nombre",
+        "avatar": "avatar7.png",
+        "sexo": "h"
+      };
+      console.trace('Click Agregar nueva persona');
+
+    } else {
+      console.trace('Click Ver detalles de ' + personaSeleccionada.nombre, personaSeleccionada);
+  }
+
+ /*  let personaSeleccionada = {
     "id": 0,
     "nombre": "Sin-nombre",
     "avatar": "avatar7.png",
     "sexo": "h"
   };
+
   //find
-  if (indice >= 0 && indice < personas.length) {
-    personaSeleccionada = personas[indice];
+  if (idPersona > 0) {
+    personaSeleccionada = personas.find(el => el.id == idPersona);
+    //find
     console.trace('Click Ver detalles de ' + personaSeleccionada.nombre, personaSeleccionada);
   } else {
     console.trace('Click Agregar nueva persona');
-  }
+  } */
   document.getElementById('inputId').value = personaSeleccionada.id;
   document.getElementById('inputNombre').value = personaSeleccionada.nombre;
   document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
@@ -137,7 +154,7 @@ function verDetalles(indice) {
     checkHombre.checked = '';
     checkMujer.checked = 'checked';
   }
- 
+
 
 } //Fin function verDetalles
 
@@ -191,30 +208,35 @@ function guardar() {
   }
 } //Fin function guardar
 
-function eliminar(indice) {
-  console.debug(`Indice recibido para eliminar: %o`, indice);
+function eliminar(idPersona) {
+  console.debug(`Id de persona recibido para eliminar: %o`, idPersona);
 
-  let personaSeleccionada = personas[indice];
-  console.debug('Se eliminará la persona %o ', personaSeleccionada);
+  let personaSeleccionada = personas.find(el => el.id == idPersona);
+  if (personaSeleccionada) {
 
-  const mensaje = `¿Desea eliminar a ${personaSeleccionada.nombre}?`;
+    console.debug('Se eliminará la persona %o ', personaSeleccionada);
 
-  if (confirm(mensaje)) {
+    const mensaje = `¿Desea eliminar a ${personaSeleccionada.nombre}?`;
 
-    const urlELiminar = url + personaSeleccionada.id;
+    if (confirm(mensaje)) {
 
-    ajax("DELETE", urlELiminar, undefined)
-      .then(data => {
-        console.log('Persona eliminada');
-        // conseguir de nuevo todos los alumnos
-        obtenerTodos();
-      })
-      .catch(error => {
-        console.warn(' No se ha podido eliminar');
-        alert(error);
-      });
+      const urlELiminar = url + personaSeleccionada.id;
+
+      ajax("DELETE", urlELiminar, undefined)
+        .then(data => {
+          console.log('Persona eliminada');
+          // conseguir de nuevo todos los alumnos
+          obtenerTodos();
+        })
+        .catch(error => {
+          console.warn(' No se ha podido eliminar');
+          alert(error);
+        });
+    } else {
+      console.info('Se ha cancelado Eliminar a la persona');
+    }
   } else {
-    console.info('Se ha cancelado Eliminar a la persona');
+    console.warn('No se ha encontrado la persona a eliminar a %o', personaSeleccionada)
   }
 } //Fin function eliminar
 
@@ -253,11 +275,11 @@ function obtenerTodos() {
 } //Fin function obtenerTodos
 
 //TODO pasar por defecto filtro =''. a la hora de cargar cursos cargaria esta funcion siempre
-function obtenerCursosDisponibles(filtro ='') {
+function obtenerCursosDisponibles(filtro = '') {
   console.info(`Obtenemos todos los cursos disponibles con filtro ${filtro}`);
-  const urlCursosDisponibles1 = `http://localhost:8080/apprest/api/cursos/?filtro=${filtro}`
+  const urlCursosDisponibles = `http://localhost:8080/apprest/api/cursos/?filtro=${filtro}`
 
-  ajax("GET", urlCursosDisponibles1, undefined)
+  ajax("GET", urlCursosDisponibles, undefined)
     .then(data => {
       console.trace('Promesa resuelta');
       cursos = data;
@@ -266,7 +288,7 @@ function obtenerCursosDisponibles(filtro ='') {
       console.warn('Promesa cancelada');
       alert(error);
     });
-} //Fin function obtenerCursosDisponiblesFiltro 
+} //Fin function obtenerCursosDisponibles
 
 function pintarListadoCursosDisponibles(cursosDisponibles) {
   console.info('Se pinta el listado de cursos disponibles');
@@ -298,3 +320,7 @@ function pintarListadoCursosDisponibles(cursosDisponibles) {
   console.debug(cursosDisponibles);
 } //Fin function pintarListadoCursosDisponibles
 
+function vaciarNombreCurso(){
+  let inputCurso = document.getElementById('inputCurso');
+  inputCurso.innerHTML = '';
+}

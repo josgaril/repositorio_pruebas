@@ -114,7 +114,7 @@
           </div>
           <div  class="col-4" >
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#modal">
+            <button type="button" class="btn btn-primary" onclick="vaciarNombreCurso()" data-toggle="modal" data-target="#modal">
               Añadir curso
             </button>
 
@@ -130,10 +130,11 @@
                     </button>
                   </div>
                   <div class="modal-body" id="">
+                     <i class="fas fa-search"></i>
                     <input id="inputCurso" type="text" placeholder="Busqueda por nombre">                    
                   </div>
                   <div class="modal-body" >
-                    <div class=" p-1 mb-1 row"> 
+                    <div class=" p-1 mb-1 row bg-dark text-white"> 
                       <div class="col-2">
                         <p>Imagen</p>
                       </div>  
