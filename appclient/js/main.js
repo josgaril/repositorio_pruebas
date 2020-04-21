@@ -41,10 +41,9 @@ function filtroCurso() {
 
   if (nombreCurso.length>=3) {
     console.debug('Nombre filtrado: %o ', nombreCurso);
-    obtenerCursosDisponiblesFiltro(nombreCurso);
-
+    obtenerCursosDisponibles(nombreCurso);
   }else{
-    obtenerCursosDisponibles(cursos);
+    obtenerCursosDisponibles();
   }
 }
 
@@ -253,24 +252,9 @@ function obtenerTodos() {
 
 } //Fin function obtenerTodos
 
-
-function obtenerCursosDisponibles() {
-  console.info('Obtenemos todos los cursos disponibles');
-  const urlCursosDisponibles = 'http://localhost:8080/apprest/api/cursos/'
-
-  ajax("GET", urlCursosDisponibles, undefined)
-    .then(data => {
-      console.trace('Promesa resuelta');
-      cursos = data;
-      pintarListadoCursosDisponibles(cursos);
-    }).catch(error => {
-      console.warn('Promesa cancelada');
-      alert(error);
-    });
-} //Fin function obtenerCursosDisponibles 
-
-function obtenerCursosDisponiblesFiltro(filtro) {
-  console.info('Obtenemos todos los cursos disponibles');
+//TODO pasar por defecto filtro =''. a la hora de cargar cursos cargaria esta funcion siempre
+function obtenerCursosDisponibles(filtro ='') {
+  console.info(`Obtenemos todos los cursos disponibles con filtro ${filtro}`);
   const urlCursosDisponibles1 = `http://localhost:8080/apprest/api/cursos/?filtro=${filtro}`
 
   ajax("GET", urlCursosDisponibles1, undefined)
@@ -285,10 +269,7 @@ function obtenerCursosDisponiblesFiltro(filtro) {
 } //Fin function obtenerCursosDisponiblesFiltro 
 
 function pintarListadoCursosDisponibles(cursosDisponibles) {
-  //array para ver los cursos disponibles que tiene y en cada uno boton de añadir
-
   console.info('Se pinta el listado de cursos disponibles');
-
 
   let ListadoCursosDisponibles = document.getElementById('cursosDisponibles');
 
@@ -316,5 +297,3 @@ function pintarListadoCursosDisponibles(cursosDisponibles) {
   });
   console.debug(cursosDisponibles);
 } //Fin function pintarListadoCursosDisponibles
-
-
