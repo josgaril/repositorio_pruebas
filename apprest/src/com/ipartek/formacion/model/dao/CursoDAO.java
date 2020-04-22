@@ -99,9 +99,9 @@ public class CursoDAO implements IDAO<Curso>{
 				
 			}catch(SQLException e) {
 				e.printStackTrace();
-				throw new Exception("Error al acceder a los registros de cursos disponibles");	
+				throw new SQLException("Error al acceder a los registros de cursos disponibles");	
 			}
-		}catch (SQLException e) {
+		}catch (Exception e) {
 				e.printStackTrace();
 				throw new Exception("No se ha podido obtener el curso (" + id + ")" );	
 		}

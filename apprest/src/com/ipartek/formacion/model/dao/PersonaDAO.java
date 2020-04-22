@@ -49,8 +49,6 @@ public class PersonaDAO implements IDAO<Persona> {
 			"	LEFT JOIN curso c ON cc.id_curso = c.id\n" + 
 			"	WHERE p.id = ? LIMIT 500";
 	
-	//private static final String SQL_GET_ALL1 = "SELECT id, nombre, avatar, sexo FROM persona ORDER BY id LIMIT 500";
-	//private static final String SQL_GET_BY_ID1 = "SELECT id, nombre, avatar, sexo FROM persona WHERE id=?";
 	private static final String SQL_INSERT = "INSERT INTO persona (nombre, avatar, sexo) VALUES(?,?,?)";
 	private static final String SQL_UPDATE = "UPDATE persona SET nombre=?, avatar=?, sexo=? WHERE id=?";
 	private static final String SQL_DELETE = "DELETE FROM persona WHERE id=?";
@@ -97,7 +95,7 @@ public class PersonaDAO implements IDAO<Persona> {
 
 	@Override
 	public Persona getById(int id) throws Exception {
-	
+		LOGGER.info("getById (" + id + ")");
 		HashMap<Integer, Persona> hmPersonas = new HashMap<Integer, Persona>();
 
 		Persona persona = null;
@@ -109,25 +107,26 @@ public class PersonaDAO implements IDAO<Persona> {
 
 			try (ResultSet rs = pst.executeQuery()) {
 
-				if (rs.next()) {
+				if(rs.next()) {
 					mapper(rs,hmPersonas);
-				} else {
-					throw new Exception("No se ha encontrado la persona: " + id);
+					while (rs.next()) {
+						mapper(rs,hmPersonas);
+					}
+				}else { 
+					throw new Exception(); 
 				}
 
-			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new Exception("Error al acceder a los registros de personas");
+				persona = hmPersonas.get(id);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("No se ha podido obtener la persona: " + id);
+		} catch (Exception e) {
+			throw new Exception("No se ha encontrado la persona: " + id);
 		}
 		return persona;
 	}
 
 	@Override
 	public Persona insert(Persona persona) throws Exception, SQLException {
+		LOGGER.info("insert");
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
@@ -147,7 +146,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new Exception("No se ha podido agregar la persona", e);
+			throw new SQLException("No se ha podido agregar la persona", e);
 		}
 		return persona;
 
@@ -155,6 +154,7 @@ public class PersonaDAO implements IDAO<Persona> {
 
 	@Override
 	public Persona update(Persona persona) throws Exception, SQLException {
+		LOGGER.info("update");
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pst = con.prepareStatement(SQL_UPDATE)) {
@@ -171,13 +171,14 @@ public class PersonaDAO implements IDAO<Persona> {
 			}
 			
 		} catch (SQLException e) {
-			throw new Exception("No se ha podido modificar la persona." + e);
+			throw new SQLException("No se ha podido modificar la persona." + e);
 		}
 		return persona;
 	}
 
 	@Override
 	public Persona delete(int id) throws Exception, SQLException {
+		LOGGER.info("delete (" + id + ")");
 
 		Persona persona = null;
 		persona = getById(id);
@@ -193,8 +194,8 @@ public class PersonaDAO implements IDAO<Persona> {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Error al borrar la persona con id: " + id, e);
+			//e.printStackTrace();
+			throw new SQLException("No se ha podido eliminar la persona con id: " + id, e.getMessage());
 
 		}
 		return persona;
@@ -245,7 +246,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			  if(numeroRegistrosModificados == 1) { 
 				  correcto = true;
 			  }else {
-					throw new Exception("La persona " + idPersona + " no tiene contratado el curso " + idCurso );
+					throw new SQLException();
 			  }
 		 }
 		  
@@ -266,11 +267,10 @@ public class PersonaDAO implements IDAO<Persona> {
 			  if (numeroRegistrosModificados == 1) {
 				  correcto = true;
 			  }else {
-				  correcto = false;
+					throw new Exception("No se ha encontrado el curso " + idCurso);
 			  }
 		  }
-		  
 		  return correcto;
 	  }
-	 
+	  
 }

@@ -40,8 +40,8 @@
     </div>
     <div class="row mx-2">
 
-      <div class="col-4 listadoPersonas p-0">
-        <ul id="personas" class="list-group m-2">
+      <div class="col-4 listadoPersonas">
+        <ul id="personas" class="list-group mr-2">
           <li class="list-group-item ">Cargando...</li>
         </ul>
       </div>
@@ -94,7 +94,7 @@
             </div>
             <div>
               <ul id="cursosContratados" class="list-group m-2">
-                <!-- <li class="list-group-item ">No tiene ningún curso contratado todavía</li> -->
+                <li class="list-group-item ">No tiene ningún curso contratado todavía</li>
               </ul>
             </div>
 
@@ -114,7 +114,7 @@
           </div>
           <div  class="col-4" >
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" onclick="vaciarNombreCurso()" data-toggle="modal" data-target="#modal">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">
               Añadir curso
             </button>
 
@@ -130,7 +130,7 @@
                     </button>
                   </div>
                   <div class="modal-body" id="">
-                     <i class="fas fa-search"></i>
+                     <i class="fas fa-search" style="font-size:20px;"></i>
                     <input id="inputCurso" type="text" placeholder="Busqueda por nombre">                    
                   </div>
                   <div class="modal-body" >
@@ -147,7 +147,7 @@
                       <div class="col-1">
                       </div>
                     </div>
-                    <ul id="cursosDisponibles">
+                    <ul id="cursosDisponibles" class="overflow-auto" style="height: 300px">
                       <li>Listado con todos los cursos disponibles</li>
                     </ul> 
                   </div>

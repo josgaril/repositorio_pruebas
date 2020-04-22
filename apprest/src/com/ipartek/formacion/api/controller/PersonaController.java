@@ -22,7 +22,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.ipartek.formacion.model.Curso;
 import com.ipartek.formacion.model.Persona;
+import com.ipartek.formacion.model.dao.CursoDAO;
 import com.ipartek.formacion.model.dao.PersonaDAO;
 
 @Path("/personas")
@@ -57,21 +59,17 @@ public class PersonaController {
 		LOGGER.info("getById(" + id + ")");
 
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		ArrayList<String> error = new ArrayList<String>();
 
 		try {
 			Persona persona = personaDAO.getById(id);
-
-			if (persona == null) {
-				response = Response.status(Status.NOT_FOUND).build();
-				LOGGER.warning("No se ha encontrado la persona con id " + id);
-				throw new Exception("No se ha encontrado la persona buscada");
-
-			} else {
 				response = Response.status(Status.OK).entity(persona).build();
 				LOGGER.info("Recibida la persona:" + persona);
-			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			error.add(e.getMessage());
+			LOGGER.warning("No se ha encontrado la persona con id " + id);
+			response = Response.status(Status.NOT_FOUND).entity(error).build();
+			
 		}
 		return response;
 	}
@@ -161,6 +159,7 @@ public class PersonaController {
 			LOGGER.info("Persona borrada: " + id);
 
 		} catch (SQLException e) {
+			LOGGER.warning(e.getMessage());
 			errores.add("La persona seleccionada tiene cursos activos. No se puede eliminar");				
 			LOGGER.warning("La persona seleccionada tiene cursos activos. No se puede eliminar");
 			response = Response.status(Status.CONFLICT).entity(errores).build();
@@ -178,21 +177,19 @@ public class PersonaController {
 	  public Response contratarCurso(@PathParam("idPersona") int idPersona,@PathParam("idCurso") int idCurso) {
 		  LOGGER.info("Contratar curso " + idCurso + " para la persona " + idPersona);
 			Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
-			ArrayList<String> mensaje = new ArrayList<String>();
-			ArrayList<String> errores = new ArrayList<String>();
+			ArrayList<String> error = new ArrayList<String>();
 
 		 try {
 			 personaDAO.contratarCurso(idPersona, idCurso);
-			 Persona persona = personaDAO.getById(idPersona);
-			  
-			 mensaje.add("Curso contratado correctamente");
-			 response = Response.status(Status.CREATED).entity(mensaje).build();
+			 Curso curso = CursoDAO.getInstance().getById(idCurso);
+			 
+			 response = Response.status(Status.CREATED).entity(curso).build();
 			 LOGGER.info("Curso contratado correctamente");
 			 
 		} catch (Exception e) {
-			errores.add(e.getMessage());
-			LOGGER.warning("Se han producido los siguiente errores: " + errores);
-			response = Response.status(Status.NOT_FOUND).entity(errores).build();
+			error.add(e.getMessage());
+			LOGGER.warning("Error: " + error);
+			response = Response.status(Status.CONFLICT).entity(error).build();
 		}
 		return response;
 		  
@@ -204,19 +201,19 @@ public class PersonaController {
 		  LOGGER.info("Eliminar curso contratado " + idCurso + " de la persona " + idPersona);
 			Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 			ArrayList<String> mensaje = new ArrayList<String>();
+			ArrayList<String> error = new ArrayList<String>();
 
 
 		 try {
 			 personaDAO.eliminarCursoContratado(idPersona, idCurso);
-			 Persona persona = personaDAO.getById(idPersona);
 			  
 			  mensaje.add("Curso eliminado con éxito");
 			 LOGGER.info("Curso eliminado con éxito");
 			 response = Response.status(Status.OK).entity(mensaje).build();
 			 
 		} catch (Exception e) {
-			String error = e.getMessage();
-			LOGGER.warning("Se ha producido el siguiente error: " + error);
+			error.add(e.getMessage());
+			LOGGER.warning("Error: " + error);
 			response = Response.status(Status.NOT_FOUND).entity(error).build();
 		}
 		return response;
