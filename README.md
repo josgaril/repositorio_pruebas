@@ -6,10 +6,11 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 ## IMAGEN
 
-![Página principal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/modal.png)
-![Modal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaPrincipal.png)
+![Página principal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaPrincipal.png)
 
-###SUbProyectos
+![Modal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/modal.png)
+
+### SUbProyectos
  1. AppCliente
 	o	 Introducción
 	
@@ -32,12 +33,15 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 2. AppRest
 
 o	Introducción
+
 	En appRest podemos gestionar el back-end del proyecto, gestionamos toda la lógica para que funcione correctamente.
 
 o	Tecnología usada
+
 	Se utiliza JAVA, JAX-RX, mysql, maven
 	
 o	Configuración ( conexión a bbdd y logs )
+
 	La conexión a la bbdd se realiza desde la clase ConnectionManager.java, ubicada en el paquete com.ipartek.formacion.model.dao de los recursos Java. 
 
 	- La configuración necesaria para la conexión la obetenemos del fichero context.xml, ubicado en la caperta WebContent->META-INF. Aquí indicamos parámetros importantes como el driver necesario, la url para indicar que bbdd utilizamos, el usuario, password...
@@ -52,6 +56,7 @@ meter entre codigo
 En este ejemplo se está utilizando LOGGER en la clase PersonaController. 
 	
 o	Detalle API rest con llamadas
+
 	Se utilizan llamadas para los modelos Persona y Curso.
 	- Persona.  Configurado con el path: @Path("/personas")
 		- @GET. getAll.  uri: http://localhost:8080/apprest/api/personas/
@@ -76,27 +81,32 @@ o	Detalle API rest con llamadas
 				- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
 
 				
-- @DELETE. delete uri: http://localhost:8080/apprest/api/personas/{id}
+		- @DELETE. delete uri: http://localhost:8080/apprest/api/personas/{id}
+
 			- Eliminar una persona
 			- Códigos de estado:
 				- 200 en caso correcto, e la persona
 				- 404 si no encuentra la persona indicada				
 				- 409 si existen conflictos, por ejemplo, que la persona tenga cursos contratados.
-- @POST. contratarCurso. uri: http://localhost:8080/apprest/api/personas/{id}/curso/{id}
+		- @POST. contratarCurso. uri: http://localhost:8080/apprest/api/personas/{id}/curso/{id}
+
 			- Contratar un curso para una persona
 			- Códigos de estado:
 				- 201 en caso correcto, contrata el curso para esa persona
 				- 409 si existen conflictos, por ejemplo, no existe la persona o no exite el curso a contratar
-- @DELETE. eliminarCursoContratado uri: http://localhost:8080/apprest/api/personas/{id}/curso/{id}
+		- @DELETE. eliminarCursoContratado uri: http://localhost:8080/apprest/api/personas/{id}/curso/{id}
+
 			- Eliminar un curso de una persona
 			- Códigos de estado:
 				- 201 en caso correcto, eliminar el curso de esa persona
 				- 404 si no encuentra la persona indicada o el curso				
 
 	- Curso.  Configurado con el path: @Path("/cursos")
-			- @GET. getAll.  uri: http://localhost:8080/apprest/api/cursos/
+		- @GET. getAll.  uri: http://localhost:8080/apprest/api/cursos/
+		
 			- Devuelve todos los cursos, código 200. 
 		- @GET- getById.  uri: http://localhost:8080/apprest/api/cursos/{id}
+		
 			- Devuelve el curso indicada			
 			- Códigos de estado:
 				- 200 en caso correcto, devuelve el curso.
