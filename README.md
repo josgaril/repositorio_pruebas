@@ -84,7 +84,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 				- 400 si no se cumplen las validaciones para crear persona
 				- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
 
-		- @PUT. update. uri: http://localhost:8080/apprest/api/personas/{id}
+		- @PUT. update. uri: `http://localhost:8080/apprest/api/personas/{id}`
 
 			- Modificar una persona
 
