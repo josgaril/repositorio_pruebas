@@ -15,6 +15,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 ---
 
 ### SubProyectos
+
  1. AppCliente
 	- Introducción
 	
@@ -129,13 +130,13 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 ## Tags o Versiones
 
-	 v1.0final. Servicio REST funcionando para personas. (getAll, getByID, insert, update, delete)
- 	 v2.0. Añadidas varias funcionalidades :
-		- Servicio REST para curso (getAll y getByID).
-		- Visualización de todos los cursos disponibles	
-		- Visualización de todos los cursos contratados por cada alumno
-		- Añadido a servicio REST de persona conratarCurso y eliminarCursoContratado.
-	 v.2.1. Añadida funcionalidad de animaciones.
+- v1.0final. Servicio REST funcionando para personas. (getAll, getByID, insert, update, delete)
+- v2.0. Añadidas varias funcionalidades :
+	- Servicio REST para curso (getAll y getByID).
+	- Visualización de todos los cursos disponibles	
+	- Visualización de todos los cursos contratados por cada alumno
+	- Añadido a servicio REST de persona conratarCurso y eliminarCursoContratado.
+- v.2.1. Añadida funcionalidad de animaciones.
 
 
 
