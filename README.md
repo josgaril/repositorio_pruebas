@@ -22,6 +22,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 		Se utiliza HTML5, CSS3, JavaScript y Bootstrap 4.4. 	
 
 	o	Configuración ( por ejemplo donde cambiar el endpoint )
+	
 		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppClient). 	
 		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es **url-pattern>/api/</url-pattern>** 	
 		- El endpoint del repositorio está configurado al principio del archivo main.js(ubicado en la carpeta js)
@@ -46,34 +47,42 @@ o	Configuración ( conexión a bbdd y logs )
 
 	- La configuración necesaria para la conexión la obetenemos del fichero context.xml, ubicado en la caperta WebContent->META-INF. Aquí indicamos parámetros importantes como el driver necesario, la url para indicar que bbdd utilizamos, el usuario, password...
 
-	- Utilizamos LOGGER para mostrar información por pantalla en Eclipse y realizar un mejor seguimiento del transcurso de la aplicación. 
-Para ello, Introducimos declaramos la variable : 
+	- Utilizamos LOGGER para mostrar información por pantalla en Eclipse y realizar un mejor seguimiento del transcurso de la aplicación. Para ello, Introducimos declaramos la variable : 
 
-meter entre codigo
 
 	`private static final Logger LOGGER = 	Logger.getLogger(PersonaController.class.getCanonicalName());`
 	
-En este ejemplo se está utilizando LOGGER en la clase PersonaController. 
+	En este ejemplo se está utilizando LOGGER en la clase PersonaController. 
 	
 o	Detalle API rest con llamadas
 
 	Se utilizan llamadas para los modelos Persona y Curso.
 	- Persona.  Configurado con el path: @Path("/personas")
+	
 		- @GET. getAll.  uri: http://localhost:8080/apprest/api/personas/
+		
 			- Devuelve todas las personas, código 200. 
+			
 		- @GET- getById.  uri: http://localhost:8080/apprest/api/personas/{id}
+		
 			- Devuelve la persona indicada			
 			- Códigos de estado:
 				- 200 en caso correcto, devuelve la persona.
 				- 404 si no encuentra esa persona.
+				
 		- @POST. insert. uri: http://localhost:8080/apprest/api/personas/
+		
 			- Crear persona
+			
 			- Códigos de estado:
 				- 201 en caso correcto, se crea la persona
 				- 400 si no se cumplen las validaciones para crear persona
 				- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
+				
 		- @PUT. update. uri: http://localhost:8080/apprest/api/personas/{id}
+		
 			- Modificar una persona
+			
 			- Códigos de estado:
 				- 200 en caso correcto, modifica la persona
 				- 400 si no se cumplen las validaciones al modificar persona
@@ -84,6 +93,7 @@ o	Detalle API rest con llamadas
 		- @DELETE. delete uri: http://localhost:8080/apprest/api/personas/{id}
 
 			- Eliminar una persona
+			
 			- Códigos de estado:
 				- 200 en caso correcto, e la persona
 				- 404 si no encuentra la persona indicada				
