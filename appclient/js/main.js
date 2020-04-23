@@ -5,44 +5,58 @@ $(function () {
 })
 
 // este array se carga de forma asincrona mediante Ajax
-//const url = "http://127.0.0.1:5500/appclient/js/data/personas.json";
+//const endpoint = "http://127.0.0.1:5500/appclient/js/data/personas.json";
 
-const url = "http://localhost:8080/apprest/api/personas/";
+const endpoint = "http://localhost:8080/apprest/api/";
 let personas = [];
 let cursos = [];
 let personaSeleccionada = {};
 
 window.addEventListener('load', init());
 
+
+/** 
+ * Se ejecuta cuando está cargada la página completamente
+*/
 function init() {
   console.debug('Document Load and Ready');
   
   listener();
   galeriaImagenes();
 
-  obtenerTodos();
+  obtenerPersonas();
   obtenerCursosDisponibles();
   console.debug('continua la ejecuion del script de forma sincrona');
 } //Fin function init
 
+
+/**
+ * Se inicializan los listener de index.html y se añade animación para la zona 
+ * del buscador de personas
+ */
 function listener() {
 
- 
+  //FiltrarPersonas
+  let selectorSexo = document.getElementById('sexoSelect');
+  selectorSexo.addEventListener('change', filtroPersonas);
+  let inputNombre = document.getElementById('nombreInput');
+  inputNombre.addEventListener('keyup', filtroPersonas);
 
+  //FiltrarCursos
+  let inputCurso = document.getElementById('inputCurso');
+  inputCurso.addEventListener('keyup', filtroCursos);
+
+  //Animación buscador
   let formBuscador = document.querySelector('.Buscador');
   formBuscador.style.display= "block";
   formBuscador.classList.add("animated" , "slideInDown" , "slow");
-
-  let selectorSexo = document.getElementById('sexoSelect');
-  selectorSexo.addEventListener('change', filtro);
-  let inputNombre = document.getElementById('nombreInput');
-  inputNombre.addEventListener('keyup', filtro);
-
-  let inputCurso = document.getElementById('inputCurso');
-  inputCurso.addEventListener('keyup', filtroCurso);
 } //Fin function listener
 
-function filtroCurso() {
+
+/**
+ * Filtro para los cursos disponibles. Se muestra al escribir por lo menos 3 caracteres
+ */
+function filtroCursos() {
   let inputCurso = document.getElementById('inputCurso');
   const nombreCurso = inputCurso.value.trim().toLowerCase();
 
@@ -52,10 +66,13 @@ function filtroCurso() {
   } else {
     obtenerCursosDisponibles();
   }
-}//Fin function filtroCurso
+}//Fin function filtroCursos
 
 
-function filtro() {
+/**
+ * Filtro para  personas por sexo y nombre
+ */
+function filtroPersonas() {
   let selectorSexo = document.getElementById('sexoSelect');
   let inputNombre = document.getElementById('nombreInput');
 
@@ -78,8 +95,13 @@ function filtro() {
   }
 
   pintarListado(personasFiltradas);
-} //Fin function filtro
+} //Fin function filtroPersonas
 
+
+/**
+ * Pinta el listado de personas
+ * @param {*} arrayPersonas  personas a pintar
+ */
 function pintarListado(arrayPersonas) {
   console.info('Se pinta el listado de personas');
 
@@ -104,14 +126,20 @@ function pintarListado(arrayPersonas) {
         <div class="col-3 iconos-personas d-flex justify-content-end">
           <i onclick="verDetalles(${el.id})" class="fas fa-pencil-alt mr-1" data-toggle="tooltip" data-placement="top" title="Editar"></i>
 
-          <i onclick="eliminar(${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar"></i>
+          <i onclick="eliminarPersona(${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar"></i>
         </div>
       </li> 
       `);
   console.debug(arrayPersonas);
 } //Fin function pintarListado
 
-function verDetalles(idPersona) {
+
+/**
+ * Rellena el formulario con los datos de la persona si se pulsa el botón de editar persona
+ * Muestra el formulario vacíó si se pulsa el botón de nueva persona
+ * @param {*} idPersona id de la persona
+ */
+function verDetalles(idPersona = 0) {
 
   let formPersona = document.getElementById('formulario-personas');
   formPersona.style.display = 'block';
@@ -158,9 +186,14 @@ function verDetalles(idPersona) {
   }
 
   pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
-
 } //Fin function verDetalles
 
+
+/** 
+ * Guarda los datos del formulario. Utiliza el servicio Rest
+ * Si la persona ya existe (id!=0) se modifican sus datos (PUT)
+ * Si la persona no existe (id==0) se crea la persona (POST)
+*/
 function guardar() {
   console.trace('Click en guardar');
 
@@ -183,26 +216,30 @@ function guardar() {
     "sexo": sexo
   }
 
+  //Modificar
   if (id != 0) {
     console.trace('Persona modificada');
-    const urlID = url + persona.id;
+    const url = endpoint + 'personas/' + persona.id;
 
-    ajax('PUT', urlID, persona)
+    ajax('PUT', url, persona)
       .then(data => {
         // conseguir de nuevo todos los alumnos
-        obtenerTodos();
+        obtenerPersonas();
       })
       .catch(error => {
         console.warn(' No se ha podido modificar:', error);
         alert(error);
       });
+
+  //Crear
   } else {
     console.trace('Creada nueva persona');
 
+    const url = endpoint + 'personas/';
     ajax('POST', url, persona)
       .then(data => {
         // conseguir de nuevo todos los alumnos
-        obtenerTodos();
+        obtenerPersonas();
       })
       .catch(error => {
         console.warn('No se ha podido crear la persona:', error);
@@ -211,7 +248,13 @@ function guardar() {
   }
 } //Fin function guardar
 
-function eliminar(idPersona) {
+
+/**
+ * Elimina la persona indicada al pulsar en el botón de la papelera de su ficha. 
+ * Llama al servicio Rest para DELETE
+ * @param {*} idPersona 
+ */
+function eliminarPersona(idPersona) {
   console.debug(`Id de persona recibido para eliminar: %o`, idPersona);
 
   let personaSeleccionada = personas.find(el => el.id == idPersona);
@@ -223,13 +266,14 @@ function eliminar(idPersona) {
 
     if (confirm(mensaje)) {
 
-      const urlELiminar = url + personaSeleccionada.id;
+      const url = endpoint + 'personas/' + personaSeleccionada.id;
 
-      ajax("DELETE", urlELiminar, undefined)
+      ajax("DELETE", url, undefined)
         .then(data => {
           console.log('Persona eliminada');
           // conseguir de nuevo todos los alumnos
-          obtenerTodos();
+          obtenerPersonas();
+          verDetalles();
         })
         .catch(error => {
           console.warn(' No se ha podido eliminar');
@@ -242,19 +286,28 @@ function eliminar(idPersona) {
     console.warn('No se ha encontrado la persona a eliminar');
     alert('No se ha encontrado la persona a eliminar');
   }
-} //Fin function eliminar
+} //Fin function eliminarPersona
 
+
+/**
+ * Muestra todas las imagenes de los avatares
+ */
 function galeriaImagenes() {
   let imagenes = document.getElementById('gallery');
   for (let i = 1; i <= 7; i++) {
-    imagenes.innerHTML += `<img onclick="selectAvatar(event)" 
+    imagenes.innerHTML += `<img onclick="seleccionarAvatar(event)" 
                         class="avatar" 
                         data-path="img/avatar${i}.png"
                         src="img/avatar${i}.png">`;
   }
 } //Fin function galeriaImagenes
 
-function selectAvatar(evento) {
+
+/**
+ * Selecciona el avatar sobre el que se ha hecho el evento click
+ * @param {*} evento 
+ */
+function seleccionarAvatar(evento) {
   console.trace('click en avatar');
   const avatares = document.querySelectorAll("#gallery img");
   avatares.forEach(el => el.classList.remove('selected'));
@@ -264,8 +317,13 @@ function selectAvatar(evento) {
   inputAvatar.value = evento.target.dataset.path;
 } //Fin function selectAvatar
 
-function obtenerTodos() {
+
+/**
+ * Llama al servicio rest GET para obtener todas las personas y pinta la lista con esas personas
+ */
+function obtenerPersonas() {
   console.info('Obtenemos todas las personas');
+  const url = endpoint + 'personas/';
   ajax("GET", url, undefined)
     .then(data => {
       console.trace('Promesa resuelta');
@@ -275,25 +333,35 @@ function obtenerTodos() {
       console.warn('Promesa cancelada');
       alert(error);
     });
+} //Fin function obtenerPersonas
 
-} //Fin function obtenerTodos
 
+/**
+ * Llama al servicio rest GET para obtener los todos los cursos
+ * Obtiene los cursos filtrados por nombre o todos en caso de no indicar nada.
+ * @param {*} filtro muestra los cursos filtrados
+ */
 function obtenerCursosDisponibles(filtro = '') {
   console.info(`Obtenemos todos los cursos disponibles con filtro ${filtro}`);
-  const urlCursosDisponibles = `http://localhost:8080/apprest/api/cursos/?filtro=${filtro}`
+  const url = endpoint + 'cursos/?filtro=' + filtro;
 
-  ajax("GET", urlCursosDisponibles, undefined)
+  ajax("GET", url, undefined)
     .then(data => {
       console.trace('Promesa resuelta');
       cursos = data;
-      pintarListadoCursosDisponibles(cursos);
+      pintarCursosDisponibles(cursos);
     }).catch(error => {
       console.warn('Promesa cancelada');
       alert(error);
     });
 } //Fin function obtenerCursosDisponibles
 
-function pintarListadoCursosDisponibles(cursosDisponibles) {
+
+/**
+ * Pinta todos los cursos disponibles en el modal
+ * @param {*} cursosDisponibles 
+ */
+function pintarCursosDisponibles(cursosDisponibles) {
   console.info('Se pinta el listado de cursos disponibles');
   let ListadoCursosDisponibles = document.getElementById('cursosDisponibles');
 
@@ -320,13 +388,18 @@ function pintarListadoCursosDisponibles(cursosDisponibles) {
         `;
   });
   console.debug(cursosDisponibles);
-} //Fin function pintarListadoCursosDisponibles
+} //Fin function pintarCursosDisponibles
 
+
+/**
+ * Pinta todos los cursos disponibles en el formulario de la persona
+ * @param {*} cursosContratados 
+ * @param {*} idPersona 
+ */
 function pintarCursosContratados(cursosContratados, idPersona) {
   console.debug('recibidos cursos contratados %o', cursosContratados);
   console.debug("Recibido id de persona: %o", idPersona);
   console.info('Se pinta el listado de cursos contratados por la persona');
-
 
   let ListadoCursosContratados = document.getElementById('cursosContratados');
   ListadoCursosContratados.style="block";
@@ -349,37 +422,45 @@ function pintarCursosContratados(cursosContratados, idPersona) {
               </div>
             </li>
           `;
-  
-
   });
   console.debug(cursosContratados);
 }//Fin function pintarCursosContratados
 
 
+/**
+ * Llama al servicio rest DELETE para eliminar el curso de una persona
+ * @param {*} event 
+ * @param {*} idPersona 
+ * @param {*} idCurso 
+ */
 function eliminarCursoContratado(event,idPersona, idCurso) {
   console.debug(`Click eliminar el curso ${idCurso} de la persona ${idPersona}`);
-  const URLeliminarCursoContratado = `http://localhost:8080/apprest/api/personas/${idPersona}/curso/${idCurso}`;
-  ajax('DELETE', URLeliminarCursoContratado, undefined)
+  const url = endpoint + 'personas/' + idPersona + '/curso/'+ idCurso;
+  ajax('DELETE', url, undefined)
     .then(data => {
       alert("Curso eliminado");
-      //actualizar cursos contratados del alumno
-     //event.target.parentElement.parentElement.remove();
-      event.target.parentElement.parentElement.classList.add("animated", "bounceOut", "slow")
-      obtenerTodos();
+     event.target.parentElement.parentElement.classList.add("animated", "bounceOut", "slow")
+     obtenerPersonas();
+     //BUG actualizar cursos contratados que se ordenen de nuevo
     })
     .catch( error => {
       alert("Error: " + error);
       console.warn("Error:" + error);
     });
-
 }//Fin function eliminarCursoContratado
 
+
+/**
+ * LLama al servicio rest POST para contratar una curso para una persona
+ * @param {*} idPersona 
+ * @param {*} idCurso 
+ */
 function contratarCurso(idPersona = 0, idCurso) {
   idPersona = (idPersona!=0)?idPersona: personaSeleccionada.id;
   console.debug(`Click Contratar curso ${idCurso} para la persona ${idPersona} `);
-  const URLcontratarCurso = `http://localhost:8080/apprest/api/personas/${idPersona}/curso/${idCurso}`;
+  const url = endpoint + 'personas/' +idPersona + '/curso/' + idCurso;
 
-  ajax('POST', URLcontratarCurso, undefined)
+  ajax('POST', url, undefined)
     .then(data => {
       alert("Curso contratado")
       let ListadoCursosContratados = document.getElementById('cursosContratados');
@@ -398,19 +479,11 @@ function contratarCurso(idPersona = 0, idCurso) {
           `;
 
       console.info("Se ha contratado correctamente el curso.");
-      obtenerTodos();
+      obtenerPersonas();
     })
     .catch(error => {
       console.debug(error);
-      //TODO gestionar en el controlador de persona
-      let cursoDuplicado = "Duplicate entry";
-      if (error[0].includes(cursoDuplicado)){
-         error = "Ya tiene contratado este curso";
-      } 
-      let cursoNoExite = "cursos_contratados-curso_FK";
-      if (error[0].includes(cursoNoExite)){
-        error = "No existe el curso que quiere contratar";
-      }
+
       alert("Error: " + error);
       console.warn("Error:" + error);
     });
