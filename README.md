@@ -28,7 +28,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	
 		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppClient). 	
  	
-		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es ** <url-pattern>/api/</url-pattern> ** 	
+		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es `<url-pattern>/api/</url-pattern>`
 	
 		- El endpoint del repositorio está configurado al principio del archivo main.js(ubicado en la carpeta js)
 		 
