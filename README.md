@@ -1,7 +1,7 @@
 # repositorio_pruebas
 
 ## Explicación general del proyecto
-El proyecto consta de dos subproyectos, un proyecto AppRest que será rest api hecha con JAVA-RX y un AppCliente. 
+El proyecto consta de dos subproyectos, un proyecto AppRest y un AppCliente. 
 En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada alumno puede tener cursos contratados. Se podrán contratar cursos para un alumno o eliminar los ya contratados.
 
 --- 
@@ -20,8 +20,6 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	- Introducción
 	
 	En App cliente podemos gestionar el front-end del proyecto, gestionamos toda la interfaz gráfica para que el cliente pueda interactuar con la aplicación.
-
-	Desde el archivo index.html 
 
 	- Tecnología usada
 		
