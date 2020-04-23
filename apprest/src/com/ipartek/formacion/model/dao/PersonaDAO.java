@@ -113,13 +113,11 @@ public class PersonaDAO implements IDAO<Persona> {
 						mapper(rs,hmPersonas);
 					}
 				}else { 
-					throw new Exception(); 
+					throw new Exception("No se ha encontrado la persona: " + id);
 				}
 
 				persona = hmPersonas.get(id);
 			}
-		} catch (Exception e) {
-			throw new Exception("No se ha encontrado la persona: " + id);
 		}
 		return persona;
 	}

@@ -18,6 +18,12 @@ main{
     padding: 20px 10px;
 }
 
+
+/* Buscador */
+.icono-nueva-persona{
+    font-size: 25px;
+}
+
 /* Listado de alumnos */
 #personas>li{
     background-color: gray;
@@ -94,4 +100,28 @@ main{
 
 .redes-sociales{
     font-size: 2rem;
+}
+
+
+
+/* Iconos */
+.fa-pencil-alt:hover{
+    color: rgb(19, 224, 224);
+    font-size: 1.4em;
+    transition: 0.5s;
+    cursor: pointer;   
+}
+
+.fa-trash-alt:hover{
+    color: rgb(245, 133, 68);
+    font-size: 1.4em;
+    transition: 0.5s;
+    cursor: pointer;  
+}
+
+.fa-plus-square:hover{
+    color: rgb(1, 17, 107);
+    font-size: 1.4em;
+    transition: 0.5s;
+    cursor: pointer; 
 }

@@ -26,6 +26,13 @@ function init() {
 } //Fin function init
 
 function listener() {
+
+ 
+
+  let formBuscador = document.querySelector('.Buscador');
+  formBuscador.style.display= "block";
+  formBuscador.classList.add("animated" , "slideInDown" , "slow");
+
   let selectorSexo = document.getElementById('sexoSelect');
   selectorSexo.addEventListener('change', filtro);
   let inputNombre = document.getElementById('nombreInput');
@@ -75,6 +82,11 @@ function filtro() {
 
 function pintarListado(arrayPersonas) {
   console.info('Se pinta el listado de personas');
+
+  let listadoPersonas= document.getElementById('listado-personas');
+  listadoPersonas.style.display="block";
+  listadoPersonas.classList.add("animated","bounceInLeft", "delay-2" ,"slower");
+
   let listado = document.getElementById('personas');
   listado.innerHTML = '';
 
@@ -101,6 +113,9 @@ function pintarListado(arrayPersonas) {
 
 function verDetalles(idPersona) {
 
+  let formPersona = document.getElementById('formulario-personas');
+  formPersona.style.display = 'block';
+  formPersona.classList.add('animated', 'fadeInRight');
 
    personaSeleccionada = personas.find(el => el.id == idPersona);
   if (!personaSeleccionada) {
@@ -143,6 +158,7 @@ function verDetalles(idPersona) {
   }
 
   pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
+
 } //Fin function verDetalles
 
 function guardar() {
@@ -313,6 +329,8 @@ function pintarCursosContratados(cursosContratados, idPersona) {
 
 
   let ListadoCursosContratados = document.getElementById('cursosContratados');
+  ListadoCursosContratados.style="block";
+  ListadoCursosContratados.classList.add("animated", "bounceIn", "slow");
 
   ListadoCursosContratados.innerHTML = '';
 
@@ -327,10 +345,12 @@ function pintarCursosContratados(cursosContratados, idPersona) {
               </div>
               
               <div class="col-2">
-                <i onclick="eliminarCursoContratado(event,${idPersona},${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Borrar curso contratado"></i>
+                <i id="eliminarCurso" onclick="eliminarCursoContratado(event,${idPersona},${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Borrar curso contratado"></i>
               </div>
             </li>
           `;
+  
+
   });
   console.debug(cursosContratados);
 }//Fin function pintarCursosContratados
@@ -343,7 +363,8 @@ function eliminarCursoContratado(event,idPersona, idCurso) {
     .then(data => {
       alert("Curso eliminado");
       //actualizar cursos contratados del alumno
-      event.target.parentElement.parentElement.remove();
+     //event.target.parentElement.parentElement.remove();
+      event.target.parentElement.parentElement.classList.add("animated", "bounceOut", "slow")
       obtenerTodos();
     })
     .catch( error => {
@@ -365,7 +386,7 @@ function contratarCurso(idPersona = 0, idCurso) {
       const nuevoCurso = data;
       ListadoCursosContratados.innerHTML +=
       `
-            <li class="p-1 row"> 
+            <li class="p-1 row animated bounceIn"> 
               <div class="col-10">
                 <p>${nuevoCurso.nombre}</p>
               </div>
@@ -381,7 +402,7 @@ function contratarCurso(idPersona = 0, idCurso) {
     })
     .catch(error => {
       console.debug(error);
-
+      //TODO gestionar en el controlador de persona
       let cursoDuplicado = "Duplicate entry";
       if (error[0].includes(cursoDuplicado)){
          error = "Ya tiene contratado este curso";
