@@ -1,10 +1,10 @@
 # repositorio_pruebas
 
-##Explicación general del proyecto
+## Explicación general del proyecto
 El proyecto consta de dos subproyectos, un proyecto AppRest que será rest api hecha con JAVA-RX y un AppCliente. 
 En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada alumno puede tener cursos contratados. Se podrán contratar cursos para un alumno o eliminar los ya contratados.
 
-##IMAGEN
+## IMAGEN
 
 ![Página principal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/modal.png)
 ![Modal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaPrincipal.png)
@@ -13,7 +13,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
  1. AppCliente
 	o	 Introducción
 	
-	En App cliente podemos gestionar el front-end del proyecto, gestionamos toda la interfaz gráfica para que el cliente pueda interactuar con la 		aplicación.
+	En App cliente podemos gestionar el front-end del proyecto, gestionamos toda la interfaz gráfica para que el cliente pueda interactuar con la aplicación.
 
 	Desde el archivo index.html 
 
@@ -21,13 +21,13 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 		Se utiliza HTML5, CSS3, JavaScript y Bootstrap 4.4. 	
 
 	o	Configuración ( por ejemplo donde cambiar el endpoint )
-		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppClient). 		
+		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppClient). 	
 		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es **url-pattern>/api/</url-pattern>** 	
-		- El endpoint del repositorio está configurado al principio del 			archivo main.js(ubicado en la carpeta js)
+		- El endpoint del repositorio está configurado al principio del archivo main.js(ubicado en la carpeta js)
 		 
-		- Las llamadas ajax se realizan a través de una función ubicada 			en el archivo ajax.js(ubicado en la carpeta js).  Para que se 			realice correcamente cada llamada ajax es necesario pasar 			varios parámetros en la función ( método, url, datos). 
+		- Las llamadas ajax se realizan a través de una función ubicada en el archivo ajax.js(ubicado en la carpeta js).  Para que se realice correcamente cada llamada ajax es necesario pasar varios parámetros en la función ( método, url, datos). 
 		Dentro de la función ajax se utiliza una promesa.
-		Aquí podemos gestionar los códigos de estado de cada 			llamada, y lo que devolverá. 
+		Aquí podemos gestionar los códigos de estado de cada llamada, y lo que devolverá. 
 
 2. AppRest
 
@@ -38,11 +38,11 @@ o	Tecnología usada
 	Se utiliza JAVA, JAX-RX, mysql, maven
 	
 o	Configuración ( conexión a bbdd y logs )
-	La conexión a la bbdd se realiza desde la clase ConnectionManager.java, ubicada en el paquete com.ipartek.formacion.model.dao de los recursos 		Java. 
+	La conexión a la bbdd se realiza desde la clase ConnectionManager.java, ubicada en el paquete com.ipartek.formacion.model.dao de los recursos Java. 
 
 	- La configuración necesaria para la conexión la obetenemos del fichero context.xml, ubicado en la caperta WebContent->META-INF. Aquí indicamos parámetros importantes como el driver necesario, la url para indicar que bbdd utilizamos, el usuario, password...
 
-	- Utilizamos LOGGER para mostrar información 		por pantalla en Eclipse y realizar un mejor seguimiento del transcurso de la aplicación. 
+	- Utilizamos LOGGER para mostrar información por pantalla en Eclipse y realizar un mejor seguimiento del transcurso de la aplicación. 
 Para ello, Introducimos declaramos la variable : 
 
 meter entre codigo
@@ -50,8 +50,6 @@ meter entre codigo
 	`private static final Logger LOGGER = 	Logger.getLogger(PersonaController.class.getCanonicalName());`
 	
 En este ejemplo se está utilizando LOGGER en la clase PersonaController. 
-
-
 	
 o	Detalle API rest con llamadas
 	Se utilizan llamadas para los modelos Persona y Curso.
