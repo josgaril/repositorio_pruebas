@@ -14,7 +14,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 ---
 
-### SUbProyectos
+### SubProyectos
  1. AppCliente
 	o	 Introducción
 	
@@ -27,13 +27,13 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 	o	Configuración ( por ejemplo donde cambiar el endpoint )
 	
-		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppClient). 	
-		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es **url-pattern>/api/</url-pattern>** 	
-		- El endpoint del repositorio está configurado al principio del archivo main.js(ubicado en la carpeta js)
+ - En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppClient). 	
+ - En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es **url-pattern>/api/</url-pattern>** 	
+ - El endpoint del repositorio está configurado al principio del archivo main.js(ubicado en la carpeta js)
 		 
-		- Las llamadas ajax se realizan a través de una función ubicada en el archivo ajax.js(ubicado en la carpeta js).  Para que se realice correcamente cada llamada ajax es necesario pasar varios parámetros en la función ( método, url, datos). 
-		Dentro de la función ajax se utiliza una promesa.
-		Aquí podemos gestionar los códigos de estado de cada llamada, y lo que devolverá. 
+ - Las llamadas ajax se realizan a través de una función ubicada en el archivo ajax.js(ubicado en la carpeta js).  Para que se realice correcamente cada llamada ajax es necesario pasar varios parámetros en la función ( método, url, datos). 
+Dentro de la función ajax se utiliza una promesa.
+Aquí podemos gestionar los códigos de estado de cada llamada, y lo que devolverá. 
 
 2. AppRest
 
