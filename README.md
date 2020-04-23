@@ -25,7 +25,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	o	Tecnología usada
 		Se utiliza HTML5, CSS3, JavaScript y Bootstrap 4.4. 	
 
-	o	Configuración ( por ejemplo donde cambiar el endpoint )
+	o	Configuración
 	
 		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppClient). 	
  		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es **url-pattern>/api/</url-pattern>** 	
