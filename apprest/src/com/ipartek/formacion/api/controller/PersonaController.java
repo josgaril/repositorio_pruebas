@@ -187,7 +187,18 @@ public class PersonaController {
 			 LOGGER.info("Curso contratado correctamente");
 			 
 		} catch (Exception e) {
-			error.add(e.getMessage());
+			
+			
+		      if (e.getMessage().contains("Duplicate entry")){
+		         error.add("Ya tiene contratado este curso");
+		      } 
+		      if (e.getMessage().contains("cursos_contratados-curso_FK")){
+		    	  error.add( "No existe el curso que quiere contratar");
+		      }
+		      if (e.getMessage().contains("cursos_contratados-persona_FK")){
+		    	  error.add( "No existe la persona para contratar ese curso");
+		      }
+
 			LOGGER.warning("Error: " + error);
 			response = Response.status(Status.CONFLICT).entity(error).build();
 		}

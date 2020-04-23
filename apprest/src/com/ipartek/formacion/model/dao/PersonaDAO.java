@@ -32,7 +32,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			"	FROM (persona p \n" + 
 			"	LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona)\n" + 
 			"	LEFT JOIN curso c ON cc.id_curso = c.id\n" + 
-			"	LIMIT 500";	
+			"	ORDER BY persona_id , curso_nombre LIMIT 500";	
 	
 	private static final String SQL_GET_BY_ID = 
 			"	SELECT \n" + 
@@ -47,7 +47,8 @@ public class PersonaDAO implements IDAO<Persona> {
 			"	FROM (persona p \n" + 
 			"	LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona)\n" + 
 			"	LEFT JOIN curso c ON cc.id_curso = c.id\n" + 
-			"	WHERE p.id = ? LIMIT 500";
+			"	WHERE p.id = ?" + 
+			" 	LIMIT 500";
 	
 	private static final String SQL_INSERT = "INSERT INTO persona (nombre, avatar, sexo) VALUES(?,?,?)";
 	private static final String SQL_UPDATE = "UPDATE persona SET nombre=?, avatar=?, sexo=? WHERE id=?";
