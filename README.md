@@ -1,6 +1,5 @@
 # repositorio_pruebas
 
-## Explicación general del proyecto
 El proyecto consta de dos subproyectos, un proyecto AppRest y un AppCliente. 
 En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada alumno puede tener cursos contratados. Se podrán contratar cursos para un alumno o eliminar los ya contratados.
 
@@ -39,7 +38,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 	- Introducción
 
-	En appRest podemos gestionar el back-end del proyecto, gestionamos toda la lógica para que funcione correctamente.
+	En appRest podemos gestionar el back-end del proyecto, gestionamos toda la lógica para que funcione correctamente, la conexión con la base de datos...
 
 	- Tecnología usada
 
