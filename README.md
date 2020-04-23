@@ -4,11 +4,15 @@
 El proyecto consta de dos subproyectos, un proyecto AppRest que será rest api hecha con JAVA-RX y un AppCliente. 
 En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada alumno puede tener cursos contratados. Se podrán contratar cursos para un alumno o eliminar los ya contratados.
 
+--- 
+
 ## IMAGEN
 
 ![Página principal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaPrincipal.png)
 
 ![Modal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/modal.png)
+
+---
 
 ### SUbProyectos
  1. AppCliente
@@ -121,6 +125,7 @@ o	Detalle API rest con llamadas
 			- Códigos de estado:
 				- 200 en caso correcto, devuelve el curso.
 				- 404 si no encuentra ese curso.
+---
 
 ## Tags o Versiones
 	- v1.0final. Servicio REST funcionando para personas. (getAll, getByID, insert, update, delete)
