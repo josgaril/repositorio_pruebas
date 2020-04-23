@@ -38,30 +38,30 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 2. AppRest
 
-o	Introducción
+	- Introducción
 
-	- En appRest podemos gestionar el back-end del proyecto, gestionamos toda la lógica para que funcione correctamente.
+	En appRest podemos gestionar el back-end del proyecto, gestionamos toda la lógica para que funcione correctamente.
 
-o	Tecnología usada
+	- Tecnología usada
 
-	- Se utiliza JAVA, JAX-RX, mysql, maven
+	Se utiliza JAVA, JAX-RX, mysql, maven
 	
-o	Configuración ( conexión a bbdd y logs )
+	- Configuración ( conexión a bbdd y logs )
 
-	- La conexión a la bbdd se realiza desde la clase ConnectionManager.java, ubicada en el paquete com.ipartek.formacion.model.dao de los recursos Java. 
+		- La conexión a la bbdd se realiza desde la clase ConnectionManager.java, ubicada en el paquete com.ipartek.formacion.model.dao de los recursos Java. 
 
-	- La configuración necesaria para la conexión la obetenemos del fichero context.xml, ubicado en la caperta WebContent->META-INF. Aquí indicamos parámetros importantes como el driver necesario, la url para indicar que bbdd utilizamos, el usuario, password...
+		- La configuración necesaria para la conexión la obetenemos del fichero context.xml, ubicado en la caperta WebContent->META-INF. Aquí indicamos parámetros importantes como el driver necesario, la url para indicar que bbdd utilizamos, el usuario, password...
 
-	- Utilizamos LOGGER para mostrar información por pantalla en Eclipse y realizar un mejor seguimiento del transcurso de la aplicación. Para ello, Introducimos declaramos la variable : 
+		- Utilizamos LOGGER para mostrar información por pantalla en Eclipse y realizar un mejor seguimiento del transcurso de la aplicación. Para ello, Introducimos declaramos la variable : 
 
 
-	`private static final Logger LOGGER = 	Logger.getLogger(PersonaController.class.getCanonicalName());`
+		`private static final Logger LOGGER = 	Logger.getLogger(PersonaController.class.getCanonicalName());`
+
+		En este ejemplo se está utilizando LOGGER en la clase PersonaController. 
 	
-	En este ejemplo se está utilizando LOGGER en la clase PersonaController. 
-	
-o	Detalle API rest con llamadas
+	- Detalle API rest con llamadas
 
-	- Se utilizan llamadas para los modelos Persona y Curso.
+	 Se utilizan llamadas para los modelos Persona y Curso.
 	
 		- Persona.  Configurado con el path: @Path("/personas")
 	
