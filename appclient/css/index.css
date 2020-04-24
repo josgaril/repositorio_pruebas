@@ -137,3 +137,7 @@ main{
 /* Fin Footer*/
 
 
+.scrollVertical{
+    overflow-y: auto;
+    overflow-x: hidden;
+}

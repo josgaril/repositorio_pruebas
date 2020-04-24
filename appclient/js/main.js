@@ -483,12 +483,18 @@ function contratarCurso(idPersona = 0, idCurso) {
           `;
 
       console.info("Se ha contratado correctamente el curso.");
-      obtenerPersonas();
+            //BUG actualizar cursos contratados cuando se añade uno
+
+      setTimeout(function(){
+        obtenerPersonas();
+        console.debug("obtenemos las personas de nuevo para actualizar");
+      //console.debug(obtenerPersonas);
+     // pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
+         },2000);
     })
     .catch(error => {
       console.debug(error);
 
-      //BUG actualizar cursos contratados cuando se añade uno
       alert("Error: " + error);
       console.warn("Error:" + error);
     });
