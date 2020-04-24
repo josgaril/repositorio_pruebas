@@ -439,9 +439,13 @@ function eliminarCursoContratado(event,idPersona, idCurso) {
   ajax('DELETE', url, undefined)
     .then(data => {
       alert("Curso eliminado");
+      
      event.target.parentElement.parentElement.classList.add("animated", "bounceOut", "slow")
-     obtenerPersonas();
-     //BUG actualizar cursos contratados que se ordenen de nuevo
+     setTimeout(function(){
+        event.target.parentElement.parentElement.remove();
+        obtenerPersonas();
+     },2000);
+
     })
     .catch( error => {
       alert("Error: " + error);
@@ -480,10 +484,12 @@ function contratarCurso(idPersona = 0, idCurso) {
 
       console.info("Se ha contratado correctamente el curso.");
       obtenerPersonas();
+      pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
     })
     .catch(error => {
       console.debug(error);
 
+      //BUG actualizar cursos contratados cuando se añade uno
       alert("Error: " + error);
       console.warn("Error:" + error);
     });
