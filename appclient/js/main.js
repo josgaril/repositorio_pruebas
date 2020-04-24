@@ -484,7 +484,6 @@ function contratarCurso(idPersona = 0, idCurso) {
 
       console.info("Se ha contratado correctamente el curso.");
       obtenerPersonas();
-      pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
     })
     .catch(error => {
       console.debug(error);
