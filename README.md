@@ -134,7 +134,8 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	- Visualización de todos los cursos disponibles	
 	- Visualización de todos los cursos contratados por cada alumno
 	- Añadido a servicio REST de persona conratarCurso y eliminarCursoContratado.
-- v.2.1. Añadida funcionalidad de animaciones.
-
+- v2.1. Añadida funcionalidad de animaciones.
+- v2.2.0 Mejorado control de errores al contratar curso, añadidos comentarios, organización css de index.css
+- v2.3.0 Actualizado script BBDD y mejor organizacion del código e interfaz de noticias 
 
 
