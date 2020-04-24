@@ -24,13 +24,13 @@
 
 <body>
   <main class="menu">
-    
+
     <h1 id="titulo" class=" rounded-bottom">Listado Alumnos</h1>
-    
+
     <div class="Buscador mx-2 shadow mb-4 p-3 bg-white rounded-bottom" style="display:none">
       <legend class="p-1">Buscador</legend>
       <div class="form-row">
-        
+
         <div class="col-12 col-sm-3">
           <select id="sexoSelect" class="custom-select" name="sexoSelect" data-toggle="tooltip" data-placement="bottom"
             title="Seleccionar sexo">
@@ -40,17 +40,22 @@
           </select>
         </div>
         <!-- /Columna Select -->
-        
+
         <div class="col-12 col-sm-5">
           <input id="nombreInput" type="text" class="form-control" placeholder="Introduzca un nombre...">
         </div>
         <!-- /Columna NombreInput  -->
-        
+
         <div class="col-12 col-sm-1">
-          <i onclick="verDetalles()" class="fas fa-user-plus m-1 icono-nueva-persona"
-            data-toggle="tooltip" data-placement="right" title="Nueva persona"></i>
+          <i onclick="verDetalles()" class="fas fa-user-plus m-1 icono-nueva-persona" data-toggle="tooltip"
+            data-placement="right" title="Nueva persona"></i>
         </div>
         <!-- /Columna Icono Nueva Persona  -->
+
+        <div class="col-12 col-sm-1">
+          <a href="http://127.0.0.1:5500/appclient/noticias.html" class="btn btn-success">Ver noticias</a>
+        </div>
+        <!-- /Columna botonNoticias -->
 
       </div>
       <!-- /Fila Buscador-->
@@ -147,7 +152,7 @@
 
       </div>
       <!-- /Formulario persona -->
-      
+
     </div>
     <!-- /Fila Lista persona y Formulario persona -->
 
@@ -156,9 +161,9 @@
   <!-- Modal -->
   <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-      
+
       <div class="modal-content">
-        
+
         <div class="modal-header">
           <h5 class="modal-title" id="modalLabel">Seleccione el curso para añadir</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -206,6 +211,7 @@
   </div>
   <!-- /Modal -->
 
+  
   <footer class="pie text-white rounded-top">
     <p class="copyright col">&copy;2020 Jose Angel Garcia Illera</p>
     <p class="redes-sociales col text-right">

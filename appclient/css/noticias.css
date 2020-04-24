@@ -1,0 +1,42 @@
+
+  body{
+    max-width: 1024px;
+    margin: auto;
+  }
+
+  main{
+    background-color: gray;
+    min-height: 91.5vh;
+  }
+
+  #titulo {
+    background-color: rgb(147, 180, 93);
+    color: white;
+    text-align: center;
+    height: 2em;
+    font-size: 2em;
+    padding: 20px 10px;
+  }
+
+  .tarjetas {
+    margin-left: 1rem;
+    border-width: 2px;
+    border-color: black;
+    background-color:rgb(240, 186, 116);
+  } 
+
+  /* Footer*/
+.pie{
+  background-color: rgb(147, 180, 93);
+    padding: 0.5rem;
+    border-top: 10rem;
+}
+
+.copyright{
+    font-size: 1rem;
+}
+
+.redes-sociales{
+    font-size: 2rem;
+}
+/* Fin Footer*/

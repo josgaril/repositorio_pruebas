@@ -46,7 +46,7 @@ CREATE TABLE `curso` (
 
 LOCK TABLES `curso` WRITE;
 /*!40000 ALTER TABLE `curso` DISABLE KEYS */;
-INSERT INTO `curso` VALUES (1,'Programación con JAVA','curso1.png',2750.00),(2,'Programación páginas web JavaScript y PHP','curso.png',2399.99),(3,'MicrosoftMicrosoft Excel 2010 (Completo) Office 2016','curso.png',334.50),(4,'Excel 2016 Avanzado','curso.png',153.50),(5,'Google Drive','curso.png',79.99),(6,'Outlook 2013','curso.png',49.99),(7,'Photoshop CC','curso.png',150.00),(8,'Windows Phone 8','curso.png',99.99),(9,'Introducción a la informática','curso.png',95.00),(10,'Linux Ubuntu 6.06 Básico','curso.png',180.00),(11,'Macromedia Flash 8','curso.png',300.00),(12,'Office 365: Word Profesional (2019)','curso.png',100.00),(13,'Seguridad informática','curso.png',150.00),(14,'Windows 10','curso.png',315.00),(16,'AutoCAD 2009','curso.png',300.99);
+INSERT INTO `curso` VALUES (1,'Programación con JAVA','Java.png',2750.00),(2,'Programación páginas web JavaScript','JavaScript.png',2399.99),(3,'MicrosoftMicrosoft Excel 2010 (Completo) Office 2016','Default.png',334.50),(4,'Excel 2016 Avanzado','Default.png',153.50),(5,'Google Drive','Default.png',79.99),(6,'Outlook 2013','Default.png',49.99),(7,'Photoshop CC','Default.png',150.00),(8,'Windows Phone 8','Default.png',99.99),(9,'Introducción a la informática','Default.png',95.00),(10,'Linux Ubuntu 6.06 Básico','Default.png',180.00),(11,'HTML5','Html5.png',300.00),(12,'Office 365: Word Profesional (2019)','Default.png',100.00),(13,'Seguridad informática','Default.png',150.00),(14,'Windows 10','Windows 10.png',315.00),(16,'AutoCAD 2009','Default.png',300.99);
 /*!40000 ALTER TABLE `curso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,8 +73,35 @@ CREATE TABLE `cursos_contratados` (
 
 LOCK TABLES `cursos_contratados` WRITE;
 /*!40000 ALTER TABLE `cursos_contratados` DISABLE KEYS */;
-INSERT INTO `cursos_contratados` VALUES (2,1),(17,1),(35,1),(2,2),(40,2),(17,4),(39,5),(40,5),(35,6),(39,7),(35,8);
+INSERT INTO `cursos_contratados` VALUES (17,2),(17,4),(17,5),(35,7),(40,8),(2,11),(2,12),(17,13),(35,13),(39,13),(2,14),(17,14),(2,16),(17,16),(24,16),(35,16),(39,16);
 /*!40000 ALTER TABLE `cursos_contratados` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `noticia`
+--
+
+DROP TABLE IF EXISTS `noticia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `noticia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(250) NOT NULL,
+  `fecha` datetime NOT NULL,
+  `contenido` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `noticia_UN` (`titulo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `noticia`
+--
+
+LOCK TABLES `noticia` WRITE;
+/*!40000 ALTER TABLE `noticia` DISABLE KEYS */;
+INSERT INTO `noticia` VALUES (1,'Se reanudan las clases','2020-04-23 14:00:00','Las clases se reanudarán el prómimo 11 de mayo.'),(2,'Vuelve el futbol','2020-04-24 00:00:00','Se prevee que los equipos puedan volver a los entrenamientos el próximo 1 de Mayo'),(3,'Los Rolling en España','2020-04-24 00:05:00','Se dice se comenta que los Rolling Stones podrían reunirse en España cuando acabe el confinamiento para decidir qsi harán su última función'),(4,'Bilbao sin contagiados','2020-04-24 00:08:00','El gobierno indica que Bilbao es la primera ciudad en la que no hay contagiados por el virus');
+/*!40000 ALTER TABLE `noticia` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -91,7 +118,7 @@ CREATE TABLE `persona` (
   `sexo` varchar(1) NOT NULL DEFAULT 'h',
   PRIMARY KEY (`id`),
   UNIQUE KEY `persona_UN` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +127,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (2,'Lorena','avatar2.png','m'),(17,'Alba','avatar5.png','m'),(24,'Manolo','avatar6.png','h'),(35,'Pedro','avatar7.png','h'),(39,'Marisa','avatar5.png','m'),(40,'Rebeca','avatar2.png','m'),(44,'Mario','avatar4.png','h');
+INSERT INTO `persona` VALUES (2,'Lorena','avatar2.png','m'),(17,'Alba','avatar5.png','m'),(24,'Manolo','avatar6.png','h'),(35,'Pedro','avatar7.png','h'),(39,'Marisa','avatar5.png','m'),(40,'Rebeca','avatar2.png','m');
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -113,24 +140,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-20 11:35:29
-
-/*  CUSTOM SQL */
-
-/*
-SELECT 
-	p.id as persona_id, 
-	p.nombre as persona_nombre, 
-	p.avatar as persona_avatar, 
-	p.sexo as persona_sexo, 
-	c.id as curso_id, 
-	c.nombre as curso_nombre, 
-	c.imagen as curso_imagen, 
-	c.precio as curso_precio
-FROM (persona p 
-LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona)
-LEFT JOIN curso c ON cc.id_curso = c.id
-LIMIT 500;
-*/
-
-
+-- Dump completed on 2020-04-24  9:33:53
