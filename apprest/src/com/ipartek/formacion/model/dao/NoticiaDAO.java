@@ -14,7 +14,7 @@ public class NoticiaDAO implements IDAO<Noticia> {
 	
 	private static final Logger LOGGER = Logger.getLogger(NoticiaDAO.class.getCanonicalName());
 	
-	private static final String SQL_ALL = "SELECT id, titulo, fecha, contenido FROM noticia";
+	private static final String SQL_ALL = "SELECT id, titulo, fecha, contenido FROM noticia ORDER BY fecha DESC";
 	private static NoticiaDAO INSTANCE = null;
 	
 	public NoticiaDAO() {
