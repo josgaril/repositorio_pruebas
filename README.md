@@ -7,9 +7,14 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 ## IMAGEN
 
+1. Página Principal
 ![Página principal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaPrincipal.png)
 
+2. Modal para contratar cursos
 ![Modal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/modal.png)
+
+3. Página Noticias
+![Página Noticias](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaNoticias.png)
 
 ---
 
@@ -136,6 +141,6 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	- Añadido a servicio REST de persona conratarCurso y eliminarCursoContratado.
 - v2.1. Añadida funcionalidad de animaciones.
 - v2.2.0 Mejorado control de errores al contratar curso, añadidos comentarios, organización css de index.css
-- v2.3.0 Actualizado script BBDD, mejor organizacion del código y añadida llamada al servicio rest para noticias (petición GET para mostrar todas las noticias en otra página a través del botón Ver noticias).
-- v2.4.0 Index responsive y mejor organización del código.
+- v2.3.0 Actualizado script BBDD y añadida llamada al servicio rest para noticias (petición GET para mostrar todas las noticias en otra página a través del botón Ver noticias).
+- v2.4.0 Index responsive y mejor organización del código. Noticias ordenadas descendientemente y actualizadas imágenes del proyecto.
 
