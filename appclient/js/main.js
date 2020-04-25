@@ -372,16 +372,20 @@ function pintarCursosDisponibles(cursosDisponibles) {
     ListadoCursosDisponibles.innerHTML +=
       `
           <li class="border-bottom border-dark row d-flex align-items-center"> 
-            <div class="col-2">
+            <div class="col-2 ">
               <img class="imagen-cursos" src="img/cursos/${el.imagen}" alt="img">
             </div>  
-            <div class="col-5">
+            <div class="col-5 padding0">
               <p>${el.nombre}</p>
             </div>
-            <div class="col-3">
+            <div class="col-3 padding0">
               <p>${el.precio} €</p>
             </div>
-            <div class="col-2">
+              <div class="col-1 padding0">
+              <p>${el.profesor.nombre}</p>
+           </div>
+
+            <div class="col-1">
               <i onclick="contratarCurso(0, ${el.id})" class="far fa-plus-square float-right" data-toggle="tooltip" data-placement="top" title="Contratar curso"></i>
             </div>
           </li>
