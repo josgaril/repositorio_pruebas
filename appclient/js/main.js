@@ -371,17 +371,17 @@ function pintarCursosDisponibles(cursosDisponibles) {
 
     ListadoCursosDisponibles.innerHTML +=
       `
-          <li class="border-bottom border-dark p-1 row"> 
+          <li class="border-bottom border-dark row d-flex align-items-center"> 
             <div class="col-2">
               <img class="imagen-cursos" src="img/cursos/${el.imagen}" alt="img">
             </div>  
-            <div class="col-6">
+            <div class="col-5">
               <p>${el.nombre}</p>
             </div>
             <div class="col-3">
               <p>${el.precio} €</p>
             </div>
-            <div class="col-1">
+            <div class="col-2">
               <i onclick="contratarCurso(0, ${el.id})" class="far fa-plus-square float-right" data-toggle="tooltip" data-placement="top" title="Contratar curso"></i>
             </div>
           </li>
@@ -411,13 +411,13 @@ function pintarCursosContratados(cursosContratados, idPersona) {
 
     ListadoCursosContratados.innerHTML +=
       `
-            <li class="p-1 row"> 
+            <li class="p-1 row d-flex justify-content-between-"> 
               
-              <div class="col-10">
+              <div class="col-9 p-0">
                 <p>${el.nombre}</p>
               </div>
               
-              <div class="col-2">
+              <div class="col-3 ">
                 <i id="eliminarCurso" onclick="eliminarCursoContratado(event,${idPersona},${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Borrar curso contratado"></i>
               </div>
             </li>
@@ -468,19 +468,21 @@ function contratarCurso(idPersona = 0, idCurso) {
     .then(data => {
       alert("Curso contratado")
       let ListadoCursosContratados = document.getElementById('cursosContratados');
-      const nuevoCurso = data;
+       const nuevoCurso = data;
       ListadoCursosContratados.innerHTML +=
       `
-            <li class="p-1 row animated bounceIn"> 
-              <div class="col-10">
+              <li class="p-1 row d-flex justify-content-between animated bounceIn"> 
+                      
+              <div class="col-9 p-0">
                 <p>${nuevoCurso.nombre}</p>
               </div>
               
-              <div class="col-2">
-                <i onclick="eliminarCursoContratado(event,${idPersona},${nuevoCurso.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Borrar curso contratado"></i>
+              <div class="col-3 ">
+                <i id="eliminarCurso" onclick="eliminarCursoContratado(event,${idPersona},${nuevoCurso.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Borrar curso contratado"></i>
               </div>
             </li>
-          `;
+
+          `; 
 
       console.info("Se ha contratado correctamente el curso.");
             //BUG actualizar cursos contratados cuando se añade uno
@@ -489,7 +491,7 @@ function contratarCurso(idPersona = 0, idCurso) {
         obtenerPersonas();
         console.debug("obtenemos las personas de nuevo para actualizar");
       //console.debug(obtenerPersonas);
-     // pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
+        //pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
          },2000);
     })
     .catch(error => {
