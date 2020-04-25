@@ -129,13 +129,13 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 ## Tags o Versiones
 
 - v1.0final. Servicio REST funcionando para personas. (getAll, getByID, insert, update, delete)
-- v2.0. Añadidas varias funcionalidades :
+- v2.0. Añadidas varias funcionalidades:
 	- Servicio REST para curso (getAll y getByID).
 	- Visualización de todos los cursos disponibles	
 	- Visualización de todos los cursos contratados por cada alumno
 	- Añadido a servicio REST de persona conratarCurso y eliminarCursoContratado.
 - v2.1. Añadida funcionalidad de animaciones.
 - v2.2.0 Mejorado control de errores al contratar curso, añadidos comentarios, organización css de index.css
-- v2.3.0 Actualizado script BBDD y mejor organizacion del código e interfaz de noticias 
-
+- v2.3.0 Actualizado script BBDD, mejor organizacion del código y añadida llamada al servicio rest para noticias (petición GET para mostrar todas las noticias en otra página a través del botón Ver noticias).
+- v2.4.0 Index responsive y mejor organización del código.
 
