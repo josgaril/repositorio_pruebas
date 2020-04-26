@@ -97,6 +97,12 @@ public class PersonaDAO implements IPERSONADAO {
 			"	ORDER BY persona_nombre, curso_nombre\n" + 
 			"	LIMIT 500";
 
+	private static final String SQL_ALL_CURSOS_PROFESOR = 
+			"	SELECT * \n" + 
+			"	FROM persona p\n" + 
+			"	JOIN curso c ON p.id = c.profesor \n" + 
+			"	WHERE p.rol=2 AND p.id=?";
+
 	private PersonaDAO() {
 		super();
 	}
@@ -309,6 +315,35 @@ public class PersonaDAO implements IPERSONADAO {
 		}
 		return new ArrayList<Persona>(hmPersonas.values());
 	}
+	
+	/*	
+	  public Persona getAllCursosProfesor(int id) throws Exception{
+	  //ArrayList<Persona> personas = new ArrayList<Persona>(); 
+		  Persona persona = null; 
+		  HashMap<Integer, Persona> hmPersonas = new HashMap<Integer, Persona>();
+	  
+		  try(Connection con = ConnectionManager.getConnection(); 
+				  PreparedStatement pst = con.prepareStatement(SQL_ALL_CURSOS_PROFESOR);){
+		  
+			  pst.setInt(1, id); LOGGER.info(pst.toString());
+		  
+			  try(ResultSet rs = pst.executeQuery()){
+			  
+				  if (rs.next()) { 
+					  mapper(rs,hmPersonas); 
+					  while (rs.next()) 
+					  	{
+						  mapper(rs,hmPersonas); 
+					  	} 
+				  }else { 
+					  throw new Exception("No se ha encontrado la persona: " + id); 
+				  } 
+				  persona = hmPersonas.get(id); 
+			} 
+		 }
+		  return persona;
+	  }
+	 */
 	
 	private void mapper(ResultSet rs, HashMap<Integer, Persona> hm) throws SQLException {
 

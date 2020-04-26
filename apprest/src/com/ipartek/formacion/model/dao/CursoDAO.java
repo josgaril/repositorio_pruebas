@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -63,6 +64,8 @@ public class CursoDAO implements IDAO<Curso>{
             "   FROM curso c \n" + 
             "   JOIN persona pf ON c.profesor = pf.id \n" + 
             "   WHERE c.id = ?";
+
+	private static final String SQL_ALL_CURSOS_PROFESOR = "	SELECT * FROM curso WHERE profesor = ?";
 
     private CursoDAO() {
         super();
@@ -152,6 +155,34 @@ public class CursoDAO implements IDAO<Curso>{
         return curso;
     }
 
+    public List<Curso> getAllCursosProfesor(int id) throws Exception{
+        ArrayList<Curso> cursos = new ArrayList<Curso>();
+
+  		  //Curso curso = null; 
+  	  
+  		  try(Connection con = ConnectionManager.getConnection(); 
+  			  PreparedStatement pst = con.prepareStatement(SQL_ALL_CURSOS_PROFESOR);){
+  	  
+		  	  pst.setInt(1, id); 
+		  	  LOGGER.info(pst.toString());
+		  	  
+		  	  try(ResultSet rs = pst.executeQuery()){
+		  	  
+			  	  //if (rs.next()) { 
+			  		  //cursos.add(mapper(rs)); 
+			  		  while (rs.next()) { 
+				  		  cursos.add(mapper(rs)); 
+			  		  } 
+			  	  //}else { 
+			  		  //throw new Exception("El profesor no tiene ningun curso: " + id); 
+			  	  //} 			  	   
+		  	  }catch(SQLException e) {
+		  		  throw new Exception("No se encuentra el profesor");
+		  	  }
+  		  }  	 
+  		 return cursos;
+  	  }
+    
     @Override
     public Curso insert(Curso pojo) throws Exception, SQLException {
         throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");

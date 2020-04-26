@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.ipartek.formacion.api.controller.PersonaController;
 import com.ipartek.formacion.model.Curso;
+import com.ipartek.formacion.model.Persona;
 
 @Path("/cursos")
 @Produces("application/json")
@@ -79,4 +80,31 @@ public class CursoController {
 			LOGGER.warning("No se ha podido obtener el curso con id " + id);
 		}
 		return response;
-}}
+	}
+	
+	
+	/* @GET
+	@Path("/{id: \\d+}") public  Response getAllCursosProfesor(@PathParam("id") int id) { 
+		  LOGGER.info("getAllCursosProfesor"); 
+		  Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		  ArrayList<String> error = new ArrayList<String>();
+		  ArrayList<Curso> cursos = new ArrayList<Curso>();
+		  try { 
+			  
+			  cursos = (ArrayList<Curso>) cursoDAO.getAllCursosProfesor(id);
+			  
+			  //Persona persona = personaDAO.getAllCursosProfesor(id);
+			  LOGGER.info("Obtenido los cursos del profesor con id:" + id); 
+			  response = Response.status(Status.OK).entity(cursos).build(); 
+		  } catch (Exception e) {
+			  error.add(e.getMessage());
+			  LOGGER.info(e.getMessage());
+			  LOGGER.warning("No se encuentra el profesor" + id); 
+			  response = Response.status(Status.NOT_FOUND).entity(error).build(); 
+		  }
+		  return response;
+	  
+	  }
+	*/
+	
+}

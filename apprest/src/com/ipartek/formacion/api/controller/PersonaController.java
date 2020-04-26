@@ -253,5 +253,25 @@ public class PersonaController {
 		  
 	  }
 
+	/*
+	  @GET
+	  @Path("/?rol=profesor/{id: \\d+}") public Response getAllCursosProfesor(@PathParam("id") int id) { 
+		  LOGGER.info("getAllCursosProfesor"); 
+		  Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		  ArrayList<String> error = new ArrayList<String>();
+	  
+		  try { 
+			  Persona persona = personaDAO.getAllCursosProfesor(id);
+			  LOGGER.info("Obtenido el profesor con sus correctamente"); 
+			  response = Response.status(Status.OK).entity(persona).build(); 
+		  } catch (Exception e) {
+			  error.add(e.getMessage());
+			  LOGGER.warning("No se ha encontrado el profesor con id " + id); 
+			  response = Response.status(Status.NOT_FOUND).entity(error).build(); 
+		  }
+		  return response;
+	  
+	  }
+	 */
 	
 }

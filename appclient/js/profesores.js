@@ -11,7 +11,7 @@ const endpoint = "http://localhost:8080/apprest/api/";
 let personas = [];
 let cursos = [];
 let personaSeleccionada = {};
-
+const rol = "profesor";
 window.addEventListener('load', init());
 
 
@@ -23,7 +23,7 @@ function init() {
   
   listener();
   galeriaImagenes();
-  const rol = "profesor";
+ 
   obtenerPersonas();
   obtenerCursosDisponibles();
   console.debug('continua la ejecuion del script de forma sincrona');
@@ -184,8 +184,10 @@ function verDetalles(idPersona = 0) {
     checkHombre.checked = '';
     checkMujer.checked = 'checked';
   }
-
-  pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
+ //TODO obtener cursos de los que es profesor y pintar la lista con ellos 
+ //CREAR METODO GET PARA OBTENER LOS CURSOS DEL PROFESOR EN CONTROLADOR Y EN EL DAO DE PERSONA
+  obtenerCursosProfesor(personaSeleccionada.id);
+  //pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
 } //Fin function verDetalles
 
 
@@ -332,7 +334,7 @@ function obtenerPersonas(rol = "profesor") {
       personas = data;
       pintarListado(personas);
     }).catch(error => {
-      console.warn('Promesa cancelada');
+      console.warn('Promesa rechazada');
       alert(error);
     });
 } //Fin function obtenerPersonas
@@ -353,7 +355,7 @@ function obtenerCursosDisponibles(filtro = '') {
       cursos = data;
       pintarCursosDisponibles(cursos);
     }).catch(error => {
-      console.warn('Promesa cancelada');
+      console.warn('Promesa rechazada');
       alert(error);
     });
 } //Fin function obtenerCursosDisponibles
@@ -507,3 +509,45 @@ function contratarCurso(idPersona = 0, idCurso) {
       console.warn("Error:" + error);
     });
 }//Fin function contratarCurso
+
+
+
+
+//TODO MODIFICAR TODA ESTA PARTEs
+
+function obtenerCursosProfesor(id){
+
+  console.debug("Obtener profesor con sus cursos");
+  const url = `endpoint/${rol}/` + id;
+  ajax("GET",url, undefined)
+  .then(data =>{
+    console.debug("Promesa resuelta");
+    console.debug("datos recibidos: " + data);
+    cursos = data;
+    pintarCursosProfesor(cursos,id);
+  })
+  .catch(error =>{
+    console.warn("Promesa rechazada");
+    alert("Error: " + error);
+  });
+}
+
+function pintarCursosProfesor(cursosProfesor,id){
+  console.debug("Se pintan los cursos del profesor ");
+
+  let listadoCursosProfesor = document.getElementById("cursosProfesor");
+  listadoCursosProfesor.innerHTML = "";
+
+  cursosProfesor.forEach(el => {
+      listadoCursosProfesor.innerHTML += 
+          `
+          <li class="p-1 row d-flex justify-content-between-"> 
+              
+            <div class="col-12 p-0">
+              <p>${el.nombre}</p>
+            </div>
+          </li>
+          `
+  })
+}
+
