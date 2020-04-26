@@ -186,8 +186,8 @@ function verDetalles(idPersona = 0) {
   }
  //TODO obtener cursos de los que es profesor y pintar la lista con ellos 
  //CREAR METODO GET PARA OBTENER LOS CURSOS DEL PROFESOR EN CONTROLADOR Y EN EL DAO DE PERSONA
-  obtenerCursosProfesor(personaSeleccionada.id);
-  //pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
+  //obtenerCursosProfesor(personaSeleccionada.id);
+  pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
 } //Fin function verDetalles
 
 

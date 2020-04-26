@@ -155,6 +155,7 @@ public class CursoDAO implements IDAO<Curso>{
         return curso;
     }
 
+    /*
     public List<Curso> getAllCursosProfesor(int id) throws Exception{
         ArrayList<Curso> cursos = new ArrayList<Curso>();
 
@@ -182,6 +183,7 @@ public class CursoDAO implements IDAO<Curso>{
   		  }  	 
   		 return cursos;
   	  }
+  	  */
     
     @Override
     public Curso insert(Curso pojo) throws Exception, SQLException {
