@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Curso;
 import com.ipartek.formacion.model.Persona;
-import com.ipartek.formacion.model.Rol;
 
 public class PersonaDAO implements IPERSONADAO {
 

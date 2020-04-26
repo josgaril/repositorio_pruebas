@@ -39,13 +39,6 @@ public class CursoController {
 		super();
 	}
 
-//	 @GET
-//	 public ArrayList<Curso> getAll() {
-//		LOGGER.info("Obtener todos los cursos disponibles");
-//		 
-//		ArrayList<Curso> cursos = (ArrayList<Curso>) cursoDAO.getAll();
-//		 return cursos;
-//	 }
 
 	@GET
 	public Response getAll(@QueryParam("filtro") String filtro) throws Exception {

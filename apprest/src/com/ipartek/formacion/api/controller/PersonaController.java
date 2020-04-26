@@ -25,7 +25,6 @@ import javax.ws.rs.core.Response.Status;
 
 import com.ipartek.formacion.model.Curso;
 import com.ipartek.formacion.model.Persona;
-import com.ipartek.formacion.model.Rol;
 import com.ipartek.formacion.model.dao.CursoDAO;
 import com.ipartek.formacion.model.dao.PersonaDAO;
 
