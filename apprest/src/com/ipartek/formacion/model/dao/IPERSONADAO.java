@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.ipartek.formacion.model.Persona;
-import com.ipartek.formacion.model.Rol;
 
 public interface IPERSONADAO extends IDAO<Persona>{
 
@@ -14,7 +13,7 @@ public interface IPERSONADAO extends IDAO<Persona>{
 	 * @return
 	 * @throws Exception En caso de que Rol no exista o Rol == null
 	 */
-	List<Persona> getAllByRol( Rol rol ) throws Exception;
+	List<Persona> getAllByRol( String rol ) throws Exception;
 
 	/**
 	 * Se contrata un curso para el alumno. Se pasa como parámetro el id del alumno y el id del curso a contratar

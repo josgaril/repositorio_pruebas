@@ -21,6 +21,8 @@ public class Persona {
 	
 	private ArrayList<Curso> cursos;
 	
+	private int rol;
+	
 	public Persona() {
 		super();
 		this.id = 0;
@@ -28,14 +30,17 @@ public class Persona {
 		this.avatar = "avatar1.png";
 		this.sexo = "";
 		this.cursos = new ArrayList<Curso> ();
+		this.rol= 1;
+
 	}
 
-	public Persona(int id, String nombre, String avatar, String sexo) {		
+	public Persona(int id, String nombre, String avatar, String sexo, int rol) {		
 		this();
 		this.id = id;
 		this.nombre = nombre;
 		this.avatar = avatar;
 		this.sexo = sexo;	
+		this.rol= rol;
 		
 	}
 
@@ -77,6 +82,14 @@ public class Persona {
 
 	public void setCursos(ArrayList<Curso> cursos) {
 		this.cursos = cursos;
+	}
+
+	public int getRol() {
+		return rol;
+	}
+
+	public void setRol(int rol) {
+		this.rol = rol;
 	}
 
 	@Override

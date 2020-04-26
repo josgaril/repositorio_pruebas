@@ -25,7 +25,8 @@ public class CursoDAO implements IDAO<Curso>{
             "   pf.id as profesor_id, \n" + 
             "   pf.nombre as profesor_nombre, \n" + 
             "   pf.avatar as profesor_avatar, \n" + 
-            "   pf.sexo as profesor_sexo\n" + 
+            "   pf.sexo as profesor_sexo, \n" + 
+			"	pf.rol as profesor_rol \n" + 
             "   FROM curso c \n" + 
             "   JOIN persona pf ON c.profesor = pf.id \n" + 
             "   ORDER BY c.id desc\n" + 
@@ -40,7 +41,8 @@ public class CursoDAO implements IDAO<Curso>{
             "   pf.id as profesor_id, \n" + 
             "   pf.nombre as profesor_nombre, \n" + 
             "   pf.avatar as profesor_avatar, \n" + 
-            "   pf.sexo as profesor_sexo\n" + 
+            "   pf.sexo as profesor_sexo, \n" + 
+			"	pf.rol as profesor_rol \n" + 
             "   FROM curso c \n" + 
             "   JOIN persona pf ON c.profesor = pf.id \n" + 
             "   WHERE c.nombre LIKE ? \n" + 	
@@ -56,7 +58,8 @@ public class CursoDAO implements IDAO<Curso>{
             "   pf.id as profesor_id, \n" + 
             "   pf.nombre as profesor_nombre, \n" + 
             "   pf.avatar as profesor_avatar, \n" + 
-            "   pf.sexo as profesor_sexo\n" + 
+            "   pf.sexo as profesor_sexo, \n" + 
+			"	pf.rol as profesor_rol \n" + 
             "   FROM curso c \n" + 
             "   JOIN persona pf ON c.profesor = pf.id \n" + 
             "   WHERE c.id = ?";
@@ -176,6 +179,7 @@ public class CursoDAO implements IDAO<Curso>{
         profesor.setNombre(rs.getString("profesor_nombre"));
         profesor.setAvatar(rs.getString("profesor_avatar"));
         profesor.setSexo(rs.getString("profesor_sexo"));
+        profesor.setRol(rs.getInt("profesor_rol"));
 
         c.setProfesor(profesor);
         return c;

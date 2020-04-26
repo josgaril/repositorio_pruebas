@@ -23,7 +23,7 @@ function init() {
   
   listener();
   galeriaImagenes();
-
+  const rol = "alumno";
   obtenerPersonas();
   obtenerCursosDisponibles();
   console.debug('continua la ejecuion del script de forma sincrona');
@@ -136,7 +136,7 @@ function pintarListado(arrayPersonas) {
 
 /**
  * Rellena el formulario con los datos de la persona si se pulsa el botón de editar persona
- * Muestra el formulario vacíó si se pulsa el botón de nueva persona
+ * Muestra el formulario vacío si se pulsa el botón de nueva persona
  * @param {*} idPersona id de la persona
  */
 function verDetalles(idPersona = 0) {
@@ -152,7 +152,8 @@ function verDetalles(idPersona = 0) {
       "nombre": "Sin-nombre",
       "avatar": "avatar7.png",
       "sexo": "h",
-      "cursos": []
+      "cursos": [],
+      "rol": 1
     };
     console.trace('Click Agregar nueva persona');
 
@@ -213,7 +214,8 @@ function guardar() {
     "id": id,
     "nombre": nombre,
     "avatar": avatar,
-    "sexo": sexo
+    "sexo": sexo, 
+    "rol": 1
   }
 
   //Modificar
@@ -321,9 +323,10 @@ function seleccionarAvatar(evento) {
 /**
  * Llama al servicio rest GET para obtener todas las personas y pinta la lista con esas personas
  */
-function obtenerPersonas() {
+function obtenerPersonas(rol = "alumno") {
   console.info('Obtenemos todas las personas');
-  const url = endpoint + 'personas/';
+  console.debug('Obtenemos las personas que sean: ' + rol);
+  const url = endpoint + 'personas/?rol=' + rol;
   ajax("GET", url, undefined)
     .then(data => {
       console.trace('Promesa resuelta');

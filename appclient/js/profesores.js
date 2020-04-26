@@ -23,7 +23,7 @@ function init() {
   
   listener();
   galeriaImagenes();
-
+  const rol = "profesor";
   obtenerPersonas();
   obtenerCursosDisponibles();
   console.debug('continua la ejecuion del script de forma sincrona');
@@ -213,7 +213,8 @@ function guardar() {
     "id": id,
     "nombre": nombre,
     "avatar": avatar,
-    "sexo": sexo
+    "sexo": sexo,
+    "rol": 2
   }
 
   //Modificar
@@ -321,9 +322,10 @@ function seleccionarAvatar(evento) {
 /**
  * Llama al servicio rest GET para obtener todas las personas y pinta la lista con esas personas
  */
-function obtenerPersonas() {
+function obtenerPersonas(rol = "profesor") {
   console.info('Obtenemos todas las personas');
-  const url = endpoint + 'personas/';
+  console.debug('Obtenemos las personas que sean: ' + rol);
+  const url = endpoint + 'personas/?rol=' + rol;
   ajax("GET", url, undefined)
     .then(data => {
       console.trace('Promesa resuelta');

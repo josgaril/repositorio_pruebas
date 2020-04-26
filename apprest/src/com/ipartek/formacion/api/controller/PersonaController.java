@@ -18,12 +18,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.ipartek.formacion.model.Curso;
 import com.ipartek.formacion.model.Persona;
+import com.ipartek.formacion.model.Rol;
 import com.ipartek.formacion.model.dao.CursoDAO;
 import com.ipartek.formacion.model.dao.PersonaDAO;
 
@@ -46,13 +48,34 @@ public class PersonaController {
 		super();
 	}
 
-	@GET
-	public ArrayList<Persona> getAll() {
-		LOGGER.info("getAll");
-		ArrayList<Persona> registros = (ArrayList<Persona>) personaDAO.getAll();
-		return registros;
-	}
-
+	/*
+	 * @GET public ArrayList<Persona> getAll() { LOGGER.info("getAll");
+	 * 
+	 * ArrayList<Persona> registros = (ArrayList<Persona>) personaDAO.getAll();
+	 * return registros; }
+	 */
+	
+	
+	
+	  @GET 
+	  public ArrayList<Persona> getAll(@QueryParam("rol") String rol) throws Exception{
+	  
+		  LOGGER.info("getAll");
+		  ArrayList<Persona> personas = new ArrayList<Persona>();
+		  
+		  if (rol == null || "".contentEquals(rol.trim())) {
+			  LOGGER.info("Se obtienen todas las personas");
+			  personas = (ArrayList<Persona>) personaDAO.getAll();
+		  }else {
+			  LOGGER.info("Se obtienen todos los: " + rol);
+			  personas = (ArrayList<Persona>) personaDAO.getAllByRol(rol);
+		  }
+		  
+		  return personas; 
+	  }
+		 
+	
+	
 	@GET
 	@Path("/{id: \\d+}")
 	public Response getById(@PathParam("id") int id) {
