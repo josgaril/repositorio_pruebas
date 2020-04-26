@@ -3,6 +3,7 @@ package com.ipartek.formacion.model;
 import java.util.ArrayList;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class Persona {
@@ -21,6 +22,7 @@ public class Persona {
 	
 	private ArrayList<Curso> cursos;
 	
+	@NotNull
 	private int rol;
 	
 	public Persona() {
@@ -95,7 +97,7 @@ public class Persona {
 	@Override
 	public String toString() {
 		return "Persona [id=" + id + ", nombre=" + nombre + ", avatar=" + avatar + ", sexo=" + sexo + ", cursos="
-				+ cursos + "]";
+				+ cursos + ", rol=" + rol + "]";
 	}
 
 
