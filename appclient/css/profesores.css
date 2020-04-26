@@ -1,0 +1,179 @@
+body {
+    max-width: 1024px;
+    margin: auto;
+
+}
+
+main {
+    min-height: 90vh;
+}
+
+/* Titulo principal */
+#titulo {
+    background-color: cornflowerblue;
+    color: white;
+    text-align: center;
+    height: 2em;
+    font-size: 2em;
+    padding: 20px 10px;
+}
+/* Fin Titulo principal */
+
+/* Buscador */
+.icono-nueva-persona {
+    font-size: 25px;
+}
+/* Fin Buscador */
+
+/* Listado de alumnos */
+#personas>li {
+    background-color: gray;
+}
+
+.nombre-personas {
+    font-size: 25px;
+    text-align: center;
+    padding: 0.5em 0;
+}
+
+.imagen-personas {
+    padding-left: 0;
+}
+
+.iconos-personas {
+    font-size: 25px;
+    padding: 0.4em 0;
+}
+/* FIn Listado de alumnos */
+
+/* Formulario */
+.formulario {
+    padding: 10px 20px 10px 10px;
+    border: 1px solid black;
+    height: 435px;
+}
+
+#inputNombre,
+#inputId {
+    width: 100%;
+}
+
+#gallery img {
+    filter: grayscale(100%);
+}
+
+#gallery img.selected {
+    border: 3px solid rgb(22, 151, 236);
+    filter: grayscale(0);
+}
+
+.iconos-formularios i {
+    font-size: 40px;
+}
+/*  FIn Formulario */
+
+/* Formulario cursos de la persona */
+.formulario-cursos {
+    padding: 10px;
+    border: 1px solid black;
+    height: 250px;
+    background-color: aliceblue;
+}
+
+.imagen-cursos {
+    width: 50px;
+    height: 50px;
+}
+/* Fin Formulario cursos de la persona */
+
+/* Modal */
+.cabeceraCursos {
+    background-color: black;
+    text-decoration-color: white;
+}
+
+/* Animaciones Iconos */
+.fa-pencil-alt:hover {
+    color: rgb(19, 224, 224);
+    font-size: 1.4em;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.fa-trash-alt:hover {
+    color: rgb(245, 133, 68);
+    font-size: 1.4em;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.fa-plus-square:hover {
+    color: rgb(1, 17, 107);
+    font-size: 1.4em;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.fa-save:hover {
+    color: rgb(25, 119, 2);
+    font-size: 3em;
+    transition: 0.5s;
+    cursor: pointer;
+}
+/* Fin animaciones iconos */
+
+/* Footer*/
+.pie {
+    background-color: cornflowerblue;
+    padding: 0.5rem;
+/*     margin-top: 1rem;
+ */    border-top: 10rem;
+}
+
+.copyright {
+    font-size: 1rem;
+}
+
+.redes-sociales {
+    font-size: 2rem;
+}
+/* Fin Footer*/
+
+/* Scroll  */
+.scrollVertical {
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 240px;
+}
+
+/* Scroll vertical para cursos contratados */
+.scrollVerticalCursos {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 200px;
+}
+/* Fin Scroll  */
+
+/* Media queries*/
+@media(min-width: 480px) {
+    .formulario {
+        height: 400px;
+    }
+}
+
+@media(min-width: 768px) {
+    .formulario-cursos {
+        height: 250px;
+        background-color: aliceblue;
+    }
+
+    .formulario {
+        height: 377px;
+    }
+}
+/* Fin Media queries*/
+
+
+.padding0{
+    padding: 0;
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="css/all.min.css" />
+
+  <!-- Styles css -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/profesores.css" />
+
+  <!-- Animate cs -->
+  <link rel="stylesheet" href="/vendors/animate.css">
+
+  <title>Academia Chop</title>
+
+</head>
+
+<body>
+  <main class="menu">
+
+    <h1 id="titulo" class=" rounded-bottom">Listado Profesores</h1>
+
+    <div class="Buscador mx-2 shadow mb-4 p-3 bg-white rounded-bottom" style="display:none">
+      <legend class="p-1">Buscador</legend>
+      <div class="form-row">
+
+        <div class="col-12 col-sm-3">
+          <select id="sexoSelect" class="custom-select" name="sexoSelect" data-toggle="tooltip" data-placement="bottom"
+            title="Seleccionar sexo">
+            <option value="t" selected>Todos</option>
+            <option value="h">Hombre</option>
+            <option value="m">Mujer</option>
+          </select>
+        </div>
+        <!-- /Columna Select -->
+
+        <div class="col-12 col-sm-5">
+          <input id="nombreInput" type="text" class="form-control" placeholder="Introduzca un nombre...">
+        </div>
+        <!-- /Columna NombreInput  -->
+
+        <div class="col-6 col-sm-2">
+          <i onclick="verDetalles()" class="fas fa-user-plus m-1 icono-nueva-persona" data-toggle="tooltip"
+            data-placement="right" title="Nueva persona"></i>
+        </div>
+        <!-- /Columna Icono Nueva Persona  -->
+  
+        <div class="col-6 col-sm-2">
+            <a href="http://127.0.0.1:5500/appclient/index.html" class="btn btn-success btn-sm m-1">Ver alumnos</a>
+        </div>
+        <!-- /Columna botonProfesores -->
+
+      </div>
+      <!-- /Fila Buscador-->
+
+    </div>
+    <!-- /Buscador -->
+
+    <div class="row mx-2">
+
+      <div class="col-12 col-md-4 listadoPersonas scrollVertical" id="listado-personas" style="display:none; max-height:377px;">
+        <ul id="personas" class="list-group mr-2">
+          <li class="list-group-item ">Cargando...</li>
+        </ul>
+      </div>
+      <!-- /Listado de personas -->
+
+      <div class="col-12 col-md-8 formulario" id="formulario-personas" style="display:none">
+        <div class="row d-flex justify-content-between">
+
+          <div class="col-6 formulario-persona">
+
+            <div class="form-group row d-flex align-items-center mb-0 mb-sm-2">
+              <label for=" inputId" class="col-12 col-lg-3 col-form-label">ID: </label>
+              <div class="col-12 col-lg-9">
+                <input type="text" id="inputId" placeholder="id" readonly>
+              </div>
+            </div>
+            <!-- /Fila Id persona -->
+
+            <div class="form-group row d-flex align-items-center mb-0 mb-sm-2">
+              <label for=" inputNombre" class="col-12 col-lg-3 col-form-label">Nombre: </label>
+              <div class="col-12 col-lg-9">
+                <input type="text" id="inputNombre" placeholder="Introduzca el nombre">
+              </div>
+            </div>
+            <!-- /Fila Nombre Persona -->
+
+            <div class="form-group row">
+              <label for="inputAvatar" class="col-12 col-lg-3 col-form-label" hidden>Avatar: </label>
+              <div class="col-12 col-lg-9">
+                <input type="text" id="inputAvatar" readonly="readonly" placeholder="url imagen" hidden>
+              </div>
+            </div>
+            <!-- /Fila Avatar Persona -->
+
+            <div class="form-group row">
+              <label class="col-12 col-lg-3 col-form-label">Sexo: </label>
+              <div class="col-12 col-lg-9 d-flex align-items-center">
+                <input checked="checked" type="radio" name="sexo" id="sexoH" value="h">
+                <label for="sexoH">Hombre</label>
+                <input class="ml-3" type="radio" name="sexo" id="sexoM" value="m">
+                <label for="sexoM">Mujer</label>
+              </div>
+            </div>
+            <!-- /Fila RadioButton Sexo Persona-->
+
+            <div class="form-group row m-2 d-flex justify-content-center" id="gallery">
+            </div>
+            <!-- /Fila ImagenesAvatares Persona-->
+          </div>
+          <!-- /Formulario datos de persona -->
+
+          <div class="col-6 formulario-cursos">
+            <div >
+              <h3 class="text-center font-weight-bold"><u>Cursos contratados</u></h3>
+            </div>
+            <div class="scrollVerticalCursos mt-1">
+              <ul id="cursosContratados" class="list-group m-3 " >
+                <li class="list-group-item ">No tiene ningún curso contratado todavía</li>
+              </ul>
+            </div>
+            <div class="form-group row iconos-formularios mt-5">
+              <div class="col-4 ">
+                <i onclick="guardar()" class="far fa-save m-1 float-right" data-toggle="tooltip" data-placement="left"
+                  title="Guardar"></i>
+              </div>
+              <!-- /Icono gurdar -->
+    
+              <div class="col-8">
+                <!-- Button trigger modal -->
+                <button id="modalButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal">
+                  Contratar curso
+                </button>
+    
+              </div>
+            </div>
+            <!-- /Botones Guardar y Contratar curso -->
+          </div>
+          <!-- /Formulario Cursos -->
+        </div>
+        <!-- /Fila datos persona y formulario Cursos -->
+
+        
+
+      </div>
+      <!-- /Formulario persona -->
+
+    </div>
+    <!-- /Fila Lista persona y Formulario persona -->
+
+  </main>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Seleccione el curso a contratar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- /Modal Header -->
+
+        <div class="modal-body">
+          <i class="fas fa-search" style="font-size:20px;"></i>
+          <input id="inputCurso" type="text" placeholder="Busqueda por nombre">
+        </div>
+
+        <div class="modal-body">
+          <div class=" p-1 mb-1 row bg-dark text-white">
+            <div class="col-2 padding0">
+              
+            </div>
+            <div class="col-5 ">
+              <p>Nombre</p>
+            </div>
+            <div class="col-3 ">
+              <p>Precio</p>
+            </div>
+            <div class="col-1 ">
+              <p>Profesor</p>
+            </div>
+            <div class="col-1 ">
+            </div>
+          </div>
+          <ul id="cursosDisponibles" class="scrollVertical" style="height: 300px; padding-right: 1.5rem;">
+            <li>Listado con todos los cursos disponibles</li>
+          </ul>
+        </div>
+        <!-- /Modal Body -->
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        <!-- /Modal Footer -->
+
+      </div>
+      <!-- /Modal Content -->
+
+    </div>
+    <!-- /MOdal Dialog -->
+
+  </div>
+  <!-- /Modal -->
+
+  
+  <footer class="pie text-white rounded-top">
+    <p class="copyright col">&copy;2020 Jose Angel Garcia Illera</p>
+    <p class="redes-sociales col text-right">
+      <i class="fab fa-facebook-square"></i>
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-twitter-square"></i>
+    </p>
+  </footer>
+
+  <!-- jQuery  -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <!-- Bootstrap -->
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <script src="js/ajax.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+
+</html>
