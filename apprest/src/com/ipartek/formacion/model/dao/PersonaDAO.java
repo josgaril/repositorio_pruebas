@@ -12,44 +12,28 @@ import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Curso;
 import com.ipartek.formacion.model.Persona;
+import com.ipartek.formacion.model.Rol;
 
-public class PersonaDAO implements IDAO<Persona> {
+public class PersonaDAO implements IPERSONADAO {
 
 	private static final Logger LOGGER = Logger.getLogger(PersonaDAO.class.getCanonicalName());
 
 	private static PersonaDAO INSTANCE = null;
-	
-	private static final String SQL_GET_ALL= 
-			"	SELECT \n" + 
-			"	p.id as persona_id, \n" + 
-			"	p.nombre as persona_nombre, \n" + 
-			"	p.avatar as persona_avatar, \n" + 
-			"	p.sexo as persona_sexo, \n" + 
-			"	c.id as curso_id, \n" + 
-			"	c.nombre as curso_nombre, \n" + 
-			"	c.imagen as curso_imagen, \n" + 
-			"	c.precio as curso_precio\n" + 
-			"	FROM (persona p \n" + 
-			"	LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona)\n" + 
-			"	LEFT JOIN curso c ON cc.id_curso = c.id\n" + 
-			"	ORDER BY persona_id , curso_nombre LIMIT 500";	
-	
-	private static final String SQL_GET_BY_ID = 
-			"	SELECT \n" + 
-			"	p.id as persona_id, \n" + 
-			"	p.nombre as persona_nombre, \n" + 
-			"	p.avatar as persona_avatar, \n" + 
-			"	p.sexo as persona_sexo, \n" + 
-			"	c.id as curso_id, \n" + 
-			"	c.nombre as curso_nombre, \n" + 
-			"	c.imagen as curso_imagen, \n" + 
-			"	c.precio as curso_precio\n" + 
-			"	FROM (persona p \n" + 
-			"	LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona)\n" + 
-			"	LEFT JOIN curso c ON cc.id_curso = c.id\n" + 
-			"	WHERE p.id = ?" + 
-			" 	LIMIT 500";
-	
+
+	private static final String SQL_GET_ALL = "	SELECT \n" + "	p.id as persona_id, \n"
+			+ "	p.nombre as persona_nombre, \n" + "	p.avatar as persona_avatar, \n" + "	p.sexo as persona_sexo, \n"
+			+ "	c.id as curso_id, \n" + "	c.nombre as curso_nombre, \n" + "	c.imagen as curso_imagen, \n"
+			+ "	c.precio as curso_precio\n" + "	FROM (persona p \n"
+			+ "	LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona)\n"
+			+ "	LEFT JOIN curso c ON cc.id_curso = c.id\n" + "	ORDER BY persona_id , curso_nombre LIMIT 500";
+
+	private static final String SQL_GET_BY_ID = "	SELECT \n" + "	p.id as persona_id, \n"
+			+ "	p.nombre as persona_nombre, \n" + "	p.avatar as persona_avatar, \n" + "	p.sexo as persona_sexo, \n"
+			+ "	c.id as curso_id, \n" + "	c.nombre as curso_nombre, \n" + "	c.imagen as curso_imagen, \n"
+			+ "	c.precio as curso_precio\n" + "	FROM (persona p \n"
+			+ "	LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona)\n"
+			+ "	LEFT JOIN curso c ON cc.id_curso = c.id\n" + "	WHERE p.id = ?" + " 	LIMIT 500";
+
 	private static final String SQL_INSERT = "INSERT INTO persona (nombre, avatar, sexo) VALUES(?,?,?)";
 	private static final String SQL_UPDATE = "UPDATE persona SET nombre=?, avatar=?, sexo=? WHERE id=?";
 	private static final String SQL_DELETE = "DELETE FROM persona WHERE id=?";
@@ -72,15 +56,15 @@ public class PersonaDAO implements IDAO<Persona> {
 	public List<Persona> getAll() {
 		LOGGER.info("getAll");
 
-		//ArrayList<Persona> personas = new ArrayList<Persona>();
+		// ArrayList<Persona> personas = new ArrayList<Persona>();
 		HashMap<Integer, Persona> hmPersonas = new HashMap<Integer, Persona>();
-		
+
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pst = con.prepareStatement(SQL_GET_ALL);
 				ResultSet rs = pst.executeQuery();
 
 		) {
-			
+
 			LOGGER.info(pst.toString());
 
 			while (rs.next()) {
@@ -91,7 +75,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			e.printStackTrace();
 		}
 
-		return new ArrayList<Persona> (hmPersonas.values());
+		return new ArrayList<Persona>(hmPersonas.values());
 	}
 
 	@Override
@@ -108,12 +92,12 @@ public class PersonaDAO implements IDAO<Persona> {
 
 			try (ResultSet rs = pst.executeQuery()) {
 
-				if(rs.next()) {
-					mapper(rs,hmPersonas);
+				if (rs.next()) {
+					mapper(rs, hmPersonas);
 					while (rs.next()) {
-						mapper(rs,hmPersonas);
+						mapper(rs, hmPersonas);
 					}
-				}else { 
+				} else {
 					throw new Exception("No se ha encontrado la persona: " + id);
 				}
 
@@ -168,7 +152,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			if (numeroRegistrosModificados != 1) {
 				throw new Exception("Se ha hecho menos o mas de un update");
 			}
-			
+
 		} catch (SQLException e) {
 			throw new SQLException("No se ha podido modificar la persona." + e);
 		}
@@ -193,7 +177,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			}
 
 		} catch (SQLException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			throw new SQLException("No se ha podido eliminar la persona con id: " + id, e.getMessage());
 
 		}
@@ -201,23 +185,23 @@ public class PersonaDAO implements IDAO<Persona> {
 	}
 
 	private void mapper(ResultSet rs, HashMap<Integer, Persona> hm) throws SQLException {
-		
+
 		int key = rs.getInt("persona_id");
 		Persona p = hm.get(key);
-		
-		//Comprobamos si existe el id en el HashMap, si no existe se crea
-		if (p==null) {
+
+		// Comprobamos si existe el id en el HashMap, si no existe se crea
+		if (p == null) {
 			p = new Persona();
 			p.setId(key);
 			p.setNombre(rs.getString("persona_nombre"));
 			p.setAvatar(rs.getString("persona_avatar"));
 			p.setSexo(rs.getString("persona_sexo"));
 		}
-		
-		//Añadimos los cursos
+
+		// Añadimos los cursos
 		int idCurso = rs.getInt("curso_id");
-		//Comprobamos si existe el curso, en caso contrario se crea
-		if(idCurso != 0) {
+		// Comprobamos si existe el curso, en caso contrario se crea
+		if (idCurso != 0) {
 			Curso c = new Curso();
 			c.setId(idCurso);
 			c.setNombre(rs.getString("curso_nombre"));
@@ -225,51 +209,58 @@ public class PersonaDAO implements IDAO<Persona> {
 			c.setPrecio(rs.getFloat("curso_precio"));
 			p.getCursos().add(c);
 		}
-		
-		//Actualizamos HashMap
+
+		// Actualizamos HashMap
 		hm.put(key, p);
 	}
 
-	  public boolean contratarCurso(int idPersona, int idCurso) throws Exception,SQLException {
-		  boolean correcto = false;
-		  
-		  try (Connection con = ConnectionManager.getConnection(); 
-				  PreparedStatement pst = con.prepareStatement(SQL_CONTRATAR_CURSO)) {
-			  
-			  pst.setInt(1, idPersona); 
-			  pst.setInt(2, idCurso); 
-			  LOGGER.info(pst.toString());
-			  
-			  
-			  int numeroRegistrosModificados = pst.executeUpdate(); 
-			  if(numeroRegistrosModificados == 1) { 
-				  correcto = true;
-			  }else {
-					throw new SQLException();
-			  }
-		 }
-		  
+	@Override
+	public boolean contratarCurso(int idPersona, int idCurso) throws Exception, SQLException {
+		boolean correcto = false;
+
+							try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_CONTRATAR_CURSO)) {
+
+			pst.setInt(1, idPersona);
+			pst.setInt(2, idCurso);
+			LOGGER.info(pst.toString());
+
+			int numeroRegistrosModificados = pst.executeUpdate();
+			if (numeroRegistrosModificados == 1) {
+				correcto = true;
+			} else {
+				throw new SQLException();
+			}
+		}
+
 		return correcto;
-	  }
-	  
-	  public boolean eliminarCursoContratado(int idPersona, int idCurso) throws Exception, SQLException {
-		  boolean correcto = false;
-		  
-		  try( Connection con = ConnectionManager.getConnection();
-				  PreparedStatement pst = con.prepareStatement(SQL_ELIMINAR_CURSO_CONTRATADO);){
-			  
-			  pst.setInt(1, idPersona);
-			  pst.setInt(2, idCurso);
-			  LOGGER.info(pst.toString());
-			  
-			  int numeroRegistrosModificados = pst.executeUpdate();
-			  if (numeroRegistrosModificados == 1) {
-				  correcto = true;
-			  }else {
-					throw new Exception("No se ha encontrado el curso " + idCurso);
-			  }
-		  }
-		  return correcto;
-	  }
-	  
+	}
+
+	@Override
+	public boolean eliminarCursoContratado(int idPersona, int idCurso) throws Exception {
+		boolean correcto = false;
+
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_ELIMINAR_CURSO_CONTRATADO);) {
+
+			pst.setInt(1, idPersona);
+			pst.setInt(2, idCurso);
+			LOGGER.info(pst.toString());
+
+			int numeroRegistrosModificados = pst.executeUpdate();
+			if (numeroRegistrosModificados == 1) {
+				correcto = true;
+			} else {
+				throw new Exception("No se ha encontrado el curso " + idCurso);
+			}
+		}
+		return correcto;
+	}
+
+	@Override
+	public List<Persona> getAllByRol(Rol rol) throws Exception {
+		// TODO Auto-generated method stub  PRIMERO IMPLEMENTAR EN EL DAO
+		return null;
+	}
+
 }

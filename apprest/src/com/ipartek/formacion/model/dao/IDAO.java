@@ -41,8 +41,8 @@ public interface IDAO<P> {
 	 * Elimina pojo por su id
 	 * @param id
 	 * @return el pojo eliminado
-	 * @throws Exception si no encuntra id
-	 * @throws SQLException si existe alguna contrsain con otras tablas
+	 * @throws Exception si no encuentra id
+	 * @throws SQLException si existe alguna constraint con otras tablas
 	 */
 	P delete(int id) throws Exception, SQLException;
 	
