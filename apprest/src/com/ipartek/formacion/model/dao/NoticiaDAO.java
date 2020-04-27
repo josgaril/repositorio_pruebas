@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Noticia;
+import com.ipartek.formacion.model.Persona;
 
 public class NoticiaDAO implements IDAO<Noticia> {
 	
@@ -81,6 +82,12 @@ public synchronized static NoticiaDAO getInstance() {
 	public Noticia delete(int id) throws Exception, SQLException {
 		throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
 
+	}
+
+	@Override
+	public Persona getByNombre(String nombre) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
