@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Curso;
+import com.ipartek.formacion.model.Persona;
 
 public class CursoDAO implements IDAO<Curso>{
 	private static final Logger LOGGER = Logger.getLogger(CursoDAO.class.getCanonicalName());
@@ -122,6 +123,11 @@ public class CursoDAO implements IDAO<Curso>{
 	public Curso delete(int id) throws Exception, SQLException {
 		throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
 	}
+	
+	@Override
+	public Persona getByNombre(String nombre) throws Exception {
+		throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
+	}
 
 	private Curso mapper(ResultSet rs) throws SQLException{
 		Curso c = new Curso();
@@ -131,4 +137,6 @@ public class CursoDAO implements IDAO<Curso>{
 		c.setPrecio(rs.getFloat("precio"));
 		return c;
 	}
+
+
 }

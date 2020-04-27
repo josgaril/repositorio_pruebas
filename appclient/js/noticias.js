@@ -29,7 +29,7 @@ function init() {
                                 </div>
                             </div>
 
-                            <p class="card-text mb-2">${el.contenido}</p>
+                            <div class="card-text mb-2">${el.contenido}</div>
                         </div>
                     </div>
                     `

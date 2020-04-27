@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Curso;
@@ -48,6 +49,22 @@ public class PersonaDAO implements IDAO<Persona> {
 			"	LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona)\n" + 
 			"	LEFT JOIN curso c ON cc.id_curso = c.id\n" + 
 			"	WHERE p.id = ?" + 
+			" 	LIMIT 500";
+	
+	private static final String SQL_GET_BY_NOMBRE = 
+			"	SELECT \n" + 
+			"	p.id as persona_id, \n" + 
+			"	p.nombre as persona_nombre, \n" + 
+			"	p.avatar as persona_avatar, \n" + 
+			"	p.sexo as persona_sexo, \n" + 
+			"	c.id as curso_id, \n" + 
+			"	c.nombre as curso_nombre, \n" + 
+			"	c.imagen as curso_imagen, \n" + 
+			"	c.precio as curso_precio\n" + 
+			"	FROM (persona p \n" + 
+			"	LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona)\n" + 
+			"	LEFT JOIN curso c ON cc.id_curso = c.id\n" + 
+			"	WHERE p.nombre = ?" + 
 			" 	LIMIT 500";
 	
 	private static final String SQL_INSERT = "INSERT INTO persona (nombre, avatar, sexo) VALUES(?,?,?)";
@@ -123,6 +140,37 @@ public class PersonaDAO implements IDAO<Persona> {
 		return persona;
 	}
 
+	@Override
+	public Persona getByNombre(String nombre) throws Exception {
+		LOGGER.info("getByNombre (" + nombre + ")");
+		HashMap<Integer, Persona> hmPersonas = new HashMap<Integer, Persona>();
+
+		Persona persona = null;
+
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_BY_NOMBRE)) {
+			pst.setString(1, nombre);
+			LOGGER.info(pst.toString());
+
+			try (ResultSet rs = pst.executeQuery()) {
+
+				if(rs.next()) {
+					persona = mapper(rs,hmPersonas);
+					while (rs.next()) {
+						persona = mapper(rs,hmPersonas);
+					}
+				}else { 
+					throw new Exception("No se ha encontrado la persona: " + nombre);
+				}
+
+				//persona = hm Personas.get(id);
+			}catch(SQLException e) {
+				LOGGER.log(Level.SEVERE , "Exception de SQL", e);
+			}
+		}
+		return persona;
+	}
+	
 	@Override
 	public Persona insert(Persona persona) throws Exception, SQLException {
 		LOGGER.info("insert");
@@ -200,7 +248,7 @@ public class PersonaDAO implements IDAO<Persona> {
 		return persona;
 	}
 
-	private void mapper(ResultSet rs, HashMap<Integer, Persona> hm) throws SQLException {
+	private Persona mapper(ResultSet rs, HashMap<Integer, Persona> hm) throws SQLException {
 		
 		int key = rs.getInt("persona_id");
 		Persona p = hm.get(key);
@@ -228,6 +276,7 @@ public class PersonaDAO implements IDAO<Persona> {
 		
 		//Actualizamos HashMap
 		hm.put(key, p);
+		return p;
 	}
 
 	  public boolean contratarCurso(int idPersona, int idCurso) throws Exception,SQLException {

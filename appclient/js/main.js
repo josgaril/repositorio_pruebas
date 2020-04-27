@@ -50,6 +50,28 @@ function listener() {
   let formBuscador = document.querySelector('.Buscador');
   formBuscador.style.display= "block";
   formBuscador.classList.add("animated" , "slideInDown" , "slow");
+
+  //Filtro buscar personas por nombre
+  let iNombre = document.getElementById("inputNombre");
+  let sNombre = document.getElementById("sNombre").value;
+
+ iNombre.addEventListener('keyup', () => {
+    console.debug("Persona filtrada: ", iNombre.value);
+    //let nombre = inputNombre.value.trim().toLowerCase();
+    let url = endpoint + `personas/?nombre=${iNombre.value}`;
+    ajax("GET", url , undefined)
+    .then( data =>{
+        console.info("Busqueda personas por nombre aceptada");
+        console.debug("Valor de sNombre: " + sNombre);
+        sNombre.classList.add(invalid);
+        sNombre.value='Nombre existente';
+    })
+    .catch(error => {
+      console.info("Busqueda personas por nombre rechazada");
+        sNombre.classList.add(valid);
+        sNombre.innerHTML='Nombre disponible';
+    });
+  }); 
 } //Fin function listener
 
 

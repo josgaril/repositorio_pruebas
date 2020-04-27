@@ -3,6 +3,8 @@ package com.ipartek.formacion.model.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.ipartek.formacion.model.Persona;
+
 /**
  * 
  * @return
@@ -10,6 +12,15 @@ import java.util.List;
 public interface IDAO<P> {
 
 	List<P> getAll();
+	
+	/**
+	 * Busca una persona por su nombre, tiene que ser único
+	 * @param nombre String
+	 * @return persona
+	 * @throws Exception si no encuentra la persona
+	 */
+	Persona getByNombre(String nombre) throws Exception;
+	
 	
 	/**
 	 * busca un pojo por su id
@@ -45,6 +56,7 @@ public interface IDAO<P> {
 	 * @throws SQLException si existe alguna contrsain con otras tablas
 	 */
 	P delete(int id) throws Exception, SQLException;
+
 	
 
 

@@ -18,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -46,13 +47,37 @@ public class PersonaController {
 		super();
 	}
 
-	@GET
-	public ArrayList<Persona> getAll() {
-		LOGGER.info("getAll");
-		ArrayList<Persona> registros = (ArrayList<Persona>) personaDAO.getAll();
-		return registros;
-	}
+	/*
+	 * @GET public ArrayList<Persona> getAll() { LOGGER.info("getAll");
+	 * ArrayList<Persona> registros = (ArrayList<Persona>) personaDAO.getAll();
+	 * return registros; }
+	 */
 
+	@GET
+	public Response getAll( @QueryParam("nombre") String nombre){
+		LOGGER.info("getAllNombre");
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		if ( nombre == null || "".equals(nombre.trim())) {
+			LOGGER.info("Obtenemos todas las personas");
+			ArrayList<Persona> registros = (ArrayList<Persona>) personaDAO.getAll();
+			response = Response.status(Status.OK).entity(registros).build();
+		}else {
+			LOGGER.info("Obenemos la persona con nombre: " + nombre);
+			try {
+				Persona registro = new Persona();
+				registro = personaDAO.getByNombre(nombre);
+				response = Response.status(Status.OK).entity(registro).build();
+			} catch (Exception e) {
+				LOGGER.info("No se ha encontrado la persona: " + nombre);
+				response = Response.status(Status.NOT_FOUND).entity(null).build();
+			}
+			
+		}
+		
+		return response;
+
+	}
+	
 	@GET
 	@Path("/{id: \\d+}")
 	public Response getById(@PathParam("id") int id) {
