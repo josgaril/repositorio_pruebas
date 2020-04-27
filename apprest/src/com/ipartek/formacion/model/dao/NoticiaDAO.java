@@ -84,10 +84,7 @@ public synchronized static NoticiaDAO getInstance() {
 
 	}
 
-	@Override
-	public Persona getByNombre(String nombre) throws Exception {
-		throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
-	}
+
 
 	
 	
