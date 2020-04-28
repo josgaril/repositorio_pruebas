@@ -1,7 +1,5 @@
 package com.ipartek.formacion.model;
 
-import java.math.BigDecimal;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;

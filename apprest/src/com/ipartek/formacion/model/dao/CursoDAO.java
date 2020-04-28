@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Curso;
-import com.ipartek.formacion.model.Persona;
 
 public class CursoDAO implements IDAO<Curso>{
 	private static final Logger LOGGER = Logger.getLogger(CursoDAO.class.getCanonicalName());
@@ -18,7 +17,6 @@ public class CursoDAO implements IDAO<Curso>{
 	
 	private static final String SQL_GET_ALL = "SELECT id, nombre, imagen, precio FROM curso ORDER BY id DESC LIMIT 100";
 	private static final String SQL_GET_ALL_FILTER = "SELECT id, nombre, imagen, precio FROM curso WHERE nombre LIKE ? LIMIT 100";
-
 	private static final String SQL_GET_BY_ID = "SELECT id, nombre, imagen, precio FROM curso WHERE id=?";
 
 	private CursoDAO() {
@@ -125,7 +123,7 @@ public class CursoDAO implements IDAO<Curso>{
 	}
 	
 	@Override
-	public Persona getByNombre(String nombre) throws Exception {
+	public Curso getByNombre(String nombre) throws Exception {
 		throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
 	}
 

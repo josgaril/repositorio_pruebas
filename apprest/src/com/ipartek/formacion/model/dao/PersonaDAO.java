@@ -89,7 +89,6 @@ public class PersonaDAO implements IDAO<Persona> {
 	public List<Persona> getAll() {
 		LOGGER.info("getAll");
 
-		//ArrayList<Persona> personas = new ArrayList<Persona>();
 		HashMap<Integer, Persona> hmPersonas = new HashMap<Integer, Persona>();
 		
 		try (Connection con = ConnectionManager.getConnection();
@@ -105,7 +104,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE , "Exception de SQL", e);
 		}
 
 		return new ArrayList<Persona> (hmPersonas.values());
@@ -163,7 +162,6 @@ public class PersonaDAO implements IDAO<Persona> {
 					throw new Exception("No se ha encontrado la persona: " + nombre);
 				}
 
-				//persona = hm Personas.get(id);
 			}catch(SQLException e) {
 				LOGGER.log(Level.SEVERE , "Exception de SQL", e);
 			}
@@ -192,8 +190,7 @@ public class PersonaDAO implements IDAO<Persona> {
 				throw new Exception("Se ha hecho mas o menos de una insert");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new SQLException("No se ha podido agregar la persona", e);
+			LOGGER.log(Level.SEVERE, "Exception de SQL", e);
 		}
 		return persona;
 
@@ -218,7 +215,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			}
 			
 		} catch (SQLException e) {
-			throw new SQLException("No se ha podido modificar la persona." + e);
+			LOGGER.log(Level.SEVERE , "Exception de SQL", e);
 		}
 		return persona;
 	}
@@ -241,42 +238,10 @@ public class PersonaDAO implements IDAO<Persona> {
 			}
 
 		} catch (SQLException e) {
-			//e.printStackTrace();
 			throw new SQLException("No se ha podido eliminar la persona con id: " + id, e.getMessage());
 
 		}
 		return persona;
-	}
-
-	private Persona mapper(ResultSet rs, HashMap<Integer, Persona> hm) throws SQLException {
-		
-		int key = rs.getInt("persona_id");
-		Persona p = hm.get(key);
-		
-		//Comprobamos si existe el id en el HashMap, si no existe se crea
-		if (p==null) {
-			p = new Persona();
-			p.setId(key);
-			p.setNombre(rs.getString("persona_nombre"));
-			p.setAvatar(rs.getString("persona_avatar"));
-			p.setSexo(rs.getString("persona_sexo"));
-		}
-		
-		//Añadimos los cursos
-		int idCurso = rs.getInt("curso_id");
-		//Comprobamos si existe el curso, en caso contrario se crea
-		if(idCurso != 0) {
-			Curso c = new Curso();
-			c.setId(idCurso);
-			c.setNombre(rs.getString("curso_nombre"));
-			c.setImagen(rs.getString("curso_imagen"));
-			c.setPrecio(rs.getFloat("curso_precio"));
-			p.getCursos().add(c);
-		}
-		
-		//Actualizamos HashMap
-		hm.put(key, p);
-		return p;
 	}
 
 	  public boolean contratarCurso(int idPersona, int idCurso) throws Exception,SQLException {
@@ -321,4 +286,36 @@ public class PersonaDAO implements IDAO<Persona> {
 		  return correcto;
 	  }
 	  
+		private Persona mapper(ResultSet rs, HashMap<Integer, Persona> hm) throws SQLException {
+			
+			int key = rs.getInt("persona_id");
+			Persona p = hm.get(key);
+			
+			//Comprobamos si existe el id en el HashMap, si no existe se crea
+			if (p==null) {
+				p = new Persona();
+				p.setId(key);
+				p.setNombre(rs.getString("persona_nombre"));
+				p.setAvatar(rs.getString("persona_avatar"));
+				p.setSexo(rs.getString("persona_sexo"));
+			}
+			
+			//Añadimos los cursos
+			int idCurso = rs.getInt("curso_id");
+			//Comprobamos si existe el curso, en caso contrario se crea
+			if(idCurso != 0) {
+				Curso c = new Curso();
+				c.setId(idCurso);
+				c.setNombre(rs.getString("curso_nombre"));
+				c.setImagen(rs.getString("curso_imagen"));
+				c.setPrecio(rs.getFloat("curso_precio"));
+				p.getCursos().add(c);
+			}
+			
+			//Actualizamos HashMap
+			hm.put(key, p);
+			
+			return p;
+		}
+		
 }

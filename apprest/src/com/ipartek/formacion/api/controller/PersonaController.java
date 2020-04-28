@@ -57,9 +57,12 @@ public class PersonaController {
 	public Response getAll( @QueryParam("nombre") String nombre){
 		LOGGER.info("getAllNombre");
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		ArrayList<String> mensaje = new ArrayList<String>();
+
 		if ( nombre == null || "".equals(nombre.trim())) {
 			LOGGER.info("Obtenemos todas las personas");
 			ArrayList<Persona> registros = (ArrayList<Persona>) personaDAO.getAll();
+
 			response = Response.status(Status.OK).entity(registros).build();
 		}else {
 			LOGGER.info("Obenemos la persona con nombre: " + nombre);
@@ -69,7 +72,8 @@ public class PersonaController {
 				response = Response.status(Status.OK).entity(registro).build();
 			} catch (Exception e) {
 				LOGGER.info("No se ha encontrado la persona: " + nombre);
-				response = Response.status(Status.NOT_FOUND).entity(null).build();
+				mensaje.add("No se encuentra el nombre: " + nombre);
+				response = Response.status(Status.NOT_FOUND).entity(mensaje).build();
 			}
 			
 		}
@@ -114,6 +118,7 @@ public class PersonaController {
 				personaDAO.insert(persona);
 				response = Response.status(Status.CREATED).entity(persona).build();
 				LOGGER.info("Se ha creado la persona: " + persona);
+
 
 			} catch (Exception e) {
 				errores.add("Ha introducido el nombre de una persona existente");				

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Noticia;
-import com.ipartek.formacion.model.Persona;
 
 public class NoticiaDAO implements IDAO<Noticia> {
 	
@@ -85,9 +84,8 @@ public synchronized static NoticiaDAO getInstance() {
 	}
 
 	@Override
-	public Persona getByNombre(String nombre) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Noticia getByNombre(String nombre) throws Exception {
+		throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
 	}
 
 	
