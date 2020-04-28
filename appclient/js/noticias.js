@@ -19,12 +19,12 @@ function init() {
                     `   
                     <div class="card tarjetas col-12" >
                         <div class="card-body ">
-                            <div class=card-title row ">
-                                    <div class="col-8"> 
-                                        <span class="d-flex justify-content-left" >${el.titulo}</span>
+                            <div class="card-title row ">
+                                    <div class="col-8 "> 
+                                        <spam class="tituloNoticia" >${el.titulo}</spam>
                                     </div>
-                                    <div class="col-4">
-                                    <span class="auto">${el.fecha}</span>
+                                    <div class="col-4 ">
+                                        <span class="d-flex justify-content-end">${el.fecha}</span>
                                     </div>
                                 </div>
                             </div>
