@@ -53,24 +53,27 @@ function listener() {
 
   //Filtro buscar personas por nombre
   let iNombre = document.getElementById("inputNombre");
-  let sNombre = document.getElementById("sNombre").value;
-
- iNombre.addEventListener('keyup', () => {
+  let sNombre = document.getElementById("sNombre");
+  iNombre.addEventListener('keyup', () => {
     console.debug("Persona filtrada: ", iNombre.value);
-    //let nombre = inputNombre.value.trim().toLowerCase();
-    let url = endpoint + `personas/?nombre=${iNombre.value}`;
-    ajax("GET", url , undefined)
-    .then( data =>{
-        console.info("Busqueda personas por nombre aceptada");
-        console.debug("Valor de sNombre: " + sNombre);
-        sNombre.classList.add(invalid);
-        sNombre.value='Nombre existente';
-    })
-    .catch(error => {
-      console.info("Busqueda personas por nombre rechazada");
-        sNombre.classList.add(valid);
-        sNombre.innerHTML='Nombre disponible';
-    });
+  
+    if (personaSeleccionada.nombre != iNombre.value){
+      let url = endpoint + 'personas/?nombre=' + iNombre.value;
+        ajax("GET", url , undefined)
+        .then( data =>{
+            console.info("Busqueda personas por nombre aceptada");
+            console.debug("Valor de sNombre: " + sNombre.textContent);
+            sNombre.classList.add('invalid');
+            sNombre.classList.remove('valid')
+            sNombre.textContent='Nombre existente';
+        })
+        .catch(error => {
+          console.info("Busqueda personas por nombre rechazada");
+            sNombre.classList.add('valid');
+            sNombre.classList.remove('invalid')
+            sNombre.textContent='Nombre disponible';
+        });
+    }
   }); 
 } //Fin function listener
 
@@ -133,6 +136,9 @@ function pintarListado(arrayPersonas) {
 
   let listado = document.getElementById('personas');
   listado.innerHTML = '';
+
+  let sNombre = document.getElementById("sNombre");
+  sNombre.textContent= "";
 
   arrayPersonas.forEach(el =>
     listado.innerHTML +=
@@ -206,7 +212,9 @@ function verDetalles(idPersona = 0) {
     checkHombre.checked = '';
     checkMujer.checked = 'checked';
   }
-
+  
+  let sNombre = document.getElementById("sNombre");
+  sNombre.textContent= "";
   pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
 } //Fin function verDetalles
 
@@ -245,8 +253,10 @@ function guardar() {
 
     ajax('PUT', url, persona)
       .then(data => {
+        
         // conseguir de nuevo todos los alumnos
         obtenerPersonas();
+        alert("Persona modificada con éxito");
       })
       .catch(error => {
         console.warn(' No se ha podido modificar:', error);
@@ -260,8 +270,10 @@ function guardar() {
     const url = endpoint + 'personas/';
     ajax('POST', url, persona)
       .then(data => {
+        
         // conseguir de nuevo todos los alumnos
         obtenerPersonas();
+        alert("Persona creada con éxito");
       })
       .catch(error => {
         console.warn('No se ha podido crear la persona:', error);
@@ -293,9 +305,11 @@ function eliminarPersona(idPersona) {
       ajax("DELETE", url, undefined)
         .then(data => {
           console.log('Persona eliminada');
+          
           // conseguir de nuevo todos los alumnos
           obtenerPersonas();
-          verDetalles();
+          alert("Persona eliminada");
+         // verDetalles();
         })
         .catch(error => {
           console.warn(' No se ha podido eliminar');
@@ -352,8 +366,8 @@ function obtenerPersonas() {
       personas = data;
       pintarListado(personas);
     }).catch(error => {
-      console.warn('Promesa cancelada');
-      alert(error);
+      console.warn('Promesa rechazada');
+      alert("Lo sentimos pero no funciona la conexión");
     });
 } //Fin function obtenerPersonas
 
@@ -373,8 +387,8 @@ function obtenerCursosDisponibles(filtro = '') {
       cursos = data;
       pintarCursosDisponibles(cursos);
     }).catch(error => {
-      console.warn('Promesa cancelada');
-      alert(error);
+      console.warn('Promesa rechazada');
+      alert("Lo sentimos pero no funciona la conexión");
     });
 } //Fin function obtenerCursosDisponibles
 
@@ -507,13 +521,9 @@ function contratarCurso(idPersona = 0, idCurso) {
           `; 
 
       console.info("Se ha contratado correctamente el curso.");
-            //BUG actualizar cursos contratados cuando se añade uno
-
       setTimeout(function(){
         obtenerPersonas();
-        console.debug("obtenemos las personas de nuevo para actualizar");
-      //console.debug(obtenerPersonas);
-        //pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
+        console.info("obtenemos las personas de nuevo para actualizar");
          },2000);
     })
     .catch(error => {
