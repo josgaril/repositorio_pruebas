@@ -8,7 +8,7 @@ function init() {
     //Cargar todos los datos
     ajax('GET', url, undefined)
         .then(data => {
-            console.info("promesa resuelta");
+            console.info("Promesa resuelta");
             noticias = data;
             let tarjetasNoticias = document.getElementById('tarjetasNoticias');
             tarjetasNoticias.innerHTML = '';
@@ -33,13 +33,11 @@ function init() {
                         </div>
                     </div>
                     `
-                //<p class="fecha">fecha: <fmt:formatDate value="${sesion.fecha}" pattern="dd-MM-yyyy HH:mm" /></p>
 
             );
         }).catch(error => {
-            console.debug('Promesa rejectada');
-            console.debug(error);
-            alert(error);
+            console.debug('Promesa rechazada');
+            alert("Lo sentimos pero no funciona la conexión");
         });
 
 }
