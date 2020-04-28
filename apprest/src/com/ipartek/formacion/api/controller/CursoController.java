@@ -1,4 +1,4 @@
-package com.ipartek.formacion.model.dao;
+package com.ipartek.formacion.api.controller;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -17,8 +17,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.ipartek.formacion.api.controller.PersonaController;
 import com.ipartek.formacion.model.Curso;
+import com.ipartek.formacion.model.dao.CursoDAO;
 
 @Path("/cursos")
 @Produces("application/json")

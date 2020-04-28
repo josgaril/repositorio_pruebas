@@ -1,4 +1,4 @@
-package com.ipartek.formacion.model.dao;
+package com.ipartek.formacion.api.controller;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import com.ipartek.formacion.model.Noticia;
+import com.ipartek.formacion.model.dao.NoticiaDAO;
 
 @Path("/noticias")
 @Produces("application/json")
