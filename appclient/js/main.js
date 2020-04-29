@@ -57,20 +57,27 @@ function listener() {
   iNombre.addEventListener('keyup', () => {
     console.debug("Persona filtrada: ", iNombre.value);
   
-    if (personaSeleccionada.nombre != iNombre.value){
+    if (iNombre.value == ''){
+      
+      sNombre.classList.add('invalid');
+      sNombre.classList.remove('valid');
+      sNombre.textContent="Nombre obligatorio";
+    }else if (personaSeleccionada.nombre != iNombre.value){
       let url = endpoint + 'personas/?nombre=' + iNombre.value;
         ajax("GET", url , undefined)
         .then( data =>{
             console.info("Busqueda personas por nombre aceptada");
             console.debug("Valor de sNombre: " + sNombre.textContent);
+
             sNombre.classList.add('invalid');
-            sNombre.classList.remove('valid')
-            sNombre.textContent='Nombre existente';
+            sNombre.classList.remove('valid');
+            sNombre.textContent='Nombre NO disponible';
+          
         })
         .catch(error => {
           console.info("Busqueda personas por nombre rechazada");
             sNombre.classList.add('valid');
-            sNombre.classList.remove('invalid')
+            sNombre.classList.remove('invalid');
             sNombre.textContent='Nombre disponible';
         });
     }
