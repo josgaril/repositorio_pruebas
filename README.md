@@ -93,10 +93,10 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 					- 404 si no encuentra esa persona.
 
 			- @POST. (insert) uri: `http://localhost:8080/apprest/api/personas/`
-				- Crear persona
+				- Agregar persona
 				- Códigos de estado:
-					- 201 en caso correcto, se crea la persona
-					- 400 si no se cumplen las validaciones para crear persona
+					- 201 en caso correcto, se agrega la persona
+					- 400 si no se cumplen las validaciones para agregar persona
 					- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
 
 			- @PUT. (update) uri: `http://localhost:8080/apprest/api/personas/{id}`
@@ -149,6 +149,13 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 				- Códigos de estado:
 					- 200 en caso correcto, devuelve el curso.
 					- 404 si no encuentra ese curso.
+					
+		+ Noticias.  Configurado con el path: @Path("/noticias")
+		
+			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/noticias`
+				
+				- Devuelve todas las noticias. 
+				- Cödigo de estado 200.
 ---
 
 ## Tags o Versiones
