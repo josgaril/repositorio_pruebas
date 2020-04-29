@@ -47,7 +47,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	
 	- Configuración ( conexión a bbdd y logs )
 
-		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppRest). 	
+		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en el raiz de AppRest). 	
  	
 		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es `<url-pattern>/api/</url-pattern>`
 		
