@@ -14,10 +14,10 @@ public interface IDAO<P> {
 	List<P> getAll();
 	
 	/**
-	 * Busca una persona por su nombre, tiene que ser único
+	 * Busca un pojo por su nombre, tiene que ser único
 	 * @param nombre String
-	 * @return persona
-	 * @throws Exception Si no encuentra la persona
+	 * @return pojo
+	 * @throws Exception Si no encuentra el pojo
 	 */
 	P getByNombre(String nombre) throws Exception;
 	
@@ -33,7 +33,7 @@ public interface IDAO<P> {
 	/**
 	 * Crea un nuevo Pojo
 	 * @param pojo
-	 * @return el Pojo con le id actualizado
+	 * @return el Pojo con el id actualizado
 	 * @throws Exception Si no cumple las validaciones
 	 * @throws SQLException Si existe alguna constraint, por ejemplo UNIQUE_INDEX
 	 */

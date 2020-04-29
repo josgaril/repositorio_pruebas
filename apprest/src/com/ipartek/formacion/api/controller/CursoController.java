@@ -39,21 +39,26 @@ public class CursoController {
 		super();
 	}
 
-/*	 @GET
-	 public ArrayList<Curso> getAll() {
-		LOGGER.info("Obtener todos los cursos disponibles");
-		 
-		ArrayList<Curso> cursos = (ArrayList<Curso>) cursoDAO.getAll();
-		 return cursos;
-	 }
-*/
+	/*
+	 * @GET public ArrayList<Curso> getAll() {
+	 * LOGGER.info("Obtener todos los cursos disponibles");
+	 * 
+	 * ArrayList<Curso> cursos = (ArrayList<Curso>) cursoDAO.getAll(); return
+	 * cursos; }
+	 */
 
+	/**
+	 * Obtener cursos
+	 * @param filtro - Nombre del curso a buscar
+	 * @return Devuelve todos los cursos si "fitro" es nulo o está vacío, en caso contrario devuelve el curso buscado
+	 * @throws Exception Si no encuentra el curso buscado
+	 */
 	@GET
 	public Response getAll(@QueryParam("filtro") String filtro) throws Exception {
 		LOGGER.info("Obtener todos los cursos disponibles");
-		
+
 		ArrayList<Curso> cursos = new ArrayList<Curso>();
-		
+
 		if (filtro == null || "".equals(filtro.trim())) {
 			cursos = (ArrayList<Curso>) cursoDAO.getAll();
 		} else {
@@ -64,16 +69,22 @@ public class CursoController {
 		return response;
 	}
 
+	/**
+	 * Obtener curso por id
+	 * @param id - Id del curso a buscar
+	 * @return Devuelve el curso buscado
+	 * @throws Exception Si no encuentra el curso
+	 */
 	@GET
-	 @Path("/{id: \\d+}")
-	 public Response getById(@PathParam("id") int id) throws Exception {
+	@Path("/{id: \\d+}")
+	public Response getById(@PathParam("id") int id) throws Exception {
 		LOGGER.info("Obtener el curso por id");
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 
 		try {
-			Curso curso= cursoDAO.getById(id);
+			Curso curso = cursoDAO.getById(id);
 
-			if (curso== null) {
+			if (curso == null) {
 				response = Response.status(Status.NOT_FOUND).build();
 				LOGGER.warning("No se ha encontrado el curso con id " + id);
 				throw new Exception("No se ha encontrado el curso buscado");
@@ -87,4 +98,5 @@ public class CursoController {
 			LOGGER.warning("No se ha podido obtener el curso con id " + id);
 		}
 		return response;
-}}
+	}
+}

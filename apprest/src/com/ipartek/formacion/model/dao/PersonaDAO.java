@@ -191,6 +191,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			}
 		} catch (SQLException e) {
 			LOGGER.log(Level.SEVERE, "Exception de SQL", e);
+			throw new SQLException();
 		}
 		return persona;
 
@@ -216,6 +217,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			
 		} catch (SQLException e) {
 			LOGGER.log(Level.SEVERE , "Exception de SQL", e);
+			throw new SQLException();
 		}
 		return persona;
 	}

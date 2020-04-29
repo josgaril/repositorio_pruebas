@@ -35,9 +35,12 @@ public class NoticiaController {
 		super();
 	}
 	
-	
+	/**
+	 * Obtener noticias
+	 * @return Devuelve todas las noticias
+	 */
 	@GET
-	public ArrayList<Noticia> getAll() throws Exception {
+	public ArrayList<Noticia> getAll(){
 		LOGGER.info("getAll");
 		ArrayList<Noticia> noticias = (ArrayList<Noticia>) noticiaDAO.getAll() ;				
 		
