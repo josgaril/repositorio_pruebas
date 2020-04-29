@@ -152,7 +152,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 					
 		+ Noticias.  Configurado con el path: @Path("/noticias")
 		
-			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/noticias`
+			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/noticias/`
 				
 				- Devuelve todas las noticias. 
 				- Cödigo de estado 200.
