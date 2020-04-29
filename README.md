@@ -27,13 +27,9 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 	- Tecnología usada
 		
-		Se utiliza HTML5, CSS3, JavaScript y Bootstrap 4.4. 	
+		Se utiliza HTML5, CSS3, JavaScript, JQuery y Bootstrap 4.4. 	
 
 	- Configuración
-	
-		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppClient). 	
- 	
-		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es `<url-pattern>/api/</url-pattern>`
 	
 		- El endpoint del repositorio está configurado al principio del archivo main.js(ubicado en la carpeta js)
 		 
@@ -51,6 +47,10 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	
 	- Configuración ( conexión a bbdd y logs )
 
+		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppClient). 	
+ 	
+		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es `<url-pattern>/api/</url-pattern>`
+		
 		- La conexión a la bbdd se realiza desde la clase ConnectionManager.java, ubicada en el paquete com.ipartek.formacion.model.dao de los recursos Java. 
 
 		- La configuración necesaria para la conexión la obetenemos del fichero context.xml, ubicado en la caperta WebContent->META-INF. Aquí indicamos parámetros importantes como el driver necesario, la url para indicar que bbdd utilizamos, el usuario, password...
@@ -61,6 +61,13 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 		`private static final Logger LOGGER = 	Logger.getLogger(PersonaController.class.getCanonicalName());`
 
 		En este ejemplo se está utilizando LOGGER en la clase PersonaController. 
+		
+		- EL script de la BBDD se encuentra en el raíz de AppRest.
+		
+		- El diagrama entidad-relación de la BBDD es el siguiente: 
+		
+		![Diagrama BBDD](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/Diagrama BBDD.png)
+
 	
 	- Detalle API rest con llamadas
 
