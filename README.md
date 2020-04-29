@@ -170,4 +170,13 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 - v2.2.0 Mejorado control de errores al contratar curso, añadidos comentarios, organización css de index.css
 - v2.3.0 Actualizado script BBDD y añadida llamada al servicio rest para noticias (petición GET para mostrar todas las noticias en otra página a través del botón Ver noticias).
 - v2.4.0 Index responsive y mejor organización del código. Noticias ordenadas descendientemente y actualizadas imágenes del proyecto.
+- v.2.5.0 Añadidas varias funcionalidades:
+    	- Modificada llamada GET en PersonasController para poder obtener personas por nombre.
+    	- Al insertar o modificar una persona, en el formulario se indica si el nombre está o no disponible.
+    	- Contenido de noticas cambiado a LONGTEXT para poder meter HTML.
+    	- Actualizado script BBDD.
+    	- Código limpio y organizado.
+    	- Reestructuración de los archivos del repositorio.
+    	- Añadida documentación a los modelos Persona, Curso y Noticia.
+
 
