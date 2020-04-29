@@ -75,7 +75,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 		Se utilizan llamadas para los modelos Persona y Curso.
 	
-	   	- Persona.  Configurado con el path: @Path("/personas")
+	   	+ Persona.  Configurado con el path: @Path("/personas")
 	
 			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/personas/`
 
@@ -127,7 +127,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 					- 201 en caso correcto, eliminar el curso de esa persona
 					- 404 si no encuentra la persona indicada o el curso				
 
-		- Curso.  Configurado con el path: @Path("/cursos")
+		+ Curso.  Configurado con el path: @Path("/cursos")
 
 			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/cursos/`
 
