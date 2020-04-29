@@ -75,18 +75,18 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 	 Se utilizan llamadas para los modelos Persona y Curso.
 	
-		- Persona.  Configurado con el path: @Path("/personas")
+	    - Persona.  Configurado con el path: @Path("/personas")
 	
-			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/personas/`
+		    - @GET. (getAll)  uri: `http://localhost:8080/apprest/api/personas/`
 
-				- Devuelve todas las personas, código 200. 
+			    - Devuelve todas las personas, código 200. 
 
-			- @GET. (getById)  uri: `http://localhost:8080/apprest/api/personas/{id}`
+		    - @GET. (getById)  uri: `http://localhost:8080/apprest/api/personas/{id}`
 
-				- Devuelve la persona indicada			
-				- Códigos de estado:
-					- 200 en caso correcto, devuelve la persona.
-					- 404 si no encuentra esa persona.
+			    - Devuelve la persona indicada			
+			    - Códigos de estado:
+			    	    - 200 en caso correcto, devuelve la persona.
+				    - 404 si no encuentra esa persona.
 
 			- @POST. (insert) uri: `http://localhost:8080/apprest/api/personas/`
 				- Crear persona
