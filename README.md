@@ -77,9 +77,13 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	
 	   	+ Persona.  Configurado con el path: @Path("/personas")
 	
-			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/personas/`
-
-				- Devuelve todas las personas, código 200. 
+			- @GET. (getAll) Utiliza @QueryParam("nombre")  uri: `http://localhost:8080/apprest/api/personas/?nombre={nombre}`
+				- Obtener personas por nombre
+				- Si el parámetro "nombre" es nulo o está vació: 
+					- Código de estado 200, devuelve todas las personas 
+				- En caso contrario:
+					- Código de estado 200 en caso correcto, devuelve la persona indicada.
+					- Código de estado 404 si no encuentra la persona indicada.
 
 		    	- @GET. (getById)  uri: `http://localhost:8080/apprest/api/personas/{id}`
 
@@ -114,12 +118,14 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 					- 200 en caso correcto, e la persona
 					- 404 si no encuentra la persona indicada				
 					- 409 si existen conflictos, por ejemplo, que la persona tenga cursos contratados.
+		
 			- @POST. (contratarCurso) uri: `http://localhost:8080/apprest/api/personas/{id}/curso/{id}`
 
 				- Contratar un curso para una persona
 				- Códigos de estado:
 					- 201 en caso correcto, contrata el curso para esa persona
 					- 409 si existen conflictos, por ejemplo, no existe la persona o no exite el curso a contratar
+			
 			- @DELETE. (eliminarCursoContratado) uri: `http://localhost:8080/apprest/api/personas/{id}/curso/{id}`
 
 				- Eliminar un curso de una persona
@@ -129,9 +135,14 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 		+ Curso.  Configurado con el path: @Path("/cursos")
 
-			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/cursos/`
-
-				- Devuelve todos los cursos, código 200. 
+			- @GET. (getAll) Utiliza @QueryParam("filtro") uri: `http://localhost:8080/apprest/api/cursos/?filtro={filtro}`
+				
+				- Obtener cursos por nombre
+				- Si el filtro es nulo o está vacío, devuelve todos los cursos.
+				- En caso contrario, devuelve el curso indicado en el filtro. 
+				- Código de estado: 
+					- 200 en ambos casos.
+				
 			- @GET. (getById)  uri: `http://localhost:8080/apprest/api/cursos/{id}`
 
 				- Devuelve el curso indicada			
