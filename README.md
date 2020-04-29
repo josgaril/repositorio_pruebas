@@ -68,76 +68,76 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 		
 		![Diagrama BBDD](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/diagramaBBDD.png)
 		
-		El nombre de la persona, el nombre de la persona y el título de la noticia son valorés únicos, no pueden repetirse. 
+		El nombre de la persona, el nombre del curso y el título de la noticia son valorés únicos, no pueden repetirse. 
 
 	
 	- Detalle API rest con llamadas
 
 	 Se utilizan llamadas para los modelos Persona y Curso.
 	
-	- Persona.  Configurado con el path: @Path("/personas")
+		- Persona.  Configurado con el path: @Path("/personas")
 	
-		- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/personas/`
+			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/personas/`
 
-			- Devuelve todas las personas, código 200. 
+				- Devuelve todas las personas, código 200. 
 
-		- @GET. (getById)  uri: `http://localhost:8080/apprest/api/personas/{id}`
+			- @GET. (getById)  uri: `http://localhost:8080/apprest/api/personas/{id}`
 
-			- Devuelve la persona indicada			
-			- Códigos de estado:
-				- 200 en caso correcto, devuelve la persona.
-				- 404 si no encuentra esa persona.
-					
-		- @POST. (insert) uri: `http://localhost:8080/apprest/api/personas/`
-			- Crear persona
-			- Códigos de estado:
-				- 201 en caso correcto, se crea la persona
-				- 400 si no se cumplen las validaciones para crear persona
-				- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
+				- Devuelve la persona indicada			
+				- Códigos de estado:
+					- 200 en caso correcto, devuelve la persona.
+					- 404 si no encuentra esa persona.
 
-		- @PUT. (update) uri: `http://localhost:8080/apprest/api/personas/{id}`
+			- @POST. (insert) uri: `http://localhost:8080/apprest/api/personas/`
+				- Crear persona
+				- Códigos de estado:
+					- 201 en caso correcto, se crea la persona
+					- 400 si no se cumplen las validaciones para crear persona
+					- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
 
-			- Modificar una persona
+			- @PUT. (update) uri: `http://localhost:8080/apprest/api/personas/{id}`
 
-			- Códigos de estado:
-				- 200 en caso correcto, modifica la persona
-				- 400 si no se cumplen las validaciones al modificar persona
-				- 404 si no encuentra la persona indicada				
-				- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
+				- Modificar una persona
+
+				- Códigos de estado:
+					- 200 en caso correcto, modifica la persona
+					- 400 si no se cumplen las validaciones al modificar persona
+					- 404 si no encuentra la persona indicada				
+					- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
 
 
-		- @DELETE. (delete) uri: `http://localhost:8080/apprest/api/personas/{id}`
+			- @DELETE. (delete) uri: `http://localhost:8080/apprest/api/personas/{id}`
 
-			- Eliminar una persona
+				- Eliminar una persona
 
-			- Códigos de estado:
-				- 200 en caso correcto, e la persona
-				- 404 si no encuentra la persona indicada				
-				- 409 si existen conflictos, por ejemplo, que la persona tenga cursos contratados.
-		- @POST. (contratarCurso) uri: `http://localhost:8080/apprest/api/personas/{id}/curso/{id}`
+				- Códigos de estado:
+					- 200 en caso correcto, e la persona
+					- 404 si no encuentra la persona indicada				
+					- 409 si existen conflictos, por ejemplo, que la persona tenga cursos contratados.
+			- @POST. (contratarCurso) uri: `http://localhost:8080/apprest/api/personas/{id}/curso/{id}`
 
-			- Contratar un curso para una persona
-			- Códigos de estado:
-				- 201 en caso correcto, contrata el curso para esa persona
-				- 409 si existen conflictos, por ejemplo, no existe la persona o no exite el curso a contratar
-		- @DELETE. (eliminarCursoContratado) uri: `http://localhost:8080/apprest/api/personas/{id}/curso/{id}`
+				- Contratar un curso para una persona
+				- Códigos de estado:
+					- 201 en caso correcto, contrata el curso para esa persona
+					- 409 si existen conflictos, por ejemplo, no existe la persona o no exite el curso a contratar
+			- @DELETE. (eliminarCursoContratado) uri: `http://localhost:8080/apprest/api/personas/{id}/curso/{id}`
 
-			- Eliminar un curso de una persona
-			- Códigos de estado:
-				- 201 en caso correcto, eliminar el curso de esa persona
-				- 404 si no encuentra la persona indicada o el curso				
+				- Eliminar un curso de una persona
+				- Códigos de estado:
+					- 201 en caso correcto, eliminar el curso de esa persona
+					- 404 si no encuentra la persona indicada o el curso				
 
-	- Curso.  Configurado con el path: @Path("/cursos")
-		
-		- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/cursos/`
+		- Curso.  Configurado con el path: @Path("/cursos")
 
-			- Devuelve todos los cursos, código 200. 
-		- @GET. (getById)  uri: `http://localhost:8080/apprest/api/cursos/{id}`
+			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/cursos/`
 
-			- Devuelve el curso indicada			
-			- Códigos de estado:
-				- 200 en caso correcto, devuelve el curso.
-				- 404 si no encuentra ese curso.
+				- Devuelve todos los cursos, código 200. 
+			- @GET. (getById)  uri: `http://localhost:8080/apprest/api/cursos/{id}`
+
+				- Devuelve el curso indicada			
+				- Códigos de estado:
+					- 200 en caso correcto, devuelve el curso.
+					- 404 si no encuentra ese curso.
 ---
 
 ## Tags o Versiones
