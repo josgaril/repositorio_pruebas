@@ -5,9 +5,9 @@
 		maxActive="100" 
 		maxIdle="30" 
 		maxWait="10000" 
-		name="jdbc/alumnos"	 
+		name="jdbc/alumnos3_0"	 
 		type="javax.sql.DataSource"
-		url="jdbc:mysql://localhost:3306/alumnos?serverTimezone=Europe/Madrid"
+		url="jdbc:mysql://localhost:3306/alumnos3_0?serverTimezone=Europe/Madrid"
 		username="root"
 		password="admin" 
 		/>

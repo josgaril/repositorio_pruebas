@@ -17,7 +17,7 @@ public class ConnectionManager {
 
 		try {
 			InitialContext ctx = new InitialContext();
-			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/alumnos");
+			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/alumnos3_0");
 
 			if (ds == null) {
 				throw new Exception("Data source no encontrado!");
