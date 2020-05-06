@@ -5,11 +5,22 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 --- 
 
-## IMAGEN
+## IMAGENES
 
-![Página principal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaPrincipal.png)
+1. Página Principal. Página de Alumnos
+![Página Alumnos](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaAlumnos.png)
 
-![Modal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/modal.png)
+2. Modal para los cursos
+![Modal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/modal3.0.png)
+
+3. Página de Noticias
+![Página Noticias](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaNoticias.png)
+
+4. Página de Profesores
+![Página Profesores](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaProfesores.png)
+
+5. Diseño Responsive
+![Diseño Responsive](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/diseñoResponsive.png)
 
 ---
 
@@ -22,13 +33,9 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 
 	- Tecnología usada
 		
-		Se utiliza HTML5, CSS3, JavaScript y Bootstrap 4.4. 	
+		Se utiliza HTML5, CSS3, JavaScript, JQuery y Bootstrap 4.4. 	
 
 	- Configuración
-	
-		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en la raiz de AppClient). 	
- 	
-		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es `<url-pattern>/api/</url-pattern>`
 	
 		- El endpoint del repositorio está configurado al principio del archivo main.js(ubicado en la carpeta js)
 		 
@@ -46,6 +53,10 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	
 	- Configuración ( conexión a bbdd y logs )
 
+		- En el archivo pom.xml incluimos todas las dependencias necesarias(ubicado en el raiz de AppRest). 	
+ 	
+		- En el archivo web.xml indicamos la url de mapeo para nuestra aplicación(ubicado en la carpeta WEbContent->WEBINF). En este caso es `<url-pattern>/api/</url-pattern>`
+		
 		- La conexión a la bbdd se realiza desde la clase ConnectionManager.java, ubicada en el paquete com.ipartek.formacion.model.dao de los recursos Java. 
 
 		- La configuración necesaria para la conexión la obetenemos del fichero context.xml, ubicado en la caperta WebContent->META-INF. Aquí indicamos parámetros importantes como el driver necesario, la url para indicar que bbdd utilizamos, el usuario, password...
@@ -56,74 +67,101 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 		`private static final Logger LOGGER = 	Logger.getLogger(PersonaController.class.getCanonicalName());`
 
 		En este ejemplo se está utilizando LOGGER en la clase PersonaController. 
+		
+		- EL script de la BBDD se encuentra en el raíz de AppRest.
+		
+		- El diagrama entidad-relación de la BBDD es el siguiente: 
+		
+		![Diagrama BBDD](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/diagramaBBDD.png)
+		
+		El nombre de la persona, el nombre del curso y el título de la noticia son valorés únicos, no pueden repetirse. 
+
 	
 	- Detalle API rest con llamadas
 
-	 Se utilizan llamadas para los modelos Persona y Curso.
+		Se utilizan llamadas para los modelos Persona y Curso.
 	
-	- Persona.  Configurado con el path: @Path("/personas")
+	   	+ Persona.  Configurado con el path: @Path("/personas")
 	
-		- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/personas/`
+			- @GET. (getAll) Utiliza @QueryParam("nombre")  uri: `http://localhost:8080/apprest/api/personas/?nombre={nombre}`
+				- Obtener personas por nombre
+				- Si el parámetro "nombre" es nulo o está vació: 
+					- Código de estado 200, devuelve todas las personas 
+				- En caso contrario:
+					- Código de estado 200 en caso correcto, devuelve la persona indicada.
+					- Código de estado 404 si no encuentra la persona indicada.
 
-			- Devuelve todas las personas, código 200. 
+		    	- @GET. (getById)  uri: `http://localhost:8080/apprest/api/personas/{id}`
 
-		- @GET. (getById)  uri: `http://localhost:8080/apprest/api/personas/{id}`
+				- Devuelve la persona indicada			
+				- Códigos de estado:
+					- 200 en caso correcto, devuelve la persona.
+					- 404 si no encuentra esa persona.
 
-			- Devuelve la persona indicada			
-			- Códigos de estado:
-				- 200 en caso correcto, devuelve la persona.
-				- 404 si no encuentra esa persona.
-					
-		- @POST. (insert) uri: `http://localhost:8080/apprest/api/personas/`
-			- Crear persona
-			- Códigos de estado:
-				- 201 en caso correcto, se crea la persona
-				- 400 si no se cumplen las validaciones para crear persona
-				- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
+			- @POST. (insert) uri: `http://localhost:8080/apprest/api/personas/`
+				- Agregar persona
+				- Códigos de estado:
+					- 201 en caso correcto, se agrega la persona
+					- 400 si no se cumplen las validaciones para agregar persona
+					- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
 
-		- @PUT. (update) uri: `http://localhost:8080/apprest/api/personas/{id}`
+			- @PUT. (update) uri: `http://localhost:8080/apprest/api/personas/{id}`
 
-			- Modificar una persona
+				- Modificar una persona
 
-			- Códigos de estado:
-				- 200 en caso correcto, modifica la persona
-				- 400 si no se cumplen las validaciones al modificar persona
-				- 404 si no encuentra la persona indicada				
-				- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
+				- Códigos de estado:
+					- 200 en caso correcto, modifica la persona
+					- 400 si no se cumplen las validaciones al modificar persona
+					- 404 si no encuentra la persona indicada				
+					- 409 si existen conflictos, por ejemplo, al introducir un nombre de persona que ya existe(tiene que ser único).
 
 
-		- @DELETE. (delete) uri: `http://localhost:8080/apprest/api/personas/{id}`
+			- @DELETE. (delete) uri: `http://localhost:8080/apprest/api/personas/{id}`
 
-			- Eliminar una persona
+				- Eliminar una persona
 
-			- Códigos de estado:
-				- 200 en caso correcto, e la persona
-				- 404 si no encuentra la persona indicada				
-				- 409 si existen conflictos, por ejemplo, que la persona tenga cursos contratados.
-		- @POST. (contratarCurso) uri: `http://localhost:8080/apprest/api/personas/{id}/curso/{id}`
-
-			- Contratar un curso para una persona
-			- Códigos de estado:
-				- 201 en caso correcto, contrata el curso para esa persona
-				- 409 si existen conflictos, por ejemplo, no existe la persona o no exite el curso a contratar
-		- @DELETE. (eliminarCursoContratado) uri: `http://localhost:8080/apprest/api/personas/{id}/curso/{id}`
-
-			- Eliminar un curso de una persona
-			- Códigos de estado:
-				- 201 en caso correcto, eliminar el curso de esa persona
-				- 404 si no encuentra la persona indicada o el curso				
-
-	- Curso.  Configurado con el path: @Path("/cursos")
+				- Códigos de estado:
+					- 200 en caso correcto, e la persona
+					- 404 si no encuentra la persona indicada				
+					- 409 si existen conflictos, por ejemplo, que la persona tenga cursos contratados.
 		
-		- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/cursos/`
+			- @POST. (contratarCurso) uri: `http://localhost:8080/apprest/api/personas/{id}/curso/{id}`
 
-			- Devuelve todos los cursos, código 200. 
-		- @GET. (getById)  uri: `http://localhost:8080/apprest/api/cursos/{id}`
+				- Contratar un curso para una persona
+				- Códigos de estado:
+					- 201 en caso correcto, contrata el curso para esa persona
+					- 409 si existen conflictos, por ejemplo, no existe la persona o no exite el curso a contratar
+			
+			- @DELETE. (eliminarCursoContratado) uri: `http://localhost:8080/apprest/api/personas/{id}/curso/{id}`
 
-			- Devuelve el curso indicada			
-			- Códigos de estado:
-				- 200 en caso correcto, devuelve el curso.
-				- 404 si no encuentra ese curso.
+				- Eliminar un curso de una persona
+				- Códigos de estado:
+					- 201 en caso correcto, eliminar el curso de esa persona
+					- 404 si no encuentra la persona indicada o el curso				
+
+		+ Curso.  Configurado con el path: @Path("/cursos")
+
+			- @GET. (getAll) Utiliza @QueryParam("filtro") uri: `http://localhost:8080/apprest/api/cursos/?filtro={filtro}`
+				
+				- Obtener cursos por nombre
+				- Si el filtro es nulo o está vacío, devuelve todos los cursos.
+				- En caso contrario, devuelve el curso indicado en el filtro. 
+				- Código de estado: 
+					- 200 en ambos casos.
+				
+			- @GET. (getById)  uri: `http://localhost:8080/apprest/api/cursos/{id}`
+
+				- Devuelve el curso indicada			
+				- Códigos de estado:
+					- 200 en caso correcto, devuelve el curso.
+					- 404 si no encuentra ese curso.
+					
+		+ Noticias.  Configurado con el path: @Path("/noticias")
+		
+			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/noticias/`
+				
+				- Devuelve todas las noticias. 
+				- Cödigo de estado 200.
 ---
 
 ## Tags o Versiones
@@ -136,6 +174,13 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	- Añadido a servicio REST de persona conratarCurso y eliminarCursoContratado.
 - v2.1. Añadida funcionalidad de animaciones.
 - v2.2.0 Mejorado control de errores al contratar curso, añadidos comentarios, organización css de index.css
-- v2.3.0 Actualizado script BBDD, mejor organizacion del código y añadida llamada al servicio rest para noticias (petición GET para mostrar todas las noticias en otra página a través del botón Ver noticias).
-- v2.4.0 Index responsive y mejor organización del código.
-
+- v2.3.0 Actualizado script BBDD y añadida llamada al servicio rest para noticias (petición GET para mostrar todas las noticias en otra página a través del botón Ver noticias).
+- v2.4.0 Index responsive y mejor organización del código. Noticias ordenadas descendientemente y actualizadas imágenes del proyecto.
+- v.2.5.0 Diferentes cambios en el proyecto:
+	- Modificada llamada GET en PersonasController para poder obtener personas por nombre.
+	- Al insertar o modificar una persona, en el formulario se indica si el nombre está o no disponible.
+	- Contenido de noticas cambiado a LONGTEXT para poder meter HTML.
+	- Actualizado script BBDD.
+	- Código limpio y organizado.
+	- Reestructuración de los archivos del repositorio.
+	- Añadida documentación a los modelos Persona, Curso y Noticia.
