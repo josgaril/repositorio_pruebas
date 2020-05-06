@@ -90,7 +90,7 @@ public class CursoController {
 	@Path("/{id: \\d+}")
 	public Response update(@PathParam("id") int id, Curso curso) {
 		LOGGER.info("update curso " + id);
-		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		Response response = Response.status(Status.NOT_FOUND).entity(curso).build();
 
 		ArrayList<String> errores = new ArrayList<String>();
 
