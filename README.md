@@ -8,19 +8,19 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 ## IMAGENES
 
 1. Página Principal. Página de Alumnos
-![Página Alumnos](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaAlumnos.png)
+![Página Alumnos](https://github.com/josgaril/repositorio_pruebas/blob/version_3.0/scrennShoots/paginaAlumnos.png)
 
 2. Modal para los cursos
-![Modal](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/modal3.0.png)
+![Modal](https://github.com/josgaril/repositorio_pruebas/blob/version_3.0/scrennShoots/modal3.0.png)
 
 3. Página de Noticias
-![Página Noticias](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaNoticias.png)
+![Página Noticias](https://github.com/josgaril/repositorio_pruebas/blob/version_3.0/scrennShoots/paginaNoticias.png)
 
 4. Página de Profesores
-![Página Profesores](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/paginaProfesores.png)
+![Página Profesores](https://github.com/josgaril/repositorio_pruebas/blob/version_3.0/scrennShoots/paginaProfesores.png)
 
 5. Diseño Responsive
-![Diseño Responsive](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/diseñoResponsive.png)
+![Diseño Responsive](https://github.com/josgaril/repositorio_pruebas/blob/version_3.0/scrennShoots/diseñoResponsive.png)
 
 ---
 
