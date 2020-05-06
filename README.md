@@ -72,7 +72,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 		
 		- El diagrama entidad-relación de la BBDD es el siguiente: 
 		
-		![Diagrama BBDD](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/diagramaBBDD.png)
+		![Diagrama BBDD](https://github.com/josgaril/repositorio_pruebas/blob/version_3.0/scrennShoots/diagramaBBDD3.0.png)
 		
 		El nombre del curso y el título de la noticia son valores únicos, no pueden repetirse.
 		Creado un índice de valor Único con los campos nombre y rol de una persona para que los alumnos o los profesores no puedan repetirse.
