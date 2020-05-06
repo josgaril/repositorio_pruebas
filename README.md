@@ -74,7 +74,8 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 		
 		![Diagrama BBDD](https://github.com/josgaril/repositorio_pruebas/blob/master/scrennShoots/diagramaBBDD.png)
 		
-		El nombre de la persona, el nombre del curso y el título de la noticia son valorés únicos, no pueden repetirse. 
+		El nombre del curso y el título de la noticia son valores únicos, no pueden repetirse.
+		Creado un índice de valor Único con los campos nombre y rol de una persona para que los alumnos o los profesores no puedan repetirse.
 
 	
 	- Detalle API rest con llamadas
@@ -83,13 +84,16 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	
 	   	+ Persona.  Configurado con el path: @Path("/personas")
 	
-			- @GET. (getAll) Utiliza @QueryParam("nombre")  uri: `http://localhost:8080/apprest/api/personas/?nombre={nombre}`
-				- Obtener personas por nombre
-				- Si el parámetro "nombre" es nulo o está vació: 
+			- @GET. (getAll) Utiliza @QueryParam("rol")  uri: `http://localhost:8080/apprest/api/personas/?rol={rol}`
+				- Obtener personas por rol
+				- Si el parámetro "rol" es nulo o está vació: 
 					- Código de estado 200, devuelve todas las personas 
-				- En caso contrario:
-					- Código de estado 200 en caso correcto, devuelve la persona indicada.
-					- Código de estado 404 si no encuentra la persona indicada.
+				- SI el parámetro "rol" es igual a "alumno":
+					- Código de estado 200 si encuentra los alumnos
+					- Código de estado 400 si tiene una error al conectar con la BD o en la sentencia SQL
+				- SI el parámetro "rol" es igual a "profesor":
+					- Código de estado 200 si encuentra los profesores
+					- Código de estado 400 si tiene una error al conectar con la BD o en la sentencia SQL
 
 		    	- @GET. (getById)  uri: `http://localhost:8080/apprest/api/personas/{id}`
 
@@ -155,7 +159,16 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 				- Códigos de estado:
 					- 200 en caso correcto, devuelve el curso.
 					- 404 si no encuentra ese curso.
-					
+			- @PUT. (update) uri: `http://localhost:8080/apprest/api/cursos/{id}`
+				
+				- Modificar un curso
+
+				- Códigos de estado:
+					- 200 en caso correcto, modifica el curso
+					- 400 si no se cumplen las validaciones al modificar el curso
+					- 404 si no encuentra la el curso indicado				
+					- 409 si existen conflictos, por ejemplo, al introducir un nombre de un curso que ya existe(tiene que ser único).
+				
 		+ Noticias.  Configurado con el path: @Path("/noticias")
 		
 			- @GET. (getAll)  uri: `http://localhost:8080/apprest/api/noticias/`
@@ -184,3 +197,6 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	- Código limpio y organizado.
 	- Reestructuración de los archivos del repositorio.
 	- Añadida documentación a los modelos Persona, Curso y Noticia.
+- v.3.0
+	- Añadida funcionalidad Gestión de profesores(alta, baja, modificación y gestión de cursos asignados).
+    	- Diseño responsive actualizado
