@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Noticia;
-import com.ipartek.formacion.model.Persona;
 
 public class NoticiaDAO implements IDAO<Noticia> {
 	
@@ -50,15 +49,7 @@ public synchronized static NoticiaDAO getInstance() {
 			}
 		return noticias;
 	}
-	
-	private Noticia mapper(ResultSet rs) throws SQLException{
-		Noticia n = new Noticia();
-		n.setId(rs.getInt("id"));
-		n.setTitulo(rs.getString("titulo"));
-		n.setFecha(rs.getTimestamp("fecha"));
-		n.setContenido(rs.getString("contenido"));
-		return n;
-	}
+
 
 	@Override
 	public Noticia getById(int id) throws Exception {
@@ -84,8 +75,13 @@ public synchronized static NoticiaDAO getInstance() {
 
 	}
 
-
-
-	
+	private Noticia mapper(ResultSet rs) throws SQLException{
+		Noticia n = new Noticia();
+		n.setId(rs.getInt("id"));
+		n.setTitulo(rs.getString("titulo"));
+		n.setFecha(rs.getTimestamp("fecha"));
+		n.setContenido(rs.getString("contenido"));
+		return n;
+	}
 	
 }

@@ -25,6 +25,14 @@
     background-color:rgb(240, 186, 116);
   } 
 
+  .tituloNoticia{
+    font-size: 34px;
+
+    text-decoration: underline;
+    
+    font-weight: bold;
+  }
+  
   /* Footer*/
 .pie{
   background-color: rgb(147, 180, 93);
