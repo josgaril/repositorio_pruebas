@@ -199,4 +199,4 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 	- Añadida documentación a los modelos Persona, Curso y Noticia.
 - v.3.0
 	- Añadida funcionalidad Gestión de profesores(alta, baja, modificación y gestión de cursos asignados).
-    	- Diseño responsive actualizado
+	- Diseño responsive actualizado
