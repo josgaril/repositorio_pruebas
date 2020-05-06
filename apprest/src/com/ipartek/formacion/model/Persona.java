@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class Persona {
@@ -16,8 +17,7 @@ public class Persona {
 	@NotEmpty
 	private String avatar;
 	
-	//TODO regexp para "h" o "m"
-	//@Pattern(regexp = "")
+	@Pattern(regexp = "^[h|m]{1}$", message ="El sexo debe ser h(hombre) o m(mujer")
 	private String sexo;
 	
 	private ArrayList<Curso> cursos;

@@ -11,6 +11,8 @@ const endpoint = "http://localhost:8080/apprest/api/";
 let personas = [];
 let cursos = [];
 let personaSeleccionada = {};
+let cursosAlumno = [];
+const rol = "alumno";
 
 window.addEventListener('load', init());
 
@@ -23,10 +25,10 @@ function init() {
   
   listener();
   galeriaImagenes();
-  const rol = "alumno";
+
   obtenerPersonas();
-  obtenerCursosDisponibles();
-  console.debug('continua la ejecuion del script de forma sincrona');
+  
+  console.debug('continua la ejecucion del script de forma sincrona');
 } //Fin function init
 
 
@@ -40,7 +42,16 @@ function listener() {
   let selectorSexo = document.getElementById('sexoSelect');
   selectorSexo.addEventListener('change', filtroPersonas);
   let inputNombre = document.getElementById('nombreInput');
+  inputNombre.value="";
   inputNombre.addEventListener('keyup', filtroPersonas);
+
+
+  //Comportamiento al pulsar sobre el botón Contratar cursos y abrir el modal  
+  let modalButton = document.getElementById('modalButton');
+  modalButton.addEventListener('click',function(){
+    inputCurso.value="";   // Se vacía el input de la búsqueda de cursos
+    obtenerCursosDisponibles(); //Se obtienen todos los cursos
+  });
 
   //FiltrarCursos
   let inputCurso = document.getElementById('inputCurso');
@@ -58,6 +69,7 @@ function listener() {
  */
 function filtroCursos() {
   let inputCurso = document.getElementById('inputCurso');
+  
   const nombreCurso = inputCurso.value.trim().toLowerCase();
 
   if (nombreCurso.length >= 3) {
@@ -111,31 +123,39 @@ function pintarListado(arrayPersonas) {
 
   let listado = document.getElementById('personas');
   listado.innerHTML = '';
-
-  arrayPersonas.forEach(el =>
+  if (arrayPersonas.length ==0){
     listado.innerHTML +=
     `
       <li class="border border-dark p-1 row"> 
-        <span class="col-12 d-flex justify-content-end">Cursos: ${el.cursos.length}</span>
-        <div class="col-3 imagen-personas ">
-          <img src="img/${el.avatar}" class="border border-danger rounded-circle float-left"">
-        </div>
-        <div class="col-6 nombre-personas" >
-          <p>${el.nombre}</p>
-        </div>
-        <div class="col-3 iconos-personas d-flex justify-content-end">
-          <i onclick="verDetalles(${el.id})" class="fas fa-pencil-alt mr-1" data-toggle="tooltip" data-placement="top" title="Editar"></i>
-
-          <i onclick="eliminarPersona(${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar"></i>
-        </div>
+          <p>No se han encontrado resultados para esa búsqueda</p>
       </li> 
-      `);
+      `;
+  }else{
+    arrayPersonas.forEach(el =>
+      listado.innerHTML +=
+      `
+        <li class="border border-dark p-1 row"> 
+          <span class="col-12 d-flex justify-content-end">Cursos: ${el.cursos.length}</span>
+          <div class="col-3 imagen-personas ">
+            <img src="img/${el.avatar}" class="border border-danger rounded-circle float-left"">
+          </div>
+          <div class="col-6 nombre-personas" >
+            <p>${el.nombre}</p>
+          </div>
+          <div class="col-3 iconos-personas d-flex justify-content-end">
+            <i onclick="verDetalles(${el.id})" class="fas fa-pencil-alt mr-1" data-toggle="tooltip" data-placement="top" title="Editar"></i>
+
+            <i onclick="eliminarPersona(${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Eliminar"></i>
+          </div>
+        </li> 
+        `);
+  }
   console.debug(arrayPersonas);
 } //Fin function pintarListado
 
 
 /**
- * Rellena el formulario con los datos de la persona si se pulsa el botón de editar persona
+ * Rellena el formulario con los datos del alumno si se pulsa el botón de editar persona
  * Muestra el formulario vacío si se pulsa el botón de nueva persona
  * @param {*} idPersona id de la persona
  */
@@ -186,14 +206,14 @@ function verDetalles(idPersona = 0) {
     checkMujer.checked = 'checked';
   }
 
-  pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
+  pintarCursosContratados(personaSeleccionada);
 } //Fin function verDetalles
 
 
 /** 
  * Guarda los datos del formulario. Utiliza el servicio Rest
- * Si la persona ya existe (id!=0) se modifican sus datos (PUT)
- * Si la persona no existe (id==0) se crea la persona (POST)
+ * Si el alumno ya existe (id!=0) se modifican sus datos (PUT)
+ * Si el alumno no existe (id==0) se crea el alumno (POST)
 */
 function guardar() {
   console.trace('Click en guardar');
@@ -220,31 +240,35 @@ function guardar() {
 
   //Modificar
   if (id != 0) {
-    console.trace('Persona modificada');
+    console.trace('Modificar alumno');
     const url = endpoint + 'personas/' + persona.id;
 
     ajax('PUT', url, persona)
       .then(data => {
+        alert("Alumno modificado con éxito");
+        
         // conseguir de nuevo todos los alumnos
         obtenerPersonas();
       })
       .catch(error => {
-        console.warn(' No se ha podido modificar:', error);
+        console.warn(' No se ha podido modificar el alumno:', error);
         alert(error);
       });
 
   //Crear
   } else {
-    console.trace('Creada nueva persona');
+    console.trace('Crear nuevo alumno');
 
     const url = endpoint + 'personas/';
     ajax('POST', url, persona)
       .then(data => {
+        alert("Alumno creado con éxito");
+
         // conseguir de nuevo todos los alumnos
         obtenerPersonas();
       })
       .catch(error => {
-        console.warn('No se ha podido crear la persona:', error);
+        console.warn('No se ha podido crear el alumno:', error);
         alert(error);
       });
   }
@@ -252,17 +276,17 @@ function guardar() {
 
 
 /**
- * Elimina la persona indicada al pulsar en el botón de la papelera de su ficha. 
+ * Elimina el alumno indicado al pulsar en el botón de la papelera de su ficha. 
  * Llama al servicio Rest para DELETE
  * @param {*} idPersona 
  */
 function eliminarPersona(idPersona) {
-  console.debug(`Id de persona recibido para eliminar: %o`, idPersona);
+  console.debug(`Id de alumno recibido para eliminar: %o`, idPersona);
 
   let personaSeleccionada = personas.find(el => el.id == idPersona);
   if (personaSeleccionada) {
 
-    console.debug('Se eliminará la persona %o ', personaSeleccionada);
+    console.debug('Se eliminará el alumno %o ', personaSeleccionada);
 
     const mensaje = `¿Desea eliminar a ${personaSeleccionada.nombre}?`;
 
@@ -272,21 +296,21 @@ function eliminarPersona(idPersona) {
 
       ajax("DELETE", url, undefined)
         .then(data => {
-          console.log('Persona eliminada');
+          console.log('Alumno eliminado');
           // conseguir de nuevo todos los alumnos
           obtenerPersonas();
-          verDetalles();
+          alert("Alumno eliminado");
         })
         .catch(error => {
           console.warn(' No se ha podido eliminar');
           alert(error);
         });
     } else {
-      console.info('Se ha cancelado Eliminar a la persona');
+      console.info('Se ha cancelado Eliminar alumno');
     }
   } else {
-    console.warn('No se ha encontrado la persona a eliminar');
-    alert('No se ha encontrado la persona a eliminar');
+    console.warn('No se ha encontrado el alumno a eliminar');
+    alert('No se ha encontrado el alumno a eliminar');
   }
 } //Fin function eliminarPersona
 
@@ -325,8 +349,9 @@ function seleccionarAvatar(evento) {
  */
 function obtenerPersonas(rol = "alumno") {
   console.info('Obtenemos todas las personas');
-  console.debug('Obtenemos las personas que sean: ' + rol);
+  console.debug('Personas cuyo rol es: ' + rol);
   const url = endpoint + 'personas/?rol=' + rol;
+
   ajax("GET", url, undefined)
     .then(data => {
       console.trace('Promesa resuelta');
@@ -334,7 +359,7 @@ function obtenerPersonas(rol = "alumno") {
       pintarListado(personas);
     }).catch(error => {
       console.warn('Promesa cancelada');
-      alert(error);
+      alert("Lo sentimos pero no funciona la conexión");
     });
 } //Fin function obtenerPersonas
 
@@ -347,16 +372,18 @@ function obtenerPersonas(rol = "alumno") {
 function obtenerCursosDisponibles(filtro = '') {
   console.info(`Obtenemos todos los cursos disponibles con filtro ${filtro}`);
   const url = endpoint + 'cursos/?filtro=' + filtro;
-
+  
   ajax("GET", url, undefined)
     .then(data => {
       console.trace('Promesa resuelta');
       cursos = data;
       pintarCursosDisponibles(cursos);
+
     }).catch(error => {
       console.warn('Promesa cancelada');
-      alert(error);
+      alert("Lo sentimos pero no funciona la conexión");
     });
+    
 } //Fin function obtenerCursosDisponibles
 
 
@@ -370,67 +397,87 @@ function pintarCursosDisponibles(cursosDisponibles) {
 
   ListadoCursosDisponibles.innerHTML = '';
 
-  cursosDisponibles.forEach(el => {
-
+  if (cursosDisponibles.length==0){
     ListadoCursosDisponibles.innerHTML +=
-      `
-          <li class="border-bottom border-dark row d-flex align-items-center"> 
-            <div class="col-2 ">
-              <img class="imagen-cursos" src="img/cursos/${el.imagen}" alt="img">
-            </div>  
-            <div class="col-5 padding0">
-              <p>${el.nombre}</p>
-            </div>
-            <div class="col-3 padding0">
-              <p>${el.precio} €</p>
-            </div>
-              <div class="col-1 padding0">
-              <p>${el.profesor.nombre}</p>
-           </div>
+    `
+    <li class="d-flex justify-content-center"> 
+      <p>No se han encontrado resultados para esa búsqueda</p>
+    </li> 
+      `;
+  }else{
+    cursosDisponibles.forEach(el => {
 
-            <div class="col-1">
-              <i onclick="contratarCurso(0, ${el.id})" class="far fa-plus-square float-right" data-toggle="tooltip" data-placement="top" title="Contratar curso"></i>
+      ListadoCursosDisponibles.innerHTML +=
+        `
+            <li class="border-bottom border-dark row d-flex align-items-center"> 
+              <div class="col-1 ">
+                <img class="imagen-cursos" src="img/cursos/${el.imagen}" alt="img">
+              </div>  
+              <div class="col-6">
+                <p>${el.nombre}</p>
+              </div>
+              <div class="col-2 pl-1">
+                <p>${el.precio} €</p>
+              </div>
+                <div class="col-2 p-0">
+                <p> ${el.profesor.nombre?el.profesor.nombre:""}</p>
             </div>
-          </li>
-        `;
-  });
+
+              <div class="col-1">
+                <i onclick="contratarCurso(0, ${el.id})" class="far fa-plus-square float-right" data-toggle="tooltip" data-placement="top" title="Contratar curso"></i>
+              </div>
+            </li>
+          `;
+    });
+  }
   console.debug(cursosDisponibles);
 } //Fin function pintarCursosDisponibles
 
 
 /**
  * Pinta todos los cursos disponibles en el formulario de la persona
- * @param {*} cursosContratados 
- * @param {*} idPersona 
+ * @param {*} personaSeleccionada
  */
-function pintarCursosContratados(cursosContratados, idPersona) {
-  console.debug('recibidos cursos contratados %o', cursosContratados);
-  console.debug("Recibido id de persona: %o", idPersona);
-  console.info('Se pinta el listado de cursos contratados por la persona');
+function pintarCursosContratados(personaSeleccionada) {
+  console.info('Se pinta el listado de cursos del profesor');
+  console.debug('Los cursos del profesor son:  %o', personaSeleccionada.cursos);
 
   let ListadoCursosContratados = document.getElementById('cursosContratados');
   ListadoCursosContratados.style="block";
   ListadoCursosContratados.classList.add("animated", "bounceIn", "slow");
 
   ListadoCursosContratados.innerHTML = '';
+  cursosAlumno = personaSeleccionada.cursos;
+  let botonModal = document.getElementById('modalButton');
 
-  cursosContratados.forEach((el, i) => {
-
-    ListadoCursosContratados.innerHTML +=
+  if (personaSeleccionada.id < 1){
+    ListadoCursosContratados.innerHTML += 
       `
-            <li class="p-1 row d-flex justify-content-between-"> 
-              
-              <div class="col-9 p-0">
-                <p>${el.nombre}</p>
-              </div>
-              
-              <div class="col-3 ">
-                <i id="eliminarCurso" onclick="eliminarCursoContratado(event,${idPersona},${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Borrar curso contratado"></i>
-              </div>
-            </li>
-          `;
-  });
-  console.debug(cursosContratados);
+        <spam> Guarde los datos del nuevo alumno y edítelo para contratar cursos.</spam>
+      `;
+    botonModal.disabled = true;
+  }else{
+    botonModal.disabled= false;
+
+    cursosAlumno.forEach(el => {
+      
+
+      ListadoCursosContratados.innerHTML +=
+        `
+              <li class="p-1 row d-flex justify-content-between-"> 
+                
+                <div class="col-9 p-0">
+                  <p>${el.nombre}</p>
+                </div>
+                
+                <div class="col-3 ">
+                  <i id="eliminarCurso" onclick="eliminarCursoContratado(event,${personaSeleccionada.id},${el.id})" class="far fa-trash-alt float-right" data-toggle="tooltip" data-placement="top" title="Borrar curso contratado"></i>
+                </div>
+              </li>
+         `;
+    });
+  }
+  console.debug(cursosAlumno);
 }//Fin function pintarCursosContratados
 
 
@@ -441,7 +488,7 @@ function pintarCursosContratados(cursosContratados, idPersona) {
  * @param {*} idCurso 
  */
 function eliminarCursoContratado(event,idPersona, idCurso) {
-  console.debug(`Click eliminar el curso ${idCurso} de la persona ${idPersona}`);
+  console.debug(`Click eliminar el curso ${idCurso} del alumno ${idPersona}`);
   const url = endpoint + 'personas/' + idPersona + '/curso/'+ idCurso;
   ajax('DELETE', url, undefined)
     .then(data => {
@@ -467,8 +514,9 @@ function eliminarCursoContratado(event,idPersona, idCurso) {
  * @param {*} idCurso 
  */
 function contratarCurso(idPersona = 0, idCurso) {
+  console.info("Contratar curso");
   idPersona = (idPersona!=0)?idPersona: personaSeleccionada.id;
-  console.debug(`Click Contratar curso ${idCurso} para la persona ${idPersona} `);
+  console.debug(`Click Contratar curso ${idCurso} para el alumno ${idPersona} `);
   const url = endpoint + 'personas/' +idPersona + '/curso/' + idCurso;
 
   ajax('POST', url, undefined)
@@ -492,19 +540,20 @@ function contratarCurso(idPersona = 0, idCurso) {
           `; 
 
       console.info("Se ha contratado correctamente el curso.");
-            //BUG actualizar cursos contratados cuando se añade uno
 
       setTimeout(function(){
         obtenerPersonas();
-        console.debug("obtenemos las personas de nuevo para actualizar");
-      //console.debug(obtenerPersonas);
-        //pintarCursosContratados(personaSeleccionada.cursos, personaSeleccionada.id);
-         },2000);
+        obtenerCursosDisponibles();
+        console.debug("Obtenemos las personas de nuevo y los cursos disponibles para actualizar");
+         },1000);
     })
     .catch(error => {
       console.debug(error);
 
       alert("Error: " + error);
       console.warn("Error:" + error);
+      obtenerCursosDisponibles();
     });
+    inputCurso.value="";
+
 }//Fin function contratarCurso

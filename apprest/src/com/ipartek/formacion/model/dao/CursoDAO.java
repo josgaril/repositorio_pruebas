@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -29,7 +28,7 @@ public class CursoDAO implements IDAO<Curso>{
             "   pf.sexo as profesor_sexo, \n" + 
 			"	pf.rol as profesor_rol \n" + 
             "   FROM curso c \n" + 
-            "   JOIN persona pf ON c.profesor = pf.id \n" + 
+            "   LEFT JOIN persona pf ON c.profesor = pf.id \n" + 
             "   ORDER BY c.id desc\n" + 
             "   LIMIT 500";
 
@@ -45,8 +44,9 @@ public class CursoDAO implements IDAO<Curso>{
             "   pf.sexo as profesor_sexo, \n" + 
 			"	pf.rol as profesor_rol \n" + 
             "   FROM curso c \n" + 
-            "   JOIN persona pf ON c.profesor = pf.id \n" + 
-            "   WHERE c.nombre LIKE ? \n" + 	
+            "   LEFT JOIN persona pf ON c.profesor = pf.id \n" + 
+            "   WHERE c.nombre LIKE ? \n" + 
+            //"  AND pf.id IS NULL \n" + 	
             " 	ORDER BY c.id desc\n" + 
             "	LIMIT 100";
 
@@ -62,159 +62,150 @@ public class CursoDAO implements IDAO<Curso>{
             "   pf.sexo as profesor_sexo, \n" + 
 			"	pf.rol as profesor_rol \n" + 
             "   FROM curso c \n" + 
-            "   JOIN persona pf ON c.profesor = pf.id \n" + 
+            "   LEFT JOIN persona pf ON c.profesor = pf.id \n" + 
             "   WHERE c.id = ?";
 
-	private static final String SQL_ALL_CURSOS_PROFESOR = "	SELECT * FROM curso WHERE profesor = ?";
+	private static final String SQL_UPDATE = "UPDATE curso SET profesor = ? WHERE id = ? ";
 
-    private CursoDAO() {
-        super();
-    }
-    
-    public synchronized static CursoDAO getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new CursoDAO();
-        }
-        return INSTANCE;
-    }
-    
-    @Override
-    public List<Curso> getAll() {
-        LOGGER.info("Obtener todos los cursos disponibles");
-        
-        ArrayList<Curso> cursos = new ArrayList<Curso>();
-        
-        try(Connection con = ConnectionManager.getConnection();
-                PreparedStatement pst = con.prepareStatement(SQL_GET_ALL);
-                ResultSet rs = pst.executeQuery();)
-            {   
-                LOGGER.info(pst.toString());
-                    
-                while (rs.next()) {
-                    cursos.add(mapper(rs)); 
-                }
-            }catch (SQLException e) {
-                e.printStackTrace();
-            }
-        
-        return cursos;
-    }
-    
-    
-        public List<Curso> getAllFilter(String filtro) throws Exception{
-        LOGGER.info("Obtener todos los cursos disponibles con filtro: " + filtro);
-        
-        ArrayList<Curso> cursos = new ArrayList<Curso>();
-        
-        try(Connection con = ConnectionManager.getConnection();
-                PreparedStatement pst = con.prepareStatement(SQL_GET_ALL_FILTER);)
-        
-        {
-            pst.setString(1, '%' + filtro + '%');
-            LOGGER.info(pst.toString());
-                
-            try (ResultSet rs = pst.executeQuery()){
+	private CursoDAO() {
+		super();
+	}
 
-                    while (rs.next()) {
-                        cursos.add(mapper(rs)); 
-                    }
-                }
-            }catch (SQLException e) {
-                e.printStackTrace();
-            }
-        
-        return cursos;
-    }
+	public synchronized static CursoDAO getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new CursoDAO();
+		}
+		return INSTANCE;
+	}
 
-    @Override
-    public Curso getById(int id) throws Exception {
-        
-        Curso curso = null;
-        try(Connection con = ConnectionManager.getConnection();
-            PreparedStatement pst = con.prepareStatement(SQL_GET_BY_ID);)
-        {   
-            pst.setInt(1, id);
-            LOGGER.info(pst.toString());
-            
-            try(ResultSet rs = pst.executeQuery()){
-                
-                if (rs.next()) {
-                    curso = mapper(rs);
-                }else {
-                    throw new Exception("No se ha encontrado el curso (" + id + ")" );
-                }
-                
-            }catch(SQLException e) {
-                e.printStackTrace();
-                throw new SQLException("Error al acceder a los registros de cursos disponibles");   
-            }
-        }catch (Exception e) {
-                e.printStackTrace();
-                throw new Exception("No se ha podido obtener el curso (" + id + ")" );  
-        }
-        return curso;
-    }
+	@Override
+	public List<Curso> getAll() {
+		LOGGER.info("Obtener todos los cursos disponibles");
 
-    /*
-    public List<Curso> getAllCursosProfesor(int id) throws Exception{
-        ArrayList<Curso> cursos = new ArrayList<Curso>();
+		ArrayList<Curso> cursos = new ArrayList<Curso>();
 
-  		  //Curso curso = null; 
-  	  
-  		  try(Connection con = ConnectionManager.getConnection(); 
-  			  PreparedStatement pst = con.prepareStatement(SQL_ALL_CURSOS_PROFESOR);){
-  	  
-		  	  pst.setInt(1, id); 
-		  	  LOGGER.info(pst.toString());
-		  	  
-		  	  try(ResultSet rs = pst.executeQuery()){
-		  	  
-			  	  //if (rs.next()) { 
-			  		  //cursos.add(mapper(rs)); 
-			  		  while (rs.next()) { 
-				  		  cursos.add(mapper(rs)); 
-			  		  } 
-			  	  //}else { 
-			  		  //throw new Exception("El profesor no tiene ningun curso: " + id); 
-			  	  //} 			  	   
-		  	  }catch(SQLException e) {
-		  		  throw new Exception("No se encuentra el profesor");
-		  	  }
-  		  }  	 
-  		 return cursos;
-  	  }
-  	  */
-    
-    @Override
-    public Curso insert(Curso pojo) throws Exception, SQLException {
-        throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
-    }
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_ALL);
+				ResultSet rs = pst.executeQuery();) {
+			LOGGER.info(pst.toString());
 
-    @Override
-    public Curso update(Curso pojo) throws Exception, SQLException {
-        throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
-    }
+			while (rs.next()) {
+				cursos.add(mapper(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-    @Override
-    public Curso delete(int id) throws Exception, SQLException {
-        throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
-    }
+		return cursos;
+	}
 
-    private Curso mapper(ResultSet rs) throws SQLException{
-        Curso c = new Curso();
-        c.setId(rs.getInt("curso_id"));
-        c.setNombre(rs.getString("curso_nombre"));
-        c.setImagen(rs.getString("curso_imagen"));
-        c.setPrecio(rs.getFloat("curso_precio"));
-        
-        Persona profesor = new Persona();
-        profesor.setId(rs.getInt("profesor_id"));
-        profesor.setNombre(rs.getString("profesor_nombre"));
-        profesor.setAvatar(rs.getString("profesor_avatar"));
-        profesor.setSexo(rs.getString("profesor_sexo"));
-        profesor.setRol(rs.getInt("profesor_rol"));
+	public List<Curso> getAllFilter(String filtro) throws Exception {
+		LOGGER.info("Obtener todos los cursos disponibles con filtro: " + filtro);
 
-        c.setProfesor(profesor);
-        return c;
-    }
+		ArrayList<Curso> cursos = new ArrayList<Curso>();
+
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_ALL_FILTER);)
+
+		{
+			pst.setString(1, '%' + filtro + '%');
+			LOGGER.info(pst.toString());
+
+			try (ResultSet rs = pst.executeQuery()) {
+
+				while (rs.next()) {
+					cursos.add(mapper(rs));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return cursos;
+	}
+
+	@Override
+	public Curso getById(int id) throws Exception {
+
+		Curso curso = null;
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_BY_ID);) {
+			pst.setInt(1, id);
+			LOGGER.info(pst.toString());
+
+			try (ResultSet rs = pst.executeQuery()) {
+
+				if (rs.next()) {
+					curso = mapper(rs);
+				} else {
+					throw new Exception("No se ha encontrado el curso (" + id + ")");
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new SQLException("Error al acceder a los registros de cursos disponibles");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("No se ha podido obtener el curso (" + id + ")");
+		}
+		return curso;
+	}
+
+	@Override
+	public Curso insert(Curso pojo) throws Exception, SQLException {
+		throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
+	}
+
+	@Override
+	public Curso update(Curso curso) throws Exception, SQLException {
+		LOGGER.info("update curso");
+
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_UPDATE)) {
+			if (curso.getProfesor() == null) {
+				pst.setObject(1, curso.getProfesor());
+			} else {
+				pst.setObject(1, curso.getProfesor().getId());
+			}
+			pst.setInt(2, curso.getId());
+			LOGGER.info(pst.toString());
+
+			int registrosModificados = pst.executeUpdate();
+			if (registrosModificados == 1) {
+				LOGGER.info("Se ha modificado correctamente el curso");
+			} else {
+				LOGGER.info("Se ha hecho mas o menos de 1 update");
+				throw new Exception("Se ha hecho mas o menos de 1 update");
+			}
+		} catch (SQLException e) {
+			LOGGER.warning("Error al modificar el curso");
+			throw new SQLException("Error al modificar el curso");
+		}
+
+		return curso;
+	}
+
+	@Override
+	public Curso delete(int id) throws Exception, SQLException {
+		throw new UnsupportedOperationException("NO ESTA IMPLEMENTADO");
+	}
+
+	private Curso mapper(ResultSet rs) throws SQLException {
+		Curso c = new Curso();
+		c.setId(rs.getInt("curso_id"));
+		c.setNombre(rs.getString("curso_nombre"));
+		c.setImagen(rs.getString("curso_imagen"));
+		c.setPrecio(rs.getFloat("curso_precio"));
+
+		Persona profesor = new Persona();
+		profesor.setId(rs.getInt("profesor_id"));
+		profesor.setNombre(rs.getString("profesor_nombre"));
+		profesor.setAvatar(rs.getString("profesor_avatar"));
+		profesor.setSexo(rs.getString("profesor_sexo"));
+		profesor.setRol(rs.getInt("profesor_rol"));
+
+		c.setProfesor(profesor);
+		return c;
+	}
 }

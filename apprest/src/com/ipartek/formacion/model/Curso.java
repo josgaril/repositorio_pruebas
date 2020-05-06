@@ -11,16 +11,15 @@ public class Curso {
     //Variables
     private int id;
     
-    @Size (min=2, max=100, message="El nombre tiene que tener entre 2 y 100 caracteres")
+    @Size (min=2, max=100, message="El nombre tiene que tener entre 2 y 100 caracteres. ")
     private String nombre;
     
-    @NotEmpty (message = "La imágen del curso no puede ser nula")
+    @NotEmpty (message = "La imágen del curso no puede ser nula. ")
     private String imagen;
     
-    @Positive (message="El precio del curso debe ser positivo")
+    @Positive (message="El precio del curso debe ser positivo. ")
     private float precio;
     
-    @NotNull 
     @Valid //Valida la Persona
     private Persona profesor;
     
@@ -83,9 +82,9 @@ public class Curso {
     }
 
     @Override
-    public String toString() {
-        return "Curso [id=" + id + ", nombre=" + nombre + ", imagen=" + imagen + ", precio=" + precio + ", profesor="
-                + profesor + "]";
-    }
+	public String toString() {
+		return "Curso [id=" + id + ", nombre=" + nombre + ", imagen=" + imagen + ", precio=" + precio + ", profesor="
+				+ profesor + "]";
+	}
         
 }

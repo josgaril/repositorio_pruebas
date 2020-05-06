@@ -47,34 +47,40 @@ public class PersonaController {
 		super();
 	}
 
-	/*
-	 * @GET public ArrayList<Persona> getAll() { LOGGER.info("getAll");
-	 * 
-	 * ArrayList<Persona> registros = (ArrayList<Persona>) personaDAO.getAll();
-	 * return registros; }
-	 */
-	
-	
-	
-	  @GET 
-	  public ArrayList<Persona> getAll(@QueryParam("rol") String rol) throws Exception{
-	  
-		  LOGGER.info("getAll");
-		  ArrayList<Persona> personas = new ArrayList<Persona>();
-		  
-		  if (rol == null || "".contentEquals(rol.trim())) {
-			  LOGGER.info("Se obtienen todas las personas");
-			  personas = (ArrayList<Persona>) personaDAO.getAll();
-		  }else {
-			  LOGGER.info("Se obtienen todos los: " + rol);
-			  personas = (ArrayList<Persona>) personaDAO.getAllByRol(rol);
-		  }
-		  
-		  return personas; 
-	  }
-		 
-	
-	
+	@GET
+	public Response getAll(@QueryParam("rol") String rol) {
+
+		LOGGER.info("getAll");
+		ArrayList<Persona> personas = new ArrayList<Persona>();
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+
+		if (rol == null || "".contentEquals(rol.trim())) {
+			LOGGER.info("Se obtienen todas las personas");
+			personas = (ArrayList<Persona>) personaDAO.getAll();
+			response = Response.status(Status.OK).entity(personas).build();
+		} else if ("alumno".equals(rol)) {
+			try {
+				LOGGER.info("Se obtienen todas las personas con rol: " + rol);
+				personas = (ArrayList<Persona>) personaDAO.getAllAlumnos();
+				LOGGER.info("Personas devueltas: " + personas);
+				response = Response.status(Status.OK).entity(personas).build();
+			} catch (Exception e) {
+				response = Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+			}
+		} else if ("profesor".equals(rol)) {
+			try {
+				LOGGER.info("Se obtienen todas las personas con rol: " + rol);
+				personas = (ArrayList<Persona>) personaDAO.getAllProfesores();
+				LOGGER.info("Personas devueltas: " + personas);
+				response = Response.status(Status.OK).entity(personas).build();
+			} catch (Exception e) {
+				response = Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+
+			}
+		}
+		return response;
+	}
+
 	@GET
 	@Path("/{id: \\d+}")
 	public Response getById(@PathParam("id") int id) {
@@ -85,13 +91,13 @@ public class PersonaController {
 
 		try {
 			Persona persona = personaDAO.getById(id);
-				response = Response.status(Status.OK).entity(persona).build();
-				LOGGER.info("Recibida la persona:" + persona);
+			response = Response.status(Status.OK).entity(persona).build();
+			LOGGER.info("Recibida la persona:" + persona);
 		} catch (Exception e) {
 			error.add(e.getMessage());
 			LOGGER.warning("No se ha encontrado la persona con id " + id);
 			response = Response.status(Status.NOT_FOUND).entity(error).build();
-			
+
 		}
 		return response;
 	}
@@ -100,7 +106,7 @@ public class PersonaController {
 	public Response insert(Persona persona) {
 		LOGGER.info("insert(" + persona + ")");
 		ArrayList<String> errores = new ArrayList<String>();
-		
+
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 
 		Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
@@ -113,7 +119,7 @@ public class PersonaController {
 				LOGGER.info("Se ha creado la persona: " + persona);
 
 			} catch (Exception e) {
-				errores.add("Ha introducido el nombre de una persona existente");				
+				errores.add("Ha introducido el nombre de una persona existente");
 				LOGGER.warning("Ha introducido el nombre de una persona existente");
 				response = Response.status(Status.CONFLICT).entity(errores).build();
 			}
@@ -136,7 +142,7 @@ public class PersonaController {
 		LOGGER.info("update(" + id + ", " + persona + ")");
 
 		Response response = Response.status(Status.NOT_FOUND).entity(persona).build();
-		
+
 		ArrayList<String> errores = new ArrayList<String>();
 
 		Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
@@ -175,103 +181,79 @@ public class PersonaController {
 		Persona persona = null;
 
 		try {
-			
+
 			persona = personaDAO.delete(id);
 			response = Response.status(Status.OK).entity(persona).build();
 			LOGGER.info("Persona borrada: " + id);
 
 		} catch (SQLException e) {
 			LOGGER.warning(e.getMessage());
-			errores.add("La persona seleccionada tiene cursos activos. No se puede eliminar");				
+			errores.add("La persona seleccionada tiene cursos activos. No se puede eliminar");
 			LOGGER.warning("La persona seleccionada tiene cursos activos. No se puede eliminar");
 			response = Response.status(Status.CONFLICT).entity(errores).build();
 		} catch (Exception e) {
-			errores.add("No se ha encontrado el id de la persona a eliminar");				
+			errores.add("No se ha encontrado el id de la persona a eliminar");
 			LOGGER.warning("No se ha encontrado el id de la persona a eliminar");
 			response = Response.status(Status.NOT_FOUND).entity(errores).build();
 		}
 		return response;
 	}
-	
-	
-	  @POST
-	  @Path("/{idPersona}/curso/{idCurso}")
-	  public Response contratarCurso(@PathParam("idPersona") int idPersona,@PathParam("idCurso") int idCurso) {
-		  LOGGER.info("Contratar curso " + idCurso + " para la persona " + idPersona);
-			Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
-			ArrayList<String> error = new ArrayList<String>();
 
-		 try {
-			 personaDAO.contratarCurso(idPersona, idCurso);
-			 Curso curso = CursoDAO.getInstance().getById(idCurso);
-			 
-			 response = Response.status(Status.CREATED).entity(curso).build();
-			 LOGGER.info("Curso contratado correctamente");
-			 
+	@POST
+	@Path("/{idPersona}/curso/{idCurso}")
+	public Response contratarCurso(@PathParam("idPersona") int idPersona, @PathParam("idCurso") int idCurso) {
+		LOGGER.info("Contratar curso " + idCurso + " para la persona " + idPersona);
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		ArrayList<String> error = new ArrayList<String>();
+
+		try {
+			personaDAO.contratarCurso(idPersona, idCurso);
+			Curso curso = CursoDAO.getInstance().getById(idCurso);
+
+			response = Response.status(Status.CREATED).entity(curso).build();
+			LOGGER.info("Curso contratado correctamente");
+
 		} catch (Exception e) {
-			
-			
-		      if (e.getMessage().contains("Duplicate entry")){
-		         error.add("Ya tiene contratado este curso");
-		      } 
-		      if (e.getMessage().contains("cursos_contratados-curso_FK")){
-		    	  error.add( "No existe el curso que quiere contratar");
-		      }
-		      if (e.getMessage().contains("cursos_contratados-persona_FK")){
-		    	  error.add( "No existe la persona para contratar ese curso");
-		      }
+
+			if (e.getMessage().contains("Duplicate entry")) {
+				error.add("Ya tiene contratado este curso");
+			}
+			if (e.getMessage().contains("cursos_contratados-curso_FK")) {
+				error.add("No existe el curso que quiere contratar");
+			}
+			if (e.getMessage().contains("cursos_contratados-persona_FK")) {
+				error.add("No existe la persona para contratar ese curso");
+			}
 
 			LOGGER.warning("Error: " + error);
 			response = Response.status(Status.CONFLICT).entity(error).build();
 		}
 		return response;
-		  
-	  }
-	  
-	  @DELETE
-	  @Path("/{idPersona}/curso/{idCurso}")
-	  public Response eliminarCursoContratado(@PathParam("idPersona") int idPersona,@PathParam("idCurso") int idCurso) {
-		  LOGGER.info("Eliminar curso contratado " + idCurso + " de la persona " + idPersona);
-			Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
-			ArrayList<String> mensaje = new ArrayList<String>();
-			ArrayList<String> error = new ArrayList<String>();
 
+	}
 
-		 try {
-			 personaDAO.eliminarCursoContratado(idPersona, idCurso);
-			  
-			  mensaje.add("Curso eliminado con éxito");
-			 LOGGER.info("Curso eliminado con éxito");
-			 response = Response.status(Status.OK).entity(mensaje).build();
-			 
+	@DELETE
+	@Path("/{idPersona}/curso/{idCurso}")
+	public Response eliminarCursoContratado(@PathParam("idPersona") int idPersona, @PathParam("idCurso") int idCurso) {
+		LOGGER.info("Eliminar curso contratado " + idCurso + " de la persona " + idPersona);
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		ArrayList<String> mensaje = new ArrayList<String>();
+		ArrayList<String> error = new ArrayList<String>();
+
+		try {
+			personaDAO.eliminarCursoContratado(idPersona, idCurso);
+
+			mensaje.add("Curso eliminado con éxito");
+			LOGGER.info("Curso eliminado con éxito");
+			response = Response.status(Status.OK).entity(mensaje).build();
+
 		} catch (Exception e) {
 			error.add(e.getMessage());
 			LOGGER.warning("Error: " + error);
 			response = Response.status(Status.NOT_FOUND).entity(error).build();
 		}
 		return response;
-		  
-	  }
 
-	/*
-	  @GET
-	  @Path("/?rol=profesor/{id: \\d+}") public Response getAllCursosProfesor(@PathParam("id") int id) { 
-		  LOGGER.info("getAllCursosProfesor"); 
-		  Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
-		  ArrayList<String> error = new ArrayList<String>();
-	  
-		  try { 
-			  Persona persona = personaDAO.getAllCursosProfesor(id);
-			  LOGGER.info("Obtenido el profesor con sus correctamente"); 
-			  response = Response.status(Status.OK).entity(persona).build(); 
-		  } catch (Exception e) {
-			  error.add(e.getMessage());
-			  LOGGER.warning("No se ha encontrado el profesor con id " + id); 
-			  response = Response.status(Status.NOT_FOUND).entity(error).build(); 
-		  }
-		  return response;
-	  
-	  }
-	 */
-	
+	}
+
 }

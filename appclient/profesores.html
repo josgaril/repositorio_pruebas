@@ -80,7 +80,7 @@
             <div class="form-group row d-flex align-items-center mb-0 mb-sm-2">
               <label for=" inputId" class="col-12 col-lg-3 col-form-label">ID: </label>
               <div class="col-12 col-lg-9">
-                <input type="text" id="inputId" placeholder="id" readonly>
+                <input type="text" id="inputId" placeholder="id" readonly style="background-color: darkgrey;">
               </div>
             </div>
             <!-- /Fila Id persona -->
@@ -137,7 +137,7 @@
               <div class="col-8">
                 <!-- Button trigger modal -->
                 <button id="modalButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal">
-                  Contratar curso
+                  Asignar curso
                 </button>
     
               </div>
@@ -165,7 +165,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel">Seleccione el curso a contratar</h5>
+          <h5 class="modal-title" id="modalLabel">Seleccione el curso para asignar al profesor</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -179,23 +179,22 @@
 
         <div class="modal-body">
           <div class=" p-1 mb-1 row bg-dark text-white">
-            <div class="col-2 padding0">
-              
+            <div class="col-1 p-0">
             </div>
-            <div class="col-5 ">
+            <div class="col-6 p-0 ml-2 ">
               <p>Nombre</p>
             </div>
-            <div class="col-3 ">
+            <div class="col-2 p-0 ml-n4">
               <p>Precio</p>
             </div>
-            <div class="col-1 ">
+            <div class="col-2 p-0 ml-n3">
               <p>Profesor</p>
             </div>
             <div class="col-1 ">
             </div>
           </div>
           <ul id="cursosDisponibles" class="scrollVertical" style="height: 300px; padding-right: 1.5rem;">
-            <li>Listado con todos los cursos disponibles</li>
+            <li>Listado con todos los cursos disponibles sin profesor asignado</li>
           </ul>
         </div>
         <!-- /Modal Body -->
