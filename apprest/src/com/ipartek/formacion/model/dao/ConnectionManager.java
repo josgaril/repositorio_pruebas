@@ -1,6 +1,7 @@
 package com.ipartek.formacion.model.dao;
 
 import java.sql.Connection;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
@@ -26,8 +27,7 @@ public class ConnectionManager {
 			conn = ds.getConnection();
 
 		} catch (Exception e) {
-
-			//TODO logger
+			LOGGER.log( Level.SEVERE, "Exception", e );	
 			e.printStackTrace();
 		}
 
