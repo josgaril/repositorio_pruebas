@@ -104,9 +104,8 @@ public class CursoController {
 				LOGGER.info("Curso modificado correctamente");
 				// }
 			} catch (Exception e) {
-				LOGGER.info(e.getMessage());
-				errores.add(e.getMessage());
-				LOGGER.warning("mensaje warning");
+				errores.add("Ha introducido el nombre de una curso existente");
+				LOGGER.warning("Ha introducido el nombre de una curso existente");
 				response = Response.status(Status.CONFLICT).entity(errores).build();
 			}
 		} else {
