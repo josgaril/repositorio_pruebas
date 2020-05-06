@@ -26,10 +26,8 @@
   } 
 
   .tituloNoticia{
-    font-size: 34px;
-
-    text-decoration: underline;
-    
+    font-size: 20px;
+    text-decoration: underline; 
     font-weight: bold;
   }
   
@@ -48,3 +46,13 @@
     font-size: 2rem;
 }
 /* Fin Footer*/
+
+
+/* Media queries*/
+@media(min-width: 480px) {
+  .tituloNoticia{
+    font-size: 34px;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+}

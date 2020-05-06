@@ -20,10 +20,10 @@ function init() {
                     <div class="card tarjetas col-12" >
                         <div class="card-body ">
                             <div class="card-title row ">
-                                    <div class="col-10"> 
+                                    <div class="col-12 mb-1 col-sm-10"> 
                                         <spam class="tituloNoticia" >${el.titulo}</spam>
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-12 col-sm-2">
                                         <span class="d-flex justify-content-end">${el.fecha}</span>
                                     </div>
                                 </div>
