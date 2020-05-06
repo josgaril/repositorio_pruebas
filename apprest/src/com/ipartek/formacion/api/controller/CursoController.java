@@ -28,7 +28,7 @@ import com.ipartek.formacion.model.dao.CursoDAO;
 @Consumes("application/json")
 public class CursoController {
 
-	private static final Logger LOGGER = Logger.getLogger(PersonaController.class.getCanonicalName());
+	private static final Logger LOGGER = Logger.getLogger(CursoController.class.getCanonicalName());
 
 	private static CursoDAO cursoDAO = CursoDAO.getInstance();
 
