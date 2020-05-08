@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Curso;
@@ -115,6 +116,51 @@ public class PersonaDAO implements IPERSONADAO {
 			"	WHERE r.nombre LIKE 'profesor' \n" + 
 			"	ORDER BY profesor_id, curso_nombre\n" + 
 			"	LIMIT 500";
+
+	private static final String SQL_ALUMNO_BY_NOMBRE = 
+			"	SELECT\n" + 
+			"	p.id as persona_id,\n" + 
+			"	p.nombre as persona_nombre,\n" + 
+			"	p.avatar as persona_avatar,\n" + 
+			"	p.sexo as persona_sexo, \n" + 
+			"	p.rol as persona_rol, \n" + 
+			"	c.id as curso_id, \n" + 
+			"	c.nombre as curso_nombre, \n" + 
+			"	c.imagen as curso_imagen,\n" + 
+			"	c.precio as curso_precio, \n" + 
+			"	c.profesor as curso_profesor,\n" + 
+			"	pf.id as profesor_id, \n" + 
+			"	pf.nombre as profesor_nombre,\n" + 
+			"	pf.avatar as profesor_avatar, \n" + 
+			"	pf.sexo as profesor_sexo, \n" + 
+			"	pf.rol as profesor_rol \n" + 
+			" 	FROM persona p \n" + 
+			" 	LEFT JOIN cursos_contratados cc ON p.id= cc.id_persona\n" + 
+			" 	LEFT JOIN curso c ON cc.id_curso = c.id\n" + 
+			" 	LEFT JOIN persona pf ON c.profesor = pf.id\n" +
+			"	JOIN rol r ON p.rol = r.id\n" + 
+			"	WHERE r.nombre LIKE 'alumno' AND p.nombre LIKE ? \n" + 
+			"	LIMIT 500";
+
+	private static final String SQL_PROFESOR_BY_NOMBRE = 
+			"	SELECT\n" + 
+			"	pf.id as profesor_id, \n" + 
+			"	pf.nombre as profesor_nombre,\n" + 
+			"	pf.avatar as profesor_avatar, \n" + 
+			"	pf.sexo as profesor_sexo, \n" + 
+			"	pf.rol as profesor_rol, \n" + 
+			"	c.id as curso_id, \n" + 
+			"	c.nombre as curso_nombre, \n" + 
+			"	c.imagen as curso_imagen,\n" + 
+			"	c.precio as curso_precio, \n" + 
+			"	c.profesor as curso_profesor \n" + 
+			" 	FROM persona pf \n" + 
+			" 	LEFT JOIN curso c ON pf.id = c.profesor\n" + 
+			"	JOIN rol r ON pf.rol = r.id\n" +
+			"	WHERE r.nombre LIKE 'profesor' AND pf.nombre LIKE ? \n" + 
+			"	LIMIT 500";
+
+			;
 
 	private PersonaDAO() {
 		super();
@@ -434,4 +480,66 @@ public class PersonaDAO implements IPERSONADAO {
 		return pf;
 	}
 
+	public Persona getAlumnoByNombre(String nombre) throws Exception {
+		LOGGER.info("GetAlumnoByNombre");
+		
+		HashMap<Integer, Persona> hmAlumno = new HashMap<Integer, Persona>();
+		Persona alumno = new Persona();
+		
+		try(Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_ALUMNO_BY_NOMBRE)){
+			
+			pst.setString(1, nombre);
+			LOGGER.info(pst.toString());
+			
+			try(ResultSet rs = pst.executeQuery()){
+				
+				if( rs.next()) {
+					alumno = mapper(rs, hmAlumno);
+					while (rs.next()) {
+						alumno = mapper(rs, hmAlumno);
+					}
+				}else {
+					throw new Exception("No se ha encontrado el alumno: " + nombre);
+				}
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE , "Exception de SQL", e);				
+		}
+		
+		return alumno;
+	}
+
+	public Persona getProfesorByNombre(String nombre) throws Exception {
+		LOGGER.info("GetProfesorByNombre");
+		
+		HashMap<Integer, Persona> hmProfesor= new HashMap<Integer, Persona>();
+		Persona profesor = new Persona();
+		
+		try(Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_PROFESOR_BY_NOMBRE)){
+			
+			pst.setString(1, nombre);
+			LOGGER.info(pst.toString());
+			
+			try(ResultSet rs = pst.executeQuery()){
+				
+				if( rs.next()) {
+					profesor = mapperProfesor(rs, hmProfesor);
+					while (rs.next()) {
+						profesor = mapperProfesor(rs, hmProfesor);
+					}
+				}else {
+					throw new Exception("No se ha encontrado el Profesor: " + nombre);
+				}
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE , "Exception de SQL", e);				
+		}
+		
+		return profesor;
+	}
+
+	
+	
 }

@@ -61,6 +61,39 @@ function listener() {
   let formBuscador = document.querySelector('.Buscador');
   formBuscador.style.display= "block";
   formBuscador.classList.add("animated" , "slideInDown" , "slow");
+
+  //Filtrar profesores por nombre
+  let iNombre = document.getElementById('inputNombre');
+  let sNombre = document.getElementById('sNombre');
+  iNombre.addEventListener('keyup', () =>{
+    console.debug('Profesor filtrado por nombre', iNombre.value);
+  
+    if (iNombre.value == ''){
+
+      sNombre.classList.add('invalid');
+      sNombre.classList.remove('valid');
+      sNombre.textContent = 'Nombre obligatorio';
+    }else if( personaSeleccionada.nombre != iNombre.value){
+
+      const url = endpoint + 'personas/?rol=' + rol + '&nombre=' + iNombre.value;
+      ajax('GET', url, undefined)
+      .then( data => {
+        console.debug("Nombre NO disponible");
+        sNombre.classList.add('invalid');
+        sNombre.classList.remove('valid');
+        sNombre.textContent = 'Nombre NO disponible';
+      })
+      .catch(error => {
+        console.debug("Nombre disponible");
+        sNombre.classList.add('valid');
+        sNombre.classList.remove('invalid');
+        sNombre.textContent = 'Nombre disponible';
+      });
+    }
+  
+  });
+
+
 } //Fin function listener
 
 
@@ -122,6 +155,10 @@ function pintarListado(arrayPersonas) {
 
   let listado = document.getElementById('personas');
   listado.innerHTML = '';
+
+  let sNombre = document.getElementById('sNombre');
+  sNombre.textContent = '';
+
   if (arrayPersonas.length ==0){
     listado.innerHTML +=
     `
@@ -204,6 +241,8 @@ function verDetalles(idPersona = 0) {
     checkMujer.checked = 'checked';
   }
 
+  let sNombre = document.getElementById('sNombre');
+  sNombre.textContent = '';
   pintarCursosProfesor(personaSeleccionada);
 } //Fin function verDetalles
 

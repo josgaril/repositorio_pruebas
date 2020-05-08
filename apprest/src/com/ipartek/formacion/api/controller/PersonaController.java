@@ -48,34 +48,59 @@ public class PersonaController {
 	}
 
 	@GET
-	public Response getAll(@QueryParam("rol") String rol) {
+	public Response getAll(@QueryParam("rol") String rol, @QueryParam("nombre") String nombre) {
 
 		LOGGER.info("getAll");
 		ArrayList<Persona> personas = new ArrayList<Persona>();
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
-
+		ArrayList<String> mensaje = new ArrayList<String>();
+		
 		if (rol == null || "".contentEquals(rol.trim())) {
 			LOGGER.info("Se obtienen todas las personas");
 			personas = (ArrayList<Persona>) personaDAO.getAll();
 			response = Response.status(Status.OK).entity(personas).build();
 		} else if ("alumno".equals(rol)) {
-			try {
-				LOGGER.info("Se obtienen todas las personas con rol: " + rol);
-				personas = (ArrayList<Persona>) personaDAO.getAllAlumnos();
-				LOGGER.info("Personas devueltas: " + personas);
-				response = Response.status(Status.OK).entity(personas).build();
-			} catch (Exception e) {
-				response = Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+			if (nombre == null || "".equals(nombre.trim())) {
+				try {
+					LOGGER.info("Se obtienen todas las personas con rol: " + rol);
+					personas = (ArrayList<Persona>) personaDAO.getAllAlumnos();
+					LOGGER.info("Personas devueltas: " + personas);
+					response = Response.status(Status.OK).entity(personas).build();
+				} catch (Exception e) {
+					response = Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+				}
+			}else {
+				try {
+					Persona alumno = new Persona();
+					alumno = personaDAO.getAlumnoByNombre(nombre);
+					response= Response.status(Status.OK).entity(alumno).build();
+				}catch (Exception e) {
+					LOGGER.info("No se ha encontrado el alumno: " + nombre);
+					mensaje.add("No se ha encuentrado el alumno: " + nombre);
+					response = Response.status(Status.NOT_FOUND).entity(mensaje).build();
+				}
 			}
 		} else if ("profesor".equals(rol)) {
-			try {
-				LOGGER.info("Se obtienen todas las personas con rol: " + rol);
-				personas = (ArrayList<Persona>) personaDAO.getAllProfesores();
-				LOGGER.info("Personas devueltas: " + personas);
-				response = Response.status(Status.OK).entity(personas).build();
-			} catch (Exception e) {
-				response = Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
-
+			if (nombre == null || "".equals(nombre.trim())){
+				try {
+					LOGGER.info("Se obtienen todas las personas con rol: " + rol);
+					personas = (ArrayList<Persona>) personaDAO.getAllProfesores();
+					LOGGER.info("Personas devueltas: " + personas);
+					response = Response.status(Status.OK).entity(personas).build();
+				} catch (Exception e) {
+					response = Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+	
+				}
+			}else {
+				try {
+					Persona profesor = new Persona();
+					profesor = personaDAO.getProfesorByNombre(nombre);
+					response= Response.status(Status.OK).entity(profesor).build();
+				}catch (Exception e) {
+					LOGGER.info("No se ha encontrado el profesor: " + nombre);
+					mensaje.add("No se ha encuentrado el profesor: " + nombre);
+					response = Response.status(Status.NOT_FOUND).entity(mensaje).build();
+				}
 			}
 		}
 		return response;
