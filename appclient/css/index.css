@@ -70,6 +70,17 @@ main {
 .iconos-formularios i {
     font-size: 40px;
 }
+
+/* Nombre de la persona*/
+.invalid{
+    color: red;
+}
+
+.valid{
+    color: green;
+}
+/* FIn Nombre de la persona*/
+
 /*  FIn Formulario */
 
 /* Formulario cursos de la persona */
@@ -116,6 +127,13 @@ main {
 
 .fa-save:hover {
     color: rgb(25, 119, 2);
+    font-size: 3em;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.fa-window-close:hover {
+    color: red;
     font-size: 3em;
     transition: 0.5s;
     cursor: pointer;
@@ -177,3 +195,4 @@ main {
 .padding0{
     padding: 0;
 }
+
