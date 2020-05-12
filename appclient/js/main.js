@@ -68,10 +68,11 @@ function listener() {
   iNombre.addEventListener('keyup', ()=> {
     console.debug("Alumno filtrado por nombre", iNombre.value);
 
-    if (iNombre.value == ""){
+  
+    if (iNombre.value.length<2){
       sNombre.classList.add('invalid');
       sNombre.classList.remove('valid');
-      sNombre.textContent='Nombre obligatorio';
+      sNombre.textContent = 'Nombre obligatorio. Mínimo 2 caracteres';
     }else if(personaSeleccionada.nombre != iNombre.value){
 
       const url = endpoint + 'personas/?rol=' + rol + '&nombre=' + iNombre.value;
@@ -337,6 +338,7 @@ function eliminarPersona(idPersona) {
           console.log('Alumno eliminado');
           // conseguir de nuevo todos los alumnos
           obtenerPersonas();
+          verDetalles(0);
           alert("Alumno eliminado");
         })
         .catch(error => {
@@ -394,6 +396,7 @@ function obtenerPersonas(rol = "alumno") {
     .then(data => {
       console.trace('Promesa resuelta');
       personas = data;
+      personas.sort((a,b)=> a.id>b.id? 1:-1);
       pintarListado(personas);
     }).catch(error => {
       console.warn('Promesa cancelada');
