@@ -200,3 +200,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 - v.3.0
 	- Añadida funcionalidad Gestión de profesores(alta, baja, modificación y gestión de cursos asignados).
 	- Diseño responsive actualizado
+- v.3.1.0 
+	- Agregada funcionalidad filtrar personas por nombre e indicar si esá disponible o no el nombre en el formulario.
+	- Agregado botón Cancelar en el formulario para cancelar los cambios del alumno o profesor.
+
