@@ -203,4 +203,6 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 - v.3.1.0 
 	- Agregada funcionalidad filtrar personas por nombre e indicar si esá disponible o no el nombre en el formulario.
 	- Agregado botón Cancelar en el formulario para cancelar los cambios del alumno o profesor.
-
+- v3.2.0
+	- Controlado numero de caracteres del nombre de una persona en el filtro por nombre.
+	- Vaciar formulario al eliminar una persona.
