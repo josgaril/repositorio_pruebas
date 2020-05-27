@@ -95,7 +95,7 @@ En este proyecto podremos listar, añadir, modificar y eliminar alumnos. Cada al
 					- Código de estado 200 si encuentra los profesores
 					- Código de estado 400 si tiene una error al conectar con la BD o en la sentencia SQL
 
-		    	- @GET. (getById)  uri: `http://localhost:8080/apprest/api/personas/{id}`
+			- @GET. (getById)  uri: `http://localhost:8080/apprest/api/personas/{id}`
 
 				- Devuelve la persona indicada			
 				- Códigos de estado:
