@@ -480,8 +480,8 @@ function pintarCursosDisponibles(cursosDisponibles) {
  * @param {*} personaSeleccionada
  */
 function pintarCursosContratados(personaSeleccionada) {
-  console.info('Se pinta el listado de cursos del profesor');
-  console.debug('Los cursos del profesor son:  %o', personaSeleccionada.cursos);
+  console.info('Se pinta el listado de cursos del alumno');
+  console.debug('Los cursos del alumno son:  %o', personaSeleccionada.cursos);
 
   let ListadoCursosContratados = document.getElementById('cursosContratados');
   ListadoCursosContratados.style="block";
